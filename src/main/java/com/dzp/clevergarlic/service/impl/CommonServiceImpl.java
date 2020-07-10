@@ -1,7 +1,7 @@
 package com.dzp.clevergarlic.service.impl;
 
 import com.dzp.clevergarlic.dto.common.ExecuteSqlRequest;
-import com.dzp.clevergarlic.mapper.CommonMapper;
+import com.dzp.clevergarlic.mapper.common.CommonMapper;
 import com.dzp.clevergarlic.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.mapper;
+package com.dzp.clevergarlic.mapper.admin;
 
 import com.dzp.clevergarlic.dto.admin.logdto.SysLogRequest;
 import org.apache.ibatis.annotations.Insert;

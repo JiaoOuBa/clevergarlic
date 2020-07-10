@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.mapper;
+package com.dzp.clevergarlic.mapper.common;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

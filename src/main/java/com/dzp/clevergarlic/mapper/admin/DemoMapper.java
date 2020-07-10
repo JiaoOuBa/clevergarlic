@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.mapper;
+package com.dzp.clevergarlic.mapper.admin;
 
 import com.dzp.clevergarlic.dto.admin.demodto.DemoListResponse;
 import org.apache.ibatis.annotations.Param;

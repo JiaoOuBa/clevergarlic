@@ -1,7 +1,7 @@
 package com.dzp.clevergarlic.service.impl;
 
 import com.dzp.clevergarlic.dto.admin.logdto.SysLogRequest;
-import com.dzp.clevergarlic.mapper.SysLogMapper;
+import com.dzp.clevergarlic.mapper.admin.SysLogMapper;
 import com.dzp.clevergarlic.service.SysLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
