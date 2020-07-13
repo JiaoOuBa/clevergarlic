@@ -2,7 +2,7 @@ package com.dzp.clevergarlic.aspect;
 
 import cn.hutool.core.util.IdUtil;
 import com.dzp.clevergarlic.config.annotation.Log;
-import com.dzp.clevergarlic.dto.admin.logdto.SysLogRequest;
+import com.dzp.clevergarlic.dto.admin.logDto.SysLogRequest;
 import com.dzp.clevergarlic.mapper.admin.SysLogMapper;
 import com.dzp.clevergarlic.util.HttpContextUtil;
 import com.dzp.clevergarlic.util.IPUtil;

@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.dto.admin;
+package com.dzp.clevergarlic.dto.admin.demoDto;
 
 import io.swagger.annotations.ApiModelProperty;
 

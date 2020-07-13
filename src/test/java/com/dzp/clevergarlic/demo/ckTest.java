@@ -6,9 +6,11 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.system.SystemUtil;
 import cn.hutool.system.UserInfo;
 import com.dzp.clevergarlic.service.DemoService;
+import com.dzp.clevergarlic.util.IdUtil.Sid;
 import com.dzp.clevergarlic.util.Md5Util;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,6 +29,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ckTest {
+
+    @Autowired
+    Sid sid;
 
     @Test
     public void test1() {
@@ -53,9 +58,7 @@ public class ckTest {
     @Test
     public void test4() {
 
-        String passwordStr = "123456";
-        String psd = Md5Util.str2MD5(passwordStr);
-        
-        String result = Md5Util.sign(psd);
+        String id = sid.nextShort();
+        System.out.println(id);
     }
 }

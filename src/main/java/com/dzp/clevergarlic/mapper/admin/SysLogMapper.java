@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.mapper.admin;
 
-import com.dzp.clevergarlic.dto.admin.logdto.SysLogRequest;
+import com.dzp.clevergarlic.dto.admin.logDto.SysLogRequest;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Repository;
 

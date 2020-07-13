@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.dto.admin.demodto;
+package com.dzp.clevergarlic.dto.admin.demoDto;
 
 import java.sql.Date;
 
