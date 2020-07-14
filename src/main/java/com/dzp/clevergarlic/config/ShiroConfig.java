@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
  * @Date 2020/7/9 13:55
  * @Desc
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
     @Bean
