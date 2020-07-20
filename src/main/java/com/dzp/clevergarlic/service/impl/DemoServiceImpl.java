@@ -29,7 +29,8 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    public PageUtil<DemoListResponse> getList(ListToPageRequest request) {
+    public PageUtil<DemoListResponse> getList(ListToPageRequest request) throws Exception {
+        Thread.sleep(5000);
         DemoListResponse demoListResponse = demoMapper.getOne();
 
         /**

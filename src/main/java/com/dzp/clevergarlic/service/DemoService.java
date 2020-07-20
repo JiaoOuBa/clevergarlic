@@ -13,6 +13,6 @@ public interface DemoService {
 
     String getUrlById(String id);
 
-    PageUtil<DemoListResponse> getList(ListToPageRequest request);
+    PageUtil<DemoListResponse> getList(ListToPageRequest request) throws Exception;
 
 }

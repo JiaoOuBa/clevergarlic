@@ -119,8 +119,8 @@ public class RedisService {
     /**
      * 指定缓存失效时间
      * @param key
-     * @param time
-     * @param unit
+     * @param time 时间值
+     * @param unit 时间单位
      * @return
      */
     public Boolean expire(String key, long time, TimeUnit unit) {

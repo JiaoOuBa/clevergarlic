@@ -11,6 +11,7 @@ import com.dzp.clevergarlic.dto.admin.demoDto.ListToPageRequest;
 import com.dzp.clevergarlic.dto.excel.EasyExportDto;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.listener.DemoListener;
+import com.dzp.clevergarlic.redis.RedisLockCommon;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.DemoService;
@@ -49,6 +50,9 @@ public class DemoController {
     @Autowired
     DemoService demoService;
 
+    @Autowired
+    RedisLockCommon redisLock;
+
     @ApiOperation(value = "test")
     @PostMapping(value = "/test")
     public ResultVo<String> getDemo(String id) {
@@ -62,7 +66,23 @@ public class DemoController {
     @Log("demo")
     @PostMapping("/list")
     public ResultVo<PageUtil<DemoListResponse>> getList(ListToPageRequest request) {
-        return Result.success(demoService.getList(request));
+        int TIMEOUT = 30*1000;
+        long time = System.currentTimeMillis() + TIMEOUT;
+        try {
+
+            // 加锁
+            if (!redisLock.getLock("demoList",String.valueOf(time))) {
+                return Result.error(ExceptionMsg.FAILED,"redis锁被别人抢了~~");
+            }
+            return Result.success(demoService.getList(request));
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED,e.getMessage());
+        }
+        finally {
+
+            //解锁
+            redisLock.closeLock("demoList", String.valueOf(time));
+        }
     }
 
     @ApiOperation(value = "hutool导入")
