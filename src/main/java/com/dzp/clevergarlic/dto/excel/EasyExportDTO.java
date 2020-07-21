@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  * @Date 2020/7/3 13:58
  * @Desc
  */
-public class EasyExportDto {
+public class EasyExportDTO {
 
     @ExcelProperty(value = "姓名", index = 0)
     private String name;
@@ -22,7 +22,7 @@ public class EasyExportDto {
 
 
     public static final String[] getTitles(){
-        Field[] fields = EasyExportDto.class.getDeclaredFields();
+        Field[] fields = EasyExportDTO.class.getDeclaredFields();
         int length = fields.length;
         String[] titles = new String[length];
         for (int i = 0; i < length; i++) {
@@ -65,7 +65,7 @@ public class EasyExportDto {
         this.work = work;
     }
 
-    public EasyExportDto(String id, String name, Integer age, String sex, String work) {
+    public EasyExportDTO(String id, String name, Integer age, String sex, String work) {
         this.name = name;
         this.age = age;
         this.sex = sex;

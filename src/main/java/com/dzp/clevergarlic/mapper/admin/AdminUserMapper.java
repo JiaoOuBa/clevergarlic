@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.mapper.admin;
 
-import com.dzp.clevergarlic.dto.common.user.User;
+import com.dzp.clevergarlic.dto.common.userDTO.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

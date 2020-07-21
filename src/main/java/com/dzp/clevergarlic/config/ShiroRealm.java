@@ -1,16 +1,14 @@
 package com.dzp.clevergarlic.config;
 
-import com.dzp.clevergarlic.dto.common.user.User;
+import com.dzp.clevergarlic.dto.common.userDTO.User;
 import com.dzp.clevergarlic.enums.UserEnum;
 import com.dzp.clevergarlic.mapper.admin.AdminUserMapper;
-import com.dzp.clevergarlic.util.AESUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * 自定义Realm

@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.service;
 
-import com.dzp.clevergarlic.dto.admin.logDto.SysLogRequest;
+import com.dzp.clevergarlic.dto.admin.logDTO.SysLogRequest;
 
 /**
  * 存储系统日志

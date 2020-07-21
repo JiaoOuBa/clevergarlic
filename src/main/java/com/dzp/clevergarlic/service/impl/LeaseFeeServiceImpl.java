@@ -1,6 +1,8 @@
 package com.dzp.clevergarlic.service.impl;
 
-import com.dzp.clevergarlic.dto.admin.leaseFeeDto.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.mapper.admin.LeaseFeeMapper;
 import com.dzp.clevergarlic.service.LeaseFeeService;
@@ -24,6 +26,10 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
     @Autowired
     LeaseFeeMapper leaseFeeMapper;
 
+    /**
+     * 保存数据
+     * @param request
+     */
     @Override
     public void editLeaseFee(EditLeaseFeeRequest request) {
 
@@ -40,7 +46,7 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
         checkParameters(request);
 
         if (ObjectUtils.isEmpty(request.getLeaseFeeId())) {// 新增
-            // request.setLeaseFeeId(sid.nextShort());
+            request.setLeaseFeeId(sid.nextShort());
             // do insert
             leaseFeeMapper.insertLeaseFee(request);
 
@@ -49,6 +55,32 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
             leaseFeeMapper.updateLeaseFee(request);
         }
 
+    }
+
+    /**
+     * 详情
+     * @param id
+     * @return
+     */
+    @Override
+    public LeaseFeeInfoResponse getLeaseFeeInfo(String id) {
+
+        LeaseFeeInfoResponse info = leaseFeeMapper.getLeaseFeeInfo(id);
+        info.setAdminName("todo");
+        info.setReviewAdminName("todo");
+        return info;
+    }
+
+    /**
+     * 删除
+     * @param request
+     */
+    @Override
+    public void deleteLeaseFee(DelLeaseFeeRequest request) {
+
+        // TODO: 2020/7/21 状态判断
+
+        leaseFeeMapper.deleteLeaseFee(request.getIds());
     }
 
     private void checkParameters(EditLeaseFeeRequest request) {

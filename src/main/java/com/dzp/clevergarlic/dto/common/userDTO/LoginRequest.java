@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.dto.common.user;
+package com.dzp.clevergarlic.dto.common.userDTO;
 
 /**
  * @Auther ck

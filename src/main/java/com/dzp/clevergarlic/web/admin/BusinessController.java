@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.web.admin;
 
-import com.dzp.clevergarlic.dto.admin.businessDto.EditBusinessRequest;
+import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;

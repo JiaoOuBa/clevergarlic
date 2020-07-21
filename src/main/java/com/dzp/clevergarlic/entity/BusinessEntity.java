@@ -68,6 +68,8 @@ public class BusinessEntity {
     private String version;
     //linked_data_version  关联数据版本
     private String linkedDataVersion;
+    //数据来源（设置/api）
+    private Integer dataSource;
 
 
     @Override
@@ -101,6 +103,7 @@ public class BusinessEntity {
                 ", updateTime=" + updateTime +
                 ", version='" + version + '\'' +
                 ", linkedDataVersion='" + linkedDataVersion + '\'' +
+                ", dataSource=" + dataSource +
                 '}';
     }
 
@@ -326,5 +329,13 @@ public class BusinessEntity {
 
     public void setLinkedDataVersion(String linkedDataVersion) {
         this.linkedDataVersion = linkedDataVersion;
+    }
+
+    public Integer getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(Integer dataSource) {
+        this.dataSource = dataSource;
     }
 }

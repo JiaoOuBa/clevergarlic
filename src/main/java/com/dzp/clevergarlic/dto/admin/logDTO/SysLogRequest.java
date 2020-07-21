@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.dto.admin.logDto;
+package com.dzp.clevergarlic.dto.admin.logDTO;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.service.impl;
 
-import com.dzp.clevergarlic.dto.admin.businessDto.EditBusinessRequest;
+import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.service.BusinessService;
 import com.dzp.clevergarlic.util.IdUtil.Sid;

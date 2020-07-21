@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.mapper.admin;
 
-import com.dzp.clevergarlic.dto.admin.logDto.SysLogRequest;
+import com.dzp.clevergarlic.dto.admin.logDTO.SysLogRequest;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SysLogMapper {
 
-    @Insert("insert into fc_sys_log (log_id,user_name,operation,time,method,params,ip,error_msg) values (#{logId},#{userName},#{operation},#{time},#{method},#{params},#{ip},#{errorMsg})")
     void saveLog(SysLogRequest request);
 }

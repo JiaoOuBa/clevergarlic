@@ -1,10 +1,9 @@
-package com.dzp.clevergarlic.dto.admin.businessDto;
+package com.dzp.clevergarlic.dto.admin.businessDTO;
 
 import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 
 /**
  * @Auther ck
@@ -61,6 +60,8 @@ public class EditBusinessRequest {
     private String version;
     @ApiModelProperty("关联数据版本")
     private String linkedDataVersion;
+    @ApiModelProperty("数据来源（1.设置，2.api）")
+    private Integer dataSource;
 
     public Integer getOperation() {
         return operation;
@@ -252,5 +253,13 @@ public class EditBusinessRequest {
 
     public void setLinkedDataVersion(String linkedDataVersion) {
         this.linkedDataVersion = linkedDataVersion;
+    }
+
+    public Integer getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(Integer dataSource) {
+        this.dataSource = dataSource;
     }
 }

@@ -1,7 +1,7 @@
 package com.dzp.clevergarlic.service;
 
-import com.dzp.clevergarlic.dto.admin.demoDto.DemoListResponse;
-import com.dzp.clevergarlic.dto.admin.demoDto.ListToPageRequest;
+import com.dzp.clevergarlic.dto.admin.demoDTO.DemoListResponse;
+import com.dzp.clevergarlic.dto.admin.demoDTO.ListToPageRequest;
 import com.dzp.clevergarlic.util.PageUtil;
 
 /**

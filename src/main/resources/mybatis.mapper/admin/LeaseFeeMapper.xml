@@ -3,7 +3,40 @@
 <mapper namespace="com.dzp.clevergarlic.mapper.admin.LeaseFeeMapper">
 
 
-    <insert id="insertLeaseFee"></insert>
+    <insert id="insertLeaseFee">
+        insert into fc_lease_fee_param
+        (lease_id,project_company_id,project_organeze_id,building_id,building_name,floor_code,unit,floor_property,
+         date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,data_source)
+        values
+        (#{leaseId},#{projectCompanyId},#{projectOrganezeId},#{buildingId},#{buildingName},#{floorCode},#{unit},#{floorProperty},
+         #{dateMonth},#{leaseWay},#{leaseUnitPrice},#{status},#{adminId},#{version},#{linkedDataVersion},#{dataSource})
+    </insert>
 
-    <update id="updateLeaseFee"></update>
+    <update id="updateLeaseFee">
+        update fc_lease_fee_param
+        set
+         project_company_id = #{projectCompanyId},project_organeze_id = #{projectOrganezeId},building_id = #{buildingId},
+         building_name = #{buildingName},floor_code = #{floorCode},unit = #{unit},floor_property = #{floorProperty},
+         date_month = #{dateMonth},lease_way = #{leaseWay},lease_unit_price = #{leaseUnitPrice},status = #{status},
+         admin_id = #{adminId},version = #{version},linked_data_version = #{linkedDataVersion},
+         update_time = LOCALTIMESTAMP
+        where lease_id = #{leaseId}
+    </update>
+
+    <update id="deleteLeaseFee">
+        update fc_lease_fee_param
+        set deleted = 1,update_time = LOCALTIMESTAMP
+        where deleted = 0
+        and lease_id in
+        <foreach collection="ids" item="leaseId" open="(" separator="," close=")">
+            #{leaseId}
+        </foreach>
+    </update>
+
+    <select id="getLeaseFeeInfo" resultType="com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse">
+        select lease_id,project_company_id,project_organeze_id,building_id,building_name,floor_code,unit,floor_property,
+               date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,data_source
+        from fc_lease_fee_param
+        where lease_id = #{id} and deleted = 0
+    </select>
 </mapper>

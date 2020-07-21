@@ -1,7 +1,7 @@
 package com.dzp.clevergarlic.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.dzp.clevergarlic.dto.excel.EasyExportDto;
+import com.dzp.clevergarlic.dto.excel.EasyExportDTO;
 import com.dzp.clevergarlic.service.DemoService;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 2020/7/3 15:01
  * @Desc
  */
-public class DemoListener extends AnalysisEventListener<EasyExportDto> {
+public class DemoListener extends AnalysisEventListener<EasyExportDTO> {
 
     /**
      * 每1000条存储一次数据库
@@ -23,7 +23,7 @@ public class DemoListener extends AnalysisEventListener<EasyExportDto> {
     /**
      * 接收读取Excel文件得到的数据
      */
-    List<EasyExportDto> list = new ArrayList<>();
+    List<EasyExportDTO> list = new ArrayList<>();
 
     /**
      * 导入的模块
@@ -35,7 +35,7 @@ public class DemoListener extends AnalysisEventListener<EasyExportDto> {
     }
 
     @Override
-    public void invoke(EasyExportDto t, AnalysisContext context) {
+    public void invoke(EasyExportDTO t, AnalysisContext context) {
         list.add(t);
         if (list.size() >= BATCH_COUNT) {
             saveData();

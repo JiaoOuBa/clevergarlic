@@ -1,12 +1,11 @@
+/*
 package com.dzp.clevergarlic.web.admin;
 
-import com.dzp.clevergarlic.dto.common.user.LoginRequest;
-import com.dzp.clevergarlic.dto.common.user.User;
+import com.dzp.clevergarlic.dto.common.userDTO.User;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.util.AESUtil;
-import com.dzp.clevergarlic.util.Md5Util;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -19,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
+*/
 /**
  * 登陆
  * @Auther ck
  * @Date 2020/7/9 16:43
  * @Desc
- */
+ *//*
+
 
 @Api(value = "login", description = "后台登陆")
 @Controller
@@ -47,7 +48,9 @@ public class LoginController {
     @ResponseBody
     public ResultVo authLogin(String username, String password) {
 
-        /*String decrypt = Md5Util.str2MD5(password);*/
+        */
+/*String decrypt = Md5Util.str2MD5(password);*//*
+
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         // 获取Subject对象
         Subject subject = SecurityUtils.getSubject();
@@ -78,3 +81,4 @@ public class LoginController {
         return "index";
     }
 }
+*/

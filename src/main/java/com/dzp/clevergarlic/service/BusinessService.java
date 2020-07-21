@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.service;
 
-import com.dzp.clevergarlic.dto.admin.businessDto.EditBusinessRequest;
+import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 
 /**
  * 招商预测参数

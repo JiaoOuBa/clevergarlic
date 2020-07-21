@@ -1,87 +1,60 @@
-package com.dzp.clevergarlic.entity;
+package com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response;
+
+import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * 租金信息表entity
  * @Auther ck
- * @Date 2020/7/13 10:53
+ * @Date 2020/7/21 11:31
  * @Desc
  */
-public class LeaseFeeEntity {
+public class LeaseFeeInfoResponse {
 
-    //lease_fee_id  租金ID
+    @ApiModelProperty("租金ID（新增不传，修改传）")
     private String leaseFeeId;
-    //project_company_id  所属集团ID
+    @ApiModelProperty("所属集团ID")
     private Integer projectCompanyId;
-    //project_organize_id  所属组织ID
+    @ApiModelProperty("所属组织ID")
     private Integer projectOrganizeId;
-    //building_id  楼宇ID
+    @ApiModelProperty("楼宇ID")
     private Integer buildingId;
-    //building_name  楼宇名称
+    @ApiModelProperty("楼宇名称")
     private String buildingName;
-    //floor_code  楼层
+    @ApiModelProperty("楼层")
     private Integer floorCode;
-    //unit  单元
+    @ApiModelProperty("单元")
     private Integer unit;
-    //floor_property  楼层属性
+    @ApiModelProperty("楼层属性")
     private String floorProperty;
-    //date_month  租金月份（yyyy-MM）
+    @ApiModelProperty("租金月份（yyyy-MM）")
     private Date dateMonth;
-    //lease_way  计租方式
+    @ApiModelProperty("计租方式")
     private String leaseWay;
-    //lease_unit_price  租金单价
+    @ApiModelProperty("租金单价")
     private BigDecimal leaseUnitPrice;
-    //status  状态
+    @ApiModelProperty("状态")
     private Integer status;
-    //deleted  是否删除标识（1，0）
-    private Integer deleted;
-    //admin_id  创建人
+    @ApiModelProperty("状态名")
+    private String statusName;
+    @ApiModelProperty("创建人id")
     private Long adminId;
-    //create_time  创建时间
-    private Timestamp createTime;
-    //review_admin_id  审核人
+    @ApiModelProperty("创建人姓名")
+    private String adminName;
+    @ApiModelProperty("审核人")
     private Long reviewAdminId;
-    //review_time  审核时间
+    @ApiModelProperty("审核人姓名")
+    private String reviewAdminName;
+    @ApiModelProperty("审核时间")
     private Timestamp reviewTime;
-    //update_time  最后修改时间
-    private Timestamp updateTime;
-    //version  版本号
+    @ApiModelProperty("版本号")
     private String version;
-    //linked_data_version  关联数据版本
+    @ApiModelProperty("关联数据版本")
     private String linkedDataVersion;
-    //数据来源（设置/api）
+    @ApiModelProperty("数据来源（1.设置，2.api）")
     private Integer dataSource;
-
-
-    @Override
-    public String toString() {
-        return "LeaseFeeEntity{" +
-                "leaseFeeId='" + leaseFeeId + '\'' +
-                ", projectCompanyId=" + projectCompanyId +
-                ", projectOrganizeId=" + projectOrganizeId +
-                ", buildingId=" + buildingId +
-                ", buildingName='" + buildingName + '\'' +
-                ", floorCode=" + floorCode +
-                ", unit=" + unit +
-                ", floorProperty='" + floorProperty + '\'' +
-                ", dateMonth=" + dateMonth +
-                ", leaseWay='" + leaseWay + '\'' +
-                ", leaseUnitPrice=" + leaseUnitPrice +
-                ", status=" + status +
-                ", deleted=" + deleted +
-                ", adminId=" + adminId +
-                ", createTime=" + createTime +
-                ", reviewAdminId=" + reviewAdminId +
-                ", reviewTime=" + reviewTime +
-                ", updateTime=" + updateTime +
-                ", version='" + version + '\'' +
-                ", linkedDataVersion='" + linkedDataVersion + '\'' +
-                ", dataSource=" + dataSource +
-                '}';
-    }
 
     public String getLeaseFeeId() {
         return leaseFeeId;
@@ -179,12 +152,12 @@ public class LeaseFeeEntity {
         this.status = status;
     }
 
-    public Integer getDeleted() {
-        return deleted;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     public Long getAdminId() {
@@ -195,12 +168,12 @@ public class LeaseFeeEntity {
         this.adminId = adminId;
     }
 
-    public Timestamp getCreateTime() {
-        return createTime;
+    public String getAdminName() {
+        return adminName;
     }
 
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 
     public Long getReviewAdminId() {
@@ -211,20 +184,20 @@ public class LeaseFeeEntity {
         this.reviewAdminId = reviewAdminId;
     }
 
+    public String getReviewAdminName() {
+        return reviewAdminName;
+    }
+
+    public void setReviewAdminName(String reviewAdminName) {
+        this.reviewAdminName = reviewAdminName;
+    }
+
     public Timestamp getReviewTime() {
         return reviewTime;
     }
 
     public void setReviewTime(Timestamp reviewTime) {
         this.reviewTime = reviewTime;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getVersion() {

@@ -1,8 +1,6 @@
-package com.dzp.clevergarlic.dto.admin.leaseFeeDto;
+package com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request;
 
-import com.dzp.clevergarlic.util.IdUtil.Sid;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -17,7 +15,7 @@ public class EditLeaseFeeRequest {
 
     @ApiModelProperty("操作类型（1.提交，2.保存为草稿）")
     private Integer operation;
-    @ApiModelProperty("租金ID（新增不传）")
+    @ApiModelProperty("租金ID（新增不传，修改传）")
     private String leaseFeeId;
     @ApiModelProperty("所属集团ID")
     private Integer projectCompanyId;
@@ -51,6 +49,8 @@ public class EditLeaseFeeRequest {
     private String version;
     @ApiModelProperty("关联数据版本")
     private String linkedDataVersion;
+    @ApiModelProperty("数据来源（1.设置，2.api）")
+    private Integer dataSource;
 
     public Integer getOperation() {
         return operation;
@@ -194,5 +194,13 @@ public class EditLeaseFeeRequest {
 
     public void setReviewTime(Timestamp reviewTime) {
         this.reviewTime = reviewTime;
+    }
+
+    public Integer getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(Integer dataSource) {
+        this.dataSource = dataSource;
     }
 }

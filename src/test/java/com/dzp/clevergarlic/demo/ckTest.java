@@ -2,7 +2,7 @@ package com.dzp.clevergarlic.demo;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
-import com.dzp.clevergarlic.redis.RedisLockLua;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.service.DemoService;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
@@ -56,5 +56,9 @@ public class ckTest {
 
     @Test
     public void test4() {
+        DelLeaseFeeRequest delLeaseFeeRequest = new DelLeaseFeeRequest();
+        List<String> list = Arrays.asList("12","13","14");
+        delLeaseFeeRequest.setIds(list);
+        System.out.println(delLeaseFeeRequest.getIds());
     }
 }

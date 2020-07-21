@@ -6,9 +6,9 @@ import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.alibaba.excel.EasyExcel;
 import com.dzp.clevergarlic.config.annotation.Log;
-import com.dzp.clevergarlic.dto.admin.demoDto.DemoListResponse;
-import com.dzp.clevergarlic.dto.admin.demoDto.ListToPageRequest;
-import com.dzp.clevergarlic.dto.excel.EasyExportDto;
+import com.dzp.clevergarlic.dto.admin.demoDTO.DemoListResponse;
+import com.dzp.clevergarlic.dto.admin.demoDTO.ListToPageRequest;
+import com.dzp.clevergarlic.dto.excel.EasyExportDTO;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.listener.DemoListener;
 import com.dzp.clevergarlic.redis.RedisLockCommon;
@@ -104,10 +104,10 @@ public class DemoController {
     @PostMapping(value = "/htExport")
     public void htExport(HttpServletResponse response) {
         try {
-            List<EasyExportDto> list = new ArrayList<>();
-            list.add(new EasyExportDto("1","jack",13,"男","teacher"));
-            list.add(new EasyExportDto("2","lucy",24,"女","boss"));
-            list.add(new EasyExportDto("3","bob",18,"男","doctor"));
+            List<EasyExportDTO> list = new ArrayList<>();
+            list.add(new EasyExportDTO("1","jack",13,"男","teacher"));
+            list.add(new EasyExportDTO("2","lucy",24,"女","boss"));
+            list.add(new EasyExportDTO("3","bob",18,"男","doctor"));
 
             ExcelWriter writer = ExcelUtil.getWriter();
             // 添加表头信息
@@ -151,7 +151,7 @@ public class DemoController {
     public ResultVo easyImport(@ApiParam(value = "导入Excel文件") @RequestParam("file") MultipartFile file) {
 
         try {
-            EasyExcel.read(file.getInputStream(), EasyExportDto.class, new DemoListener(demoService)).sheet().doRead();
+            EasyExcel.read(file.getInputStream(), EasyExportDTO.class, new DemoListener(demoService)).sheet().doRead();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,13 +162,13 @@ public class DemoController {
     @PostMapping(value = "/easyExport")
     public void easyExport() {
         try {
-            List<EasyExportDto> list = new ArrayList<>();
+            List<EasyExportDTO> list = new ArrayList<>();
             /*list.add(new EasyExportDTO("1","jack",13,"男","teacher"));
             list.add(new EasyExportDTO("2","lucy",24,"女","boss"));
             list.add(new EasyExportDTO("3","bob",18,"男","doctor"));*/
 
             String fileName = "demo.xls";
-            EasyExcel.write(fileName, EasyExportDto.class).sheet(1).doWrite(list);
+            EasyExcel.write(fileName, EasyExportDTO.class).sheet(1).doWrite(list);
         }catch (Exception e) {
             e.printStackTrace();
         }

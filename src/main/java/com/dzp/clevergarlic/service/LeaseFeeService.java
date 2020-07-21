@@ -1,6 +1,8 @@
 package com.dzp.clevergarlic.service;
 
-import com.dzp.clevergarlic.dto.admin.leaseFeeDto.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 
 /**
  * 租金预测参数
@@ -15,4 +17,17 @@ public interface LeaseFeeService {
      * @param request
      */
     void editLeaseFee(EditLeaseFeeRequest request);
+
+    /**
+     * 详情
+     * @param id
+     * @return
+     */
+    LeaseFeeInfoResponse getLeaseFeeInfo(String id);
+
+    /**
+     * 删除
+     * @param request
+     */
+    void deleteLeaseFee(DelLeaseFeeRequest request);
 }
