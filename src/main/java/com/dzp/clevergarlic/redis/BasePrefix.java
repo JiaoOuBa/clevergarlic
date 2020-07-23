@@ -8,20 +8,20 @@ package com.dzp.clevergarlic.redis;
  */
 public abstract class BasePrefix implements KeyPrefix {
 
-    private Long expireSeconds;
+    private int expireSeconds;
 
     private String prefix;
 
     public BasePrefix(String prefix) {//0代表永不过期
-        this(0L, prefix);
+        this(0, prefix);
     }
 
-    public BasePrefix( Long expireSeconds, String prefix) {
+    public BasePrefix( int expireSeconds, String prefix) {
         this.expireSeconds = expireSeconds;
         this.prefix = prefix;
     }
 
-    public Long expireSeconds() {//默认0代表永不过期
+    public int expireSeconds() {//默认0代表永不过期
         return expireSeconds;
     }
 

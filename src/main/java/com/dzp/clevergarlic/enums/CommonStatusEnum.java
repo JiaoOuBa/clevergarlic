@@ -9,7 +9,8 @@ package com.dzp.clevergarlic.enums;
 public enum CommonStatusEnum implements CodeEnum {
     REVIEW_CGX(1,"草稿箱"),
     REVIEW_SHZ(2,"审核中"),
-    REVIEW_YTG(3,"已通过"),
+    REVIEW_YQR(3,"已确认"),
+    REVIEW_YQX(4,"已取消"),
     ;
 
     private CommonStatusEnum(Integer code, String msg) {
@@ -29,7 +30,7 @@ public enum CommonStatusEnum implements CodeEnum {
         return msg;
     }
 
-    public String getMsgByCode(Integer code) {
+    public static String getMsgByCode(Integer code) {
         for (UserEnum value : UserEnum.values()) {
             if (code == null) {
                 return null;

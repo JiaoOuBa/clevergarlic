@@ -1,4 +1,5 @@
 package com.dzp.clevergarlic.redis;
+import com.dzp.clevergarlic.redis.admin.CodeKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisConnectionUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,8 +28,10 @@ public class RedisService {
      * @param key
      * @return
      */
-    public String get(final String key) {
-        return redisTemplate.opsForValue().get(key);
+    public String get(KeyPrefix prefix, final String key) {
+        //生成真正的key
+        String realKey  = prefix.getPrefix() + key;
+        return redisTemplate.opsForValue().get(realKey);
     }
 
     /**
@@ -46,10 +49,13 @@ public class RedisService {
      * @param value
      * @return
      */
-    public boolean set(final String key, String value) {
+    public boolean set(KeyPrefix prefix, final String key, String value) {
         boolean res = false;
         try {
-            redisTemplate.opsForValue().set(key, value);
+
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            redisTemplate.opsForValue().set(realKey, value);
             res = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,10 +69,13 @@ public class RedisService {
      * @param value
      * @return
      */
-    public String getAndSet(final String key, String value) {
+    public String getAndSet(KeyPrefix prefix, final String key, String value) {
         String res = null;
         try {
-            res = redisTemplate.opsForValue().getAndSet(key, value);
+
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            res = redisTemplate.opsForValue().getAndSet(realKey, value);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,13 +85,16 @@ public class RedisService {
 
     /**
      * 删除缓存
-     * @param key
+     * @param prefix
      * @return
      */
-    public boolean del(final String key) {
+    public boolean del(KeyPrefix prefix) {
         boolean res = false;
         try {
-            redisTemplate.delete(key);
+
+            //生成真正的key
+            String realKey  = prefix.getPrefix();
+            redisTemplate.delete(realKey);
             res = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,9 +120,12 @@ public class RedisService {
      * @param key
      * @return
      */
-    public Boolean exist(String key) {
+    public Boolean exist(KeyPrefix prefix, String key) {
         try {
-            return redisTemplate.hasKey(key);
+
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            return redisTemplate.hasKey(realKey);
         } finally {
             close();
         }
@@ -123,11 +138,14 @@ public class RedisService {
      * @param unit 时间单位
      * @return
      */
-    public Boolean expire(String key, long time, TimeUnit unit) {
+    public Boolean expire(KeyPrefix prefix, String key, long time, TimeUnit unit) {
         Boolean res = false;
         try {
             if (time > 0) {
-                res =  redisTemplate.expire(key, time, unit);
+
+                //生成真正的key
+                String realKey  = prefix.getPrefix() + key;
+                res =  redisTemplate.expire(realKey, time, unit);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,5 +159,23 @@ public class RedisService {
      */
     public void close() {
         RedisConnectionUtils.unbindConnection(Objects.requireNonNull(redisTemplate.getConnectionFactory()));
+    }
+
+    /**
+     * 指定增加num
+     * @param prefix
+     * @param key
+     * @param i
+     * @param <T>
+     * @return
+     */
+    public <T> Long incrBy(KeyPrefix prefix, String key, int i) {
+        try {
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            return redisTemplate.opsForValue().increment(realKey, i);
+        } finally {
+            close();
+        }
     }
 }

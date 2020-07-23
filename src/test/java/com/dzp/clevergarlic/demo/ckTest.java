@@ -3,8 +3,10 @@ package com.dzp.clevergarlic.demo;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
+import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.service.DemoService;
+import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,5 +62,11 @@ public class ckTest {
         List<String> list = Arrays.asList("12","13","14");
         delLeaseFeeRequest.setIds(list);
         System.out.println(delLeaseFeeRequest.getIds());
+    }
+
+    @Test
+    public void test5() {
+        String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength());
+        System.out.println(codeNumber);
     }
 }

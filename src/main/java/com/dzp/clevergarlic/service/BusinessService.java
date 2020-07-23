@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.service;
 
+import com.dzp.clevergarlic.dto.admin.businessDTO.BusinessInfoResponse;
 import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 
 /**
@@ -15,4 +16,11 @@ public interface BusinessService {
      * @param request
      */
     void editBusiness(EditBusinessRequest request);
+
+    /**
+     * 详情
+     * @param id
+     * @return
+     */
+    BusinessInfoResponse getBusinessInfo(String id);
 }

@@ -12,7 +12,7 @@ public interface KeyPrefix {
      * redis 过期时间
      * @return 过期时间
      */
-    Long expireSeconds();
+    int expireSeconds();
 
     /**
      * redis key

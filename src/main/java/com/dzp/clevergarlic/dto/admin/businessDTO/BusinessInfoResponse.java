@@ -1,20 +1,19 @@
-package com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response;
+package com.dzp.clevergarlic.dto.admin.businessDTO;
 
 import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @Auther ck
- * @Date 2020/7/21 11:31
+ * @Date 2020/7/21 17:25
  * @Desc
  */
-public class LeaseFeeInfoResponse {
+public class BusinessInfoResponse {
 
-    @ApiModelProperty("租金ID")
-    private String leaseFeeId;
+    @ApiModelProperty("招商ID")
+    private String businessId;
     @ApiModelProperty("所属集团ID")
     private Integer projectCompanyId;
     @ApiModelProperty("所属组织ID")
@@ -29,16 +28,30 @@ public class LeaseFeeInfoResponse {
     private Integer unit;
     @ApiModelProperty("楼层属性")
     private String floorProperty;
-    @ApiModelProperty("租金月份（yyyy-MM）")
-    private Date dateMonth;
-    @ApiModelProperty("计租方式")
-    private String leaseWay;
-    @ApiModelProperty("租金单价")
-    private BigDecimal leaseUnitPrice;
+    @ApiModelProperty("空置期")
+    private String emptyDate;
+    @ApiModelProperty("起租前装修期")
+    private String beforeDecorateDate;
+    @ApiModelProperty("免租期")
+    private String freeDate;
+    @ApiModelProperty("届满后装修期")
+    private String afterDecorateDate;
+    @ApiModelProperty("合同开始时间")
+    private Date contractStartTime;
+    @ApiModelProperty("合同结束时间")
+    private Date contractEndTime;
+    @ApiModelProperty("合同周期（租期）")
+    private String contractDate;
+    @ApiModelProperty("续约概率")
+    private String renewPercent;
+    @ApiModelProperty("结佣方式")
+    private String commissionWay;
+    @ApiModelProperty("佣金（月）")
+    private BigDecimal monthCommission;
+    @ApiModelProperty("佣金（金额）")
+    private BigDecimal commission;
     @ApiModelProperty("状态")
     private Integer status;
-    @ApiModelProperty("状态名")
-    private String statusName;
     @ApiModelProperty("创建人id")
     private Long adminId;
     @ApiModelProperty("创建人姓名")
@@ -47,8 +60,6 @@ public class LeaseFeeInfoResponse {
     private Long reviewAdminId;
     @ApiModelProperty("审核人姓名")
     private String reviewAdminName;
-    @ApiModelProperty("审核时间")
-    private Timestamp reviewTime;
     @ApiModelProperty("版本号")
     private String version;
     @ApiModelProperty("关联数据版本")
@@ -56,12 +67,12 @@ public class LeaseFeeInfoResponse {
     @ApiModelProperty("数据来源（1.设置，2.api）")
     private Integer dataSource;
 
-    public String getLeaseFeeId() {
-        return leaseFeeId;
+    public String getBusinessId() {
+        return businessId;
     }
 
-    public void setLeaseFeeId(String leaseFeeId) {
-        this.leaseFeeId = leaseFeeId;
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
     }
 
     public Integer getProjectCompanyId() {
@@ -120,28 +131,92 @@ public class LeaseFeeInfoResponse {
         this.floorProperty = floorProperty;
     }
 
-    public Date getDateMonth() {
-        return dateMonth;
+    public String getEmptyDate() {
+        return emptyDate;
     }
 
-    public void setDateMonth(Date dateMonth) {
-        this.dateMonth = dateMonth;
+    public void setEmptyDate(String emptyDate) {
+        this.emptyDate = emptyDate;
     }
 
-    public String getLeaseWay() {
-        return leaseWay;
+    public String getBeforeDecorateDate() {
+        return beforeDecorateDate;
     }
 
-    public void setLeaseWay(String leaseWay) {
-        this.leaseWay = leaseWay;
+    public void setBeforeDecorateDate(String beforeDecorateDate) {
+        this.beforeDecorateDate = beforeDecorateDate;
     }
 
-    public BigDecimal getLeaseUnitPrice() {
-        return leaseUnitPrice;
+    public String getFreeDate() {
+        return freeDate;
     }
 
-    public void setLeaseUnitPrice(BigDecimal leaseUnitPrice) {
-        this.leaseUnitPrice = leaseUnitPrice;
+    public void setFreeDate(String freeDate) {
+        this.freeDate = freeDate;
+    }
+
+    public String getAfterDecorateDate() {
+        return afterDecorateDate;
+    }
+
+    public void setAfterDecorateDate(String afterDecorateDate) {
+        this.afterDecorateDate = afterDecorateDate;
+    }
+
+    public Date getContractStartTime() {
+        return contractStartTime;
+    }
+
+    public void setContractStartTime(Date contractStartTime) {
+        this.contractStartTime = contractStartTime;
+    }
+
+    public Date getContractEndTime() {
+        return contractEndTime;
+    }
+
+    public void setContractEndTime(Date contractEndTime) {
+        this.contractEndTime = contractEndTime;
+    }
+
+    public String getContractDate() {
+        return contractDate;
+    }
+
+    public void setContractDate(String contractDate) {
+        this.contractDate = contractDate;
+    }
+
+    public String getRenewPercent() {
+        return renewPercent;
+    }
+
+    public void setRenewPercent(String renewPercent) {
+        this.renewPercent = renewPercent;
+    }
+
+    public String getCommissionWay() {
+        return commissionWay;
+    }
+
+    public void setCommissionWay(String commissionWay) {
+        this.commissionWay = commissionWay;
+    }
+
+    public BigDecimal getMonthCommission() {
+        return monthCommission;
+    }
+
+    public void setMonthCommission(BigDecimal monthCommission) {
+        this.monthCommission = monthCommission;
+    }
+
+    public BigDecimal getCommission() {
+        return commission;
+    }
+
+    public void setCommission(BigDecimal commission) {
+        this.commission = commission;
     }
 
     public Integer getStatus() {
@@ -150,14 +225,6 @@ public class LeaseFeeInfoResponse {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public String getStatusName() {
-        return statusName;
-    }
-
-    public void setStatusName(String statusName) {
-        this.statusName = statusName;
     }
 
     public Long getAdminId() {
@@ -190,14 +257,6 @@ public class LeaseFeeInfoResponse {
 
     public void setReviewAdminName(String reviewAdminName) {
         this.reviewAdminName = reviewAdminName;
-    }
-
-    public Timestamp getReviewTime() {
-        return reviewTime;
-    }
-
-    public void setReviewTime(Timestamp reviewTime) {
-        this.reviewTime = reviewTime;
     }
 
     public String getVersion() {

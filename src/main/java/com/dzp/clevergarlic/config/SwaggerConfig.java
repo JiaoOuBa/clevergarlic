@@ -77,7 +77,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("公共api接口文档")
                 .enable(openSwagger)
-                .apiInfo(apiInfo("聪蒜公共接口文档(Api)"))
+                .apiInfo(apiInfo("FC公共接口文档(Api)"))
                 .select() // 选择那些路径和api会生成document
                 .apis(RequestHandlerSelectors.basePackage("com.dzp.clevergarlic.web.common"))// 对所有api进行监控
                 .paths(PathSelectors.any())
@@ -112,7 +112,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("后台管理api接口文档")
                 .enable(openSwagger)
-                .apiInfo(apiInfo("聪蒜后台接口文档(Api)"))
+                .apiInfo(apiInfo("FC后台接口文档(Api)"))
                 .select() // 选择那些路径和api会生成document
                 .apis(RequestHandlerSelectors.basePackage("com.dzp.clevergarlic.web.admin"))// 对所有api进行监控
                 .paths(PathSelectors.any())
@@ -122,7 +122,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(String desc) {
         return new ApiInfoBuilder()
-                .title("cleverGarlic Api")
+                .title("Forecast Api")
                 .contact(new Contact("ck","#","xxxx@example.com"))
                 .version("0.0.1")
                 .description(desc)

@@ -13,7 +13,7 @@ public class TestKey extends BasePrefix {
         super(prefix);
     }
 
-    public TestKey(Long expireSeconds, String prefix) {
+    public TestKey(int expireSeconds, String prefix) {
         super(expireSeconds, prefix);
     }
 

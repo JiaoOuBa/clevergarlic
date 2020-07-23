@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dzp.clevergarlic.mapper.admin.BudgetPlanMapper">
+
+
+    <insert id="insertToPlan">
+        insert into fc_plan (plan_id,plan_name,status,admin_id,plan_start_time,plan_end_time,plan_code)
+        values (#{planId},#{planName},#{status},#{adminId},#{planStartTime},#{planEndTime},#{planCode})
+    </insert>
+
+    <insert id="insertToBuilding">
+        insert into fc_plan_building (plan_building_id,plan_id,building_id)
+        values (#{planBuildingId},#{planId},#{buildingId})
+    </insert>
+
+    <update id="updatePlan">
+        update fc_plan
+        set plan_name = #{planName},status = #{status},admin_id = #{adminId},
+            plan_start_time = #{planStartTime},plan_end_time = #{planEndTime}
+        where plan_id = #{planId}
+    </update>
+
+    <delete id="deleteBuildingByPlanId">
+        delete from fc_plan_building where plan_id = #{planId}
+    </delete>
+
+    <update id="deletePlan">
+        update fc_plan set deleted = 1 where plan_id = #{planId}
+    </update>
+
+    <select id="getPlanList" resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse">
+        select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time
+        from fc_plan as t9
+        left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
+        where deleted = 0
+            <if test="planName != null and planName != ''">and t9.plan_name like CONCAT(CONCAT('%', #{planName}), '%')</if>
+        order by t9.create_time desc
+    </select>
+
+    <resultMap id="getInfo" type="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse">
+        <result column="plan_id" property="planId"></result>
+        <result column="plan_name" property="planName"></result>
+        <result column="plan_code" property="planCode"></result>
+        <result column="plan_start_time" property="planStartTime"></result>
+        <result column="plan_end_time" property="planEndTime"></result>
+        <result column="admin_id" property="adminId"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="review_admin_id" property="reviewAdminId"></result>
+        <result column="review_time" property="reviewTime"></result>
+
+        <collection property="planBuildingList" ofType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanBuildingResponse">
+            <result column="plan_id" property="planId"></result>
+            <result column="building_id" property="buildingId"></result>
+        </collection>
+    </resultMap>
+    
+    <sql id="base_info">
+        t9.plan_id,t9.plan_name,t9.plan_code,t9.admin_id,t9.create_time,t9.review_admin_id,t9,review_time,
+        t10.building_id
+    </sql>
+
+    <select id="getPlanInfo" resultMap="getInfo">
+        select
+        <include refid="base_info"/>
+        from fc_plan as t9
+        left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
+        where t9.plan_id = #{planId} and deleted = 0
+    </select>
+
+</mapper>
