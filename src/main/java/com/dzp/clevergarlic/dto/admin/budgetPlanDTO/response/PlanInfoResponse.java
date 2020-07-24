@@ -25,6 +25,8 @@ public class PlanInfoResponse {
     private Date planStartTime;
     @ApiModelProperty("计划结束时间")
     private Date planEndTime;
+    @ApiModelProperty("状态")
+    private Integer status;
     @ApiModelProperty("楼宇信息集合")
     private List<PlanBuildingResponse> planBuildingList;
 
@@ -136,5 +138,13 @@ public class PlanInfoResponse {
 
     public void setReviewTime(Timestamp reviewTime) {
         this.reviewTime = reviewTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

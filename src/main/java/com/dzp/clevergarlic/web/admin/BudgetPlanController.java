@@ -1,10 +1,9 @@
 package com.dzp.clevergarlic.web.admin;
 
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.DeletePlanRequest;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.GetPlanListRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.SavePlanRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
@@ -67,6 +66,27 @@ public class BudgetPlanController {
     public ResultVo deletePlan(@Valid @RequestBody DeletePlanRequest request) {
         try {
             return Result.success(budgetPlanService.deletePlan(request));
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED,e);
+        }
+    }
+
+    @ApiOperation(value = "计划确认")
+    @PostMapping(value = "/reviewPlan")
+    public ResultVo reviewPlan(@Valid @RequestBody ReviewPlanRequest request) {
+        try {
+            String msg = budgetPlanService.reviewPlan(request);
+            return Result.success(msg);
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED,e);
+        }
+    }
+
+    @ApiOperation(value = "预测参数列表")
+    @PostMapping(value = "/readyCommitList")
+    public ResultVo<PageUtil<ReadyCommitResponse>> readyCommitList(@RequestBody ReviewPlanListRequest request) {
+        try {
+            return Result.success(budgetPlanService.readyCommitList(request));
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED,e);
         }

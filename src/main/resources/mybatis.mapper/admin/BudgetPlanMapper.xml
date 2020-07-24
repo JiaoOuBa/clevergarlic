@@ -13,6 +13,20 @@
         values (#{planBuildingId},#{planId},#{buildingId})
     </insert>
 
+    <insert id="insertToReadyCommit" parameterType="java.util.ArrayList">
+        insert into fc_ready_commit (ready_commit_id,param_type,plan_id,status,plan_building_id)
+        values 
+            <foreach collection="list" item="item" index="index" separator=",">
+                (
+                #{item.readyCommitId},
+                #{item.paramType},
+                #{item.planId},
+                #{item.status},
+                #{item.planBuildingId}
+                )
+            </foreach>
+    </insert>
+
     <update id="updatePlan">
         update fc_plan
         set plan_name = #{planName},status = #{status},admin_id = #{adminId},
@@ -28,11 +42,15 @@
         update fc_plan set deleted = 1 where plan_id = #{planId}
     </update>
 
+    <update id="updateStatusById">
+        update fc_plan set status = #{status}, update_time = LOCALTIMESTAMP where plan_id = #{planId} and deleted = 0
+    </update>
+
     <select id="getPlanList" resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse">
         select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time
         from fc_plan as t9
         left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
-        where deleted = 0
+        where t9.deleted = 0
             <if test="planName != null and planName != ''">and t9.plan_name like CONCAT(CONCAT('%', #{planName}), '%')</if>
         order by t9.create_time desc
     </select>
@@ -47,16 +65,19 @@
         <result column="create_time" property="createTime"></result>
         <result column="review_admin_id" property="reviewAdminId"></result>
         <result column="review_time" property="reviewTime"></result>
+        <result column="status" property="status"></result>
 
         <collection property="planBuildingList" ofType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanBuildingResponse">
+            <result column="plan_building_id" property="planBuildingId"></result>
             <result column="plan_id" property="planId"></result>
             <result column="building_id" property="buildingId"></result>
+            <result column="building_name" property="buildingName"></result>
         </collection>
     </resultMap>
     
     <sql id="base_info">
-        t9.plan_id,t9.plan_name,t9.plan_code,t9.admin_id,t9.create_time,t9.review_admin_id,t9,review_time,
-        t10.building_id
+        t9.plan_id,t9.plan_name,t9.plan_code,t9.admin_id,t9.create_time,t9.review_admin_id,t9,review_time,t9.status,
+        t10.plan_building_id,t10.plan_id,t10.building_id,t10.building_name
     </sql>
 
     <select id="getPlanInfo" resultMap="getInfo">
@@ -65,6 +86,20 @@
         from fc_plan as t9
         left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
         where t9.plan_id = #{planId} and deleted = 0
+    </select>
+
+    <select id="readyCommitList"
+            resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse">
+        select
+            t11.ready_commit_id,t11.param_type,t11.status,t11.create_time,
+            t10.building_id,t10.building_name,
+            t9.plan_name,t9.plan_code,t9.plan_start_time,t9.plan_end_time
+        from fc_plan as t9
+        join fc_plan_building as t10 on t9.plan_id = t10.plan_id
+        join fc_ready_commit as t11 on t10.plan_building_id = t11.plan_building_id
+        where t9.deleted = 0
+            <if test="planName != null and planName != ''">and t9.plan_name like CONCAT(CONCAT('%', #{planName}), '%')</if>
+        order by t9.create_time desc
     </select>
 
 </mapper>

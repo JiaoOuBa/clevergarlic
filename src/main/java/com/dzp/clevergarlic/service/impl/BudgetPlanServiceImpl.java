@@ -1,14 +1,14 @@
 package com.dzp.clevergarlic.service.impl;
 
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.DeletePlanRequest;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.GetPlanListRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.SavePlanRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
+import com.dzp.clevergarlic.listener.event.ReadyCommitEvent;
 import com.dzp.clevergarlic.mapper.admin.BudgetPlanMapper;
 import com.dzp.clevergarlic.service.BudgetPlanService;
 import com.dzp.clevergarlic.util.CodeUtil;
@@ -19,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -40,6 +41,9 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
 
     @Autowired
     BudgetPlanMapper budgetPlanMapper;
+
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     /**
      * 计划列表
@@ -75,13 +79,17 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     public String savePlan(SavePlanRequest request) {
 
         AtomicInteger sucNum = new AtomicInteger();
-        request.setStatus(CommonStatusEnum.REVIEW_YQR.getCode());
+        request.setStatus(CommonStatusEnum.REVIEW_XJ.getCode());
         request.setAdminId(10000001L);
 
         if (ObjectUtils.isEmpty(request.getPlanId())) {// 新增
 
             request.setPlanId(sid.nextShort());
-            request.setPlanCode(CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength()));
+
+            // TODO: 2020/7/23 公司编号获取
+            String companyCode = "";
+
+            request.setPlanCode(CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),companyCode));
             budgetPlanMapper.insertToPlan(request);
 
         } else {// 编辑
@@ -133,7 +141,8 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
 
         request.getIds().forEach(res -> {
 
-            if (this.getPlanInfo(res) == null) {
+            PlanInfoResponse info = budgetPlanMapper.getPlanInfo(res);
+            if (info == null) {
                 throw new RuntimeException("选中的计划不存在");
             }
 
@@ -141,5 +150,46 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
             budgetPlanMapper.deletePlan(res);
         });
         return ExceptionMsg.SUCCESS.getMsg();
+    }
+
+    /**
+     * 计划确认
+     * @param request
+     * @return
+     */
+    @Override
+    public String reviewPlan(ReviewPlanRequest request) {
+
+        if (request.getOperation() == 1) {
+
+            PlanInfoResponse info = budgetPlanMapper.getPlanInfo(request.getPlanId());
+            if (!CommonStatusEnum.REVIEW_XJ.getCode().equals(info.getStatus())) {
+                throw new RuntimeException("状态错误，不可确认！");
+            }
+
+            budgetPlanMapper.updateStatusById(request.getPlanId(), CommonStatusEnum.REVIEW_YQR.getCode());
+
+            Long adminId = 10000001L;
+            publisher.publishEvent(new ReadyCommitEvent("计划确认，生成代办信息",request.getPlanId(),request.getOperation(),adminId));
+        }
+        return ExceptionMsg.SUCCESS.getMsg();
+    }
+
+    /**
+     * 预测参数列表
+     * @param request
+     * @return
+     */
+    @Override
+    public PageUtil<ReadyCommitResponse> readyCommitList(ReviewPlanListRequest request) {
+
+        Map<String, Object> map = new HashMap<>();
+        if (ObjectUtils.isNotEmpty(request.getPlanName())) {
+            map.put("planName", request.getPlanName());
+        }
+
+        // 分页查询
+        PageInfo<ReadyCommitResponse> infoList = PageHelper.startPage(request.getPage(), request.getPageSize()).doSelectPageInfo(() -> budgetPlanMapper.readyCommitList(map));
+        return new PageUtil<>(infoList);
     }
 }

@@ -124,16 +124,17 @@ public class CodeUtil {
         return false;
     }
 
-    public static String getCodeNumber(CodeNumberEnum codeNumberEnum) {
+    /*public static String getCodeNumber(CodeNumberEnum codeNumberEnum) {
         return getCodeNumber(codeNumberEnum.getPrefix(),codeNumberEnum.getLength());
-    }
+    }*/
+
     /**
      * 生成单号编码
-     * @param prefix 前缀
+     * @param redisKey 模块的缓存键
      * @param maxLength 流水号长度
      * @return
      */
-    public static synchronized String getCodeNumber(String prefix,Integer maxLength){
+    public static synchronized String getCodeNumber(String redisKey,Integer maxLength,String companyCode){
         RedisService redisService = SpringUtil.getBean(RedisService.class);
 
         String nowDate = getDateTime();
@@ -143,20 +144,23 @@ public class CodeUtil {
 
             redisService.set(CodeKey.writePrefix(),"date",nowDate);
 
-            redisService.del(CodeKey.writePrefix("incr"));
+            redisService.del(CodeKey.writePrefix("incr"), redisKey);
 
         }
 
         //值++
-        Long incr = redisService.incrBy(CodeKey.writePrefix("incr"), prefix, 1);
+        Long incr = redisService.incrBy(CodeKey.writePrefix("incr"), redisKey, 1);
 
-        return autoFillZero(prefix, nowDate, maxLength, incr);
+        return autoFillZero(redisKey, nowDate, maxLength, companyCode, incr);
     }
 
-    private static String autoFillZero(String prefix, String nowDate, int maxLength, Long incr) {
+    private static String autoFillZero(String prefix, String nowDate, int maxLength, String companyCode, Long incr) {
         int num = maxLength - incr.toString().length();
         StringBuffer sb = new StringBuffer(prefix);
         sb.append(nowDate);
+        sb.append("-");
+        sb.append(companyCode);
+        sb.append("-");
         for (int i = 0; i < num; i++) {
             sb.append("0");
         }

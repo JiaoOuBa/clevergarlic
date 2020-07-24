@@ -1,26 +1,18 @@
 package com.dzp.clevergarlic.enums;
 
 /**
- * 公共状态枚举
+ * 预测参数枚举类
  * @Auther ck
- * @Date 2020/7/13 14:38
+ * @Date 2020/7/23 14:54
  * @Desc
  */
-public enum CommonStatusEnum implements CodeEnum {
-
-    /* 计划，参数 */
-    REVIEW_XJ(1,"新建"),
-    REVIEW_WQR(2,"填写完成"),
-    REVIEW_YQR(3,"已确认"),
-    REVIEW_YQX(4,"已取消"),
-    REVIEW_YJS(5,"已计算"),
-
-    /* 参数列表 */
-    CSLB_WSZ(1,"未设置"),
-    CSLB_YSZ(2,"已设置"),
+public enum BudgetParamEnum implements CodeEnum{
+    PARAM_ZJ(1,"租金趋势预测"),
+    PARAM_ZS(2,"招商参数设置"),
     ;
 
-    private CommonStatusEnum(Integer code, String msg) {
+
+    private BudgetParamEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
@@ -38,7 +30,7 @@ public enum CommonStatusEnum implements CodeEnum {
     }
 
     public static String getMsgByCode(Integer code) {
-        for (CommonStatusEnum value : CommonStatusEnum.values()) {
+        for (BudgetParamEnum value : BudgetParamEnum.values()) {
             if (code == null) {
                 return null;
             }

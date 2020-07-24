@@ -1,8 +1,10 @@
 package com.dzp.clevergarlic.mapper.admin;
 
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.ReadyCommitRequest;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.SavePlanRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -60,4 +62,23 @@ public interface BudgetPlanMapper {
     PlanInfoResponse getPlanInfo(@Param("planId") String planId);
 
     void deletePlan(@Param("planId") String planId);
+
+    /**
+     * 根据planId修改状态
+     * @param planId
+     */
+    void updateStatusById(@Param("planId") String planId, @Param("status") Integer status);
+
+    /**
+     * 批量写入代办信息
+     * @param list
+     */
+    void insertToReadyCommit(List<ReadyCommitRequest> list);
+
+    /**
+     * 预测参数列表
+     * @param map
+     * @return
+     */
+    List<ReadyCommitResponse> readyCommitList(Map<String, Object> map);
 }

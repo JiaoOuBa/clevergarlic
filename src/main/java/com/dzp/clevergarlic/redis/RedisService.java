@@ -85,15 +85,16 @@ public class RedisService {
 
     /**
      * 删除缓存
-     * @param prefix
+     * @param prefix 前缀
+     * @param key 键
      * @return
      */
-    public boolean del(KeyPrefix prefix) {
+    public boolean del(KeyPrefix prefix, String key) {
         boolean res = false;
         try {
 
             //生成真正的key
-            String realKey  = prefix.getPrefix();
+            String realKey  = prefix.getPrefix() + key;
             redisTemplate.delete(realKey);
             res = true;
         } catch (Exception e) {

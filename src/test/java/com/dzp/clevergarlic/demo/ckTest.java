@@ -66,7 +66,7 @@ public class ckTest {
 
     @Test
     public void test5() {
-        String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength());
+        String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),"SC");
         System.out.println(codeNumber);
     }
 }

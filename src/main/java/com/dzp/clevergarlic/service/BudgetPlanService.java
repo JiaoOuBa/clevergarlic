@@ -1,10 +1,9 @@
 package com.dzp.clevergarlic.service;
 
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.DeletePlanRequest;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.GetPlanListRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.SavePlanRequest;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
 import com.dzp.clevergarlic.util.PageUtil;
 
 /**
@@ -42,4 +41,18 @@ public interface BudgetPlanService {
      * @return
      */
     String deletePlan(DeletePlanRequest request);
+
+    /**
+     * 确认
+     * @param request
+     * @return
+     */
+    String reviewPlan(ReviewPlanRequest request);
+
+    /**
+     * 预测参数列表
+     * @param request
+     * @return
+     */
+    PageUtil<ReadyCommitResponse> readyCommitList(ReviewPlanListRequest request);
 }

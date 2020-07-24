@@ -17,6 +17,8 @@ public class PlanBuildingEntity {
     private String planId;
     @ApiModelProperty("楼宇id")
     private Integer buildingId;
+    @ApiModelProperty("楼宇名称")
+    private String buildingName;
 
     @ApiModelProperty("租金参数id")
     private String leaseId;
@@ -61,5 +63,13 @@ public class PlanBuildingEntity {
 
     public void setBusinessId(String businessId) {
         this.businessId = businessId;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
     }
 }

@@ -37,9 +37,9 @@ public class BusinessServiceImpl implements BusinessService {
             throw new RuntimeException("操作类型必传");
         }
         if (request.getOperation() == 1) {
-            request.setStatus(CommonStatusEnum.REVIEW_SHZ.getCode());
+            request.setStatus(CommonStatusEnum.REVIEW_WQR.getCode());
         } else {
-            request.setStatus(CommonStatusEnum.REVIEW_CGX.getCode());
+            request.setStatus(CommonStatusEnum.REVIEW_WQR.getCode());
         }
 
         // 数据校验
