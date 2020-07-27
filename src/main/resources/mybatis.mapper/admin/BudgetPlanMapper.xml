@@ -46,12 +46,20 @@
         update fc_plan set status = #{status}, update_time = LOCALTIMESTAMP where plan_id = #{planId} and deleted = 0
     </update>
 
+    <update id="reviewPlan">
+        update fc_plan set status = #{status}, review_admin_id = #{adminId}, review_time = LOCALTIMESTAMP where plan_id = #{planId} and deleted = 0
+    </update>
+
     <select id="getPlanList" resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse">
         select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time
         from fc_plan as t9
         left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
         where t9.deleted = 0
             <if test="planName != null and planName != ''">and t9.plan_name like CONCAT(CONCAT('%', #{planName}), '%')</if>
+            <if test="planCode != null and planCode != ''">and t9.plan_code like CONCAT(CONCAT('%', #{planCode}), '%')</if>
+            <if test="status != null">and t9.status = #{status}</if>
+            <if test="adminId != null">and t9.admin_id = #{adminId}</if>
+            <if test="startDate!=null and endDate!=null">and TO_CHAR(t9.create_time, 'yyyy-MM-dd') between #{startDate} and #{endDate}</if>
         order by t9.create_time desc
     </select>
 
@@ -99,6 +107,11 @@
         join fc_ready_commit as t11 on t10.plan_building_id = t11.plan_building_id
         where t9.deleted = 0
             <if test="planName != null and planName != ''">and t9.plan_name like CONCAT(CONCAT('%', #{planName}), '%')</if>
+            <if test="planCode != null and planCode != ''">and t9.plan_code like CONCAT(CONCAT('%', #{planCode}), '%')</if>
+            <if test="startDate!=null and endDate!=null">and TO_CHAR(t9.create_time, 'yyyy-MM-dd') between #{startDate} and #{endDate}</if>
+            <if test="status != null">and t11.status = #{status}</if>
+            <if test="paramType != null">and t11.param_type = #{paramType}</if>
+            <if test="buildingName != null">and t10.building_name = #{buildingName}</if>
         order by t9.create_time desc
     </select>
 

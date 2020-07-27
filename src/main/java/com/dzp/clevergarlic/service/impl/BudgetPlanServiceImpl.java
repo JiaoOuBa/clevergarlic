@@ -12,6 +12,7 @@ import com.dzp.clevergarlic.listener.event.ReadyCommitEvent;
 import com.dzp.clevergarlic.mapper.admin.BudgetPlanMapper;
 import com.dzp.clevergarlic.service.BudgetPlanService;
 import com.dzp.clevergarlic.util.CodeUtil;
+import com.dzp.clevergarlic.util.DateUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
 import com.dzp.clevergarlic.util.PageUtil;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -56,6 +58,24 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         Map<String, Object> map = new HashMap<>();
         if (ObjectUtils.isNotEmpty(request.getPlanName())) {
             map.put("planName", request.getPlanName());
+        }
+        if (ObjectUtils.isNotEmpty(request.getStatus())) {
+            map.put("status",request.getStatus());
+        }
+        if (ObjectUtils.isNotEmpty(request.getStartDate())) {
+            map.put("startDate", DateUtil.getDateToString("yyyy-MM-dd",request.getStartDate()));
+        }
+        if (ObjectUtils.isNotEmpty(request.getEndDate())) {
+            map.put("endDate", DateUtil.getDateToString("yyyy-MM-dd",request.getEndDate()));
+        }
+        if (ObjectUtils.isNotEmpty(request.getAdminName())) {
+
+            // TODO: 2020/7/24 根据adminName获取adminId
+            Long adminId = 10000001L;
+            map.put("adminId",adminId);
+        }
+        if (ObjectUtils.isNotEmpty(request.getPlanCode())) {
+            map.put("planCode",request.getPlanCode());
         }
         // 分页查询
         PageInfo<PlanListResponse> infoList = PageHelper.startPage(request.getPage(), request.getPageSize()).doSelectPageInfo(() -> budgetPlanMapper.getPlanList(map));
@@ -167,9 +187,13 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
                 throw new RuntimeException("状态错误，不可确认！");
             }
 
-            budgetPlanMapper.updateStatusById(request.getPlanId(), CommonStatusEnum.REVIEW_YQR.getCode());
-
             Long adminId = 10000001L;
+            Map<String, Object> map = new HashMap<>();
+            map.put("planId",request.getPlanId());
+            map.put("status",CommonStatusEnum.REVIEW_YQR.getCode());
+            map.put("adminId",adminId);
+            budgetPlanMapper.reviewPlan(map);
+
             publisher.publishEvent(new ReadyCommitEvent("计划确认，生成代办信息",request.getPlanId(),request.getOperation(),adminId));
         }
         return ExceptionMsg.SUCCESS.getMsg();
@@ -187,7 +211,24 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         if (ObjectUtils.isNotEmpty(request.getPlanName())) {
             map.put("planName", request.getPlanName());
         }
-
+        if (ObjectUtils.isNotEmpty(request.getStatus())) {
+            map.put("status",request.getStatus());
+        }
+        if (ObjectUtils.isNotEmpty(request.getStartDate())) {
+            map.put("startDate", DateUtil.getDateToString("yyyy-MM-dd",request.getStartDate()));
+        }
+        if (ObjectUtils.isNotEmpty(request.getEndDate())) {
+            map.put("endDate", DateUtil.getDateToString("yyyy-MM-dd",request.getEndDate()));
+        }
+        if (ObjectUtils.isNotEmpty(request.getPlanCode())) {
+            map.put("planCode",request.getPlanCode());
+        }
+        if (ObjectUtils.isNotEmpty(request.getParamType())) {
+            map.put("paramType",request.getParamType());
+        }
+        if (ObjectUtils.isNotEmpty(request.getBuildingName())) {
+            map.put("buildingName",request.getBuildingName());
+        }
         // 分页查询
         PageInfo<ReadyCommitResponse> infoList = PageHelper.startPage(request.getPage(), request.getPageSize()).doSelectPageInfo(() -> budgetPlanMapper.readyCommitList(map));
         return new PageUtil<>(infoList);

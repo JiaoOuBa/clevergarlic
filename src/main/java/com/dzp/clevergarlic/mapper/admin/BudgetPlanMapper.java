@@ -81,4 +81,10 @@ public interface BudgetPlanMapper {
      * @return
      */
     List<ReadyCommitResponse> readyCommitList(Map<String, Object> map);
+
+    /**
+     * 计划确认
+     * @param map
+     */
+    void reviewPlan(Map<String, Object> map);
 }

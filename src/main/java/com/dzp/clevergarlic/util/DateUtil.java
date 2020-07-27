@@ -52,6 +52,27 @@ public class DateUtil {
     }
 
     /**
+     * 获取指定格式的Date类型时间
+     * @param format
+     * @param date
+     * @return
+     * @throws ParseException
+     */
+    public static Date getDateFormat(String format, Date date) {
+        Date res = null;
+
+        if (date == null) {return null;}
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        String s = sdf.format(date);
+        try {
+            res =  sdf.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
      * 将 获取指定格式的当前时间的字符串
      *
      * @param format 指定的格式
