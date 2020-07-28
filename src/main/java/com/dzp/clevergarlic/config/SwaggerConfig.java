@@ -28,7 +28,7 @@ import java.util.List;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${cg.swagger.open}")
+    @Value("${fc.swagger.open}")
     private Boolean openSwagger;
 
     //自定义后台Response异常信息

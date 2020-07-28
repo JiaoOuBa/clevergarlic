@@ -12,7 +12,7 @@
     <artifactId>clevergarlic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>cg</name>
+    <name>fc</name>
     <description>clevergarlic project for Spring Boot</description>
 
     <properties>

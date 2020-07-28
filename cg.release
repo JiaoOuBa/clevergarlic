@@ -6,6 +6,6 @@ code.language=oracle-jdk1.8
 #
 #
 # 构建打包使用的打包文件
-build.output=target/cg.jar
+build.output=target/fc.jar
 #
 
