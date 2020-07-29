@@ -1,15 +1,20 @@
 package com.dzp.clevergarlic.config.interceptor;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.interfaces.Claim;
 import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.config.annotation.PassToken;
 import com.dzp.clevergarlic.config.annotation.UserLoginToken;
-import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AdminUserData;
-import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AuthUserData;
-import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.CheckTokenResponse;
-import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AdminUserInfo;
+import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.*;
+import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.exception.GlobalException;
 import com.dzp.clevergarlic.properties.FcCoreProperties;
+import com.dzp.clevergarlic.redis.RedisService;
+import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
+import com.dzp.clevergarlic.service.impl.AdminTokenService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -19,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * AdminToken拦截器
@@ -31,12 +37,14 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
     @Autowired
     private FcCoreProperties fcCoreProperties;
 
+    @Autowired
+    private RedisService redisService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 
         String tokenStr = request.getHeader(CommonConstant.HEADER_AUTHORIZATION);
         String traceIdStr = request.getHeader(CommonConstant.HEADER_TRACE_ID);
-        String platform = request.getHeader(CommonConstant.HEADER_PLATFORM);
 
         String httpUrl = request.getRequestURI();
         // TODO: 2020/7/27 logger日志记录
@@ -72,20 +80,17 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
         String token = tokenStr.split(" ")[1];
         UserContext.getAdminUserToken().set(token);
 
-        // TODO: 2020/7/27 feign掉调用权限系统接口
-        /*CheckTokenResponse checkTokenResponse = feign.checkToken(request.getRequestURI());
+        TokenInfoResponse adminInfo = checkToken(token);
 
-        String newToken = checkToken(checkTokenResponse, token);
-
-        String adminId = checkTokenResponse.getData().getUserId()+"";
+        String adminId = adminInfo.getAdminId()+"";
 
         UserContext.setAdminId(adminId);
 
-        UserContext.getAdminUserToken().set(newToken);
+        UserContext.getAdminUserToken().set(adminInfo.getTokenStr());
 
-        UserContext.getAdminUserInfo().set(createUserInfo(checkTokenResponse));
+        UserContext.getAdminUserInfo().set(createUserInfo(adminInfo));
 
-        response.setHeader(CommonConstant.HEADER_AUTHORIZATION, newToken);*/
+        response.setHeader(CommonConstant.HEADER_AUTHORIZATION, adminInfo.getTokenStr());
         return true;
     }
 
@@ -99,34 +104,46 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
 
     }
 
-    private AdminUserInfo createUserInfo(CheckTokenResponse checkTokenResponse) {
+    private AdminUserInfo createUserInfo(TokenInfoResponse adminInfo) {
 
         AdminUserInfo adminUserInfo = new AdminUserInfo();
-        AuthUserData authUserData = checkTokenResponse.getData().getUser();
 
         // 添加用户相关信息
-        AdminUserData user = authUserData.getUser();
-        adminUserInfo.setAdminId(user.getUserId());
-        adminUserInfo.setAdminName(user.getUserName());
+        // AdminUserData user = adminUserData;
+        adminUserInfo.setAdminId(adminInfo.getAdminId());
+        adminUserInfo.setAdminName(adminInfo.getUserName());
 
         adminUserInfo.setAuth(true);
         return adminUserInfo;
     }
 
-    private String checkToken(CheckTokenResponse checkTokenResponse, String token) {
+    /**
+     * 验证token
+     * @param token
+     * @return jsonObject 用户信息
+     */
+    private TokenInfoResponse checkToken(String token) {
 
         // 日志+1
 
-        if (checkTokenResponse == null) {
+        if (token == null) {
             throw new GlobalException(ExceptionMsg.LOGINOUT);
         }
 
-        if (!checkTokenResponse.getCode().equals(ExceptionMsg.SUCCESS.getCode())) {
-            throw new GlobalException(ExceptionMsg.getCheckTokenException(checkTokenResponse.getCode()));
-        }
+        Map<String, Claim> tokenMap = AdminTokenService.verifyToken(token);
 
-        String newToken = checkTokenResponse.getToken();
-        return StringUtils.isBlank(newToken)? token : newToken.split(" ")[1];
+        Long adminId = tokenMap.get("id").asLong();
+        String res = redisService.get(AdminTokenKey.getByToken, adminId + "");
+        if (ObjectUtils.isEmpty(res)) {
+            throw new GlobalException(ExceptionMsg.LOGINOUT);
+        }
+        JSONObject jsonObject = JSON.parseObject(res);
+        // 将用户信息转换成java对象
+        JSONObject obj = (JSONObject) jsonObject.get("adminLoginResponse");
+        AdminLoginResponse login = JSONObject.toJavaObject(obj, AdminLoginResponse.class);
+
+        TokenInfoResponse info = TokenInfoResponse.of(login.getId(), login.getUserName(), jsonObject.get("adminToken").toString());
+        return info;
     }
 
 }

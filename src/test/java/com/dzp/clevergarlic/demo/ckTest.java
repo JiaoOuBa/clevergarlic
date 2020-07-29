@@ -2,21 +2,34 @@ package com.dzp.clevergarlic.demo;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.interfaces.Claim;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
+import com.dzp.clevergarlic.dto.admin.loginDTO.AdminToken;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
+import com.dzp.clevergarlic.properties.AdminLoginProperties;
 import com.dzp.clevergarlic.redis.RedisService;
+import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.service.DemoService;
+import com.dzp.clevergarlic.service.impl.AdminTokenService;
+import com.dzp.clevergarlic.util.AESUtil;
 import com.dzp.clevergarlic.util.CodeUtil;
+import com.dzp.clevergarlic.util.CommonUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
+import com.dzp.clevergarlic.util.RSAUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther ck
@@ -32,6 +45,15 @@ public class ckTest {
 
     @Autowired
     RedisService redisService;
+
+    @Autowired
+    AdminLoginProperties adminLoginProperties;
+
+    @Autowired
+    AESUtil aesUtil;
+
+    @Value("${fc.aes.key}")
+    private String AES_KEY;
 
 
     @Test
@@ -68,5 +90,27 @@ public class ckTest {
     public void test5() {
         String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),"SC");
         System.out.println(codeNumber);
+    }
+
+    @Test
+    public void test6() throws Exception{
+        Long adminId = 10000006L;
+        AdminTokenKey atk = AdminTokenKey.getByToken;
+        String token = AdminTokenService.createToken(adminId, "鸿德弟弟");
+
+        AdminLoginResponse response = new AdminLoginResponse();
+        response.setId(adminId);
+        response.setUserName("鸿德弟弟");
+
+        AdminToken adminToken = new AdminToken();
+        adminToken.setAdminLoginResponse(response);
+        adminToken.setAdminToken(token);
+        adminToken.setInsertTime(CommonUtil.getDateTimeNow());
+        redisService.set(atk, adminId + "", adminToken);
+        String res = redisService.get(atk, adminId + "");
+        JSONObject jsonObject = JSON.parseObject(res);
+        JSONObject obj = (JSONObject) jsonObject.get("adminLoginResponse");
+        AdminLoginResponse login = JSONObject.toJavaObject(obj, AdminLoginResponse.class);
+
     }
 }
