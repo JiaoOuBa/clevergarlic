@@ -1,10 +1,10 @@
-package com.dzp.clevergarlic.service.impl;
+package com.dzp.clevergarlic.service.admin.impl;
 
 import com.dzp.clevergarlic.dto.admin.businessDTO.BusinessInfoResponse;
 import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.mapper.admin.BusinessMapper;
-import com.dzp.clevergarlic.service.BusinessService;
+import com.dzp.clevergarlic.service.admin.BusinessService;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;

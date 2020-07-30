@@ -5,7 +5,7 @@ package com.dzp.clevergarlic.dto.common.userDTO;
  * @Date 2020/7/9 16:08
  * @Desc
  */
-public class User {
+public class TestUser {
 
     private String userId;
     private String userName;

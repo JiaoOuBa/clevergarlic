@@ -4,7 +4,7 @@ import com.dzp.clevergarlic.config.annotation.PassToken;
 import com.dzp.clevergarlic.dto.common.ExecuteSqlRequest;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
-import com.dzp.clevergarlic.service.CommonService;
+import com.dzp.clevergarlic.service.admin.CommonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

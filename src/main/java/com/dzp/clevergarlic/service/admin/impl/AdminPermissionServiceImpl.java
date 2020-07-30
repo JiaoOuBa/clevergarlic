@@ -1,18 +1,25 @@
-package com.dzp.clevergarlic.service.impl;
+package com.dzp.clevergarlic.service.admin.impl;
 
+import com.dzp.clevergarlic.dao.UserRepository;
 import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AdminUserInfo;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginRequest;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminToken;
+import com.dzp.clevergarlic.entity.shiro.Permission;
+import com.dzp.clevergarlic.entity.shiro.User;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
-import com.dzp.clevergarlic.service.AdminPermissionService;
+import com.dzp.clevergarlic.service.admin.AdminPermissionService;
+import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +36,12 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Autowired
     RedisService redisService;
 
+    @Autowired
+    ShiroService shiroService;
+
+    @Autowired
+    UserRepository userRepository;
+
 
     /**
      * 后台登录
@@ -40,22 +53,49 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     public ResultVo login(String userName, String password) throws Exception{
 
         AdminLoginRequest request = AdminLoginRequest.of(userName, password, null);
-        AdminUserInfo userInfo = null;
+        User user = userRepository.findByUserName(userName);
+        AdminUserInfo userInfo = new AdminUserInfo();
+        userInfo.setAdminId(user.getNewUserId());
+        userInfo.setAdminName(user.getUserName());
+
+        ResponseEntity lisi = shiroService.login("lisi", "12345");
+        HttpStatus statusCode = lisi.getStatusCode();
+
+        // Map<String, List<String>> roleAuth = null;
+        List<String> authCodeList = getAuthList(user);
 
         // 权限模块处理验证账号密码并返回权限list
-        AdminLoginResponse response = null;
+        AdminLoginResponse response = new AdminLoginResponse();
+        response.setAuthList(authCodeList);
+        response.setId(user.getNewUserId());
+        response.setUserName(user.getUserName());
 
         Map<String, Object> result = new HashMap<String, Object>(4);
 
-        String token = AdminTokenService.createToken(userInfo.getAdminId(), userName).split(" ")[1];
+        String token = AdminTokenService.createToken(userInfo.getAdminId(), userName);
         result.put("token", token);
         result.put("admin", response);
 
-        Map<String, List<String>> roleAuth = null;
-        result.put("auth", roleAuth.get("auth"));
+
+        result.put("auth", authCodeList);
 
         getToken(response,token);
         return Result.success(result);
+    }
+
+    private List<String> getAuthList(User user) {
+
+        List<String> authCodeList = new ArrayList<>();
+        user.getRoles().forEach(res -> {
+            List<Permission> permissions = res.getPermissions();
+            List<String> list = new ArrayList<>();
+            permissions.forEach(per -> {
+                list.add(per.getAuthCode());
+            });
+
+            authCodeList.addAll(list);
+        });
+        return authCodeList;
     }
 
     /**

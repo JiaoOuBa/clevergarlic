@@ -14,7 +14,7 @@ import com.dzp.clevergarlic.listener.DemoListener;
 import com.dzp.clevergarlic.redis.RedisLockCommon;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
-import com.dzp.clevergarlic.service.DemoService;
+import com.dzp.clevergarlic.service.admin.DemoService;
 import com.dzp.clevergarlic.util.FileUtil;
 import com.dzp.clevergarlic.util.PageUtil;
 import com.dzp.clevergarlic.util.StringUtil;

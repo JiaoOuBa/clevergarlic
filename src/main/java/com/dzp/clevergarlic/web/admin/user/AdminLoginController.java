@@ -6,7 +6,7 @@ import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.properties.FcCoreProperties;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
-import com.dzp.clevergarlic.service.AdminPermissionService;
+import com.dzp.clevergarlic.service.admin.AdminPermissionService;
 import com.dzp.clevergarlic.util.AESUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

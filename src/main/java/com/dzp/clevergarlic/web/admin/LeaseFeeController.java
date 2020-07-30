@@ -6,7 +6,7 @@ import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
-import com.dzp.clevergarlic.service.LeaseFeeService;
+import com.dzp.clevergarlic.service.admin.LeaseFeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @Auther ck
@@ -16,6 +17,15 @@ public class PlanListResponse {
     private String planId;
     @ApiModelProperty("计划名称")
     private String planName;
+    @ApiModelProperty("计划起始时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date planStartTime;
+    @ApiModelProperty("计划结束时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date planEndTime;
+    @ApiModelProperty("计划基准时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date planBaseTime;
     @ApiModelProperty("状态")
     private Integer status;
     @ApiModelProperty("状态名")
@@ -103,5 +113,29 @@ public class PlanListResponse {
 
     public void setTotalNum(Integer totalNum) {
         this.totalNum = totalNum;
+    }
+
+    public Date getPlanStartTime() {
+        return planStartTime;
+    }
+
+    public void setPlanStartTime(Date planStartTime) {
+        this.planStartTime = planStartTime;
+    }
+
+    public Date getPlanEndTime() {
+        return planEndTime;
+    }
+
+    public void setPlanEndTime(Date planEndTime) {
+        this.planEndTime = planEndTime;
+    }
+
+    public Date getPlanBaseTime() {
+        return planBaseTime;
+    }
+
+    public void setPlanBaseTime(Date planBaseTime) {
+        this.planBaseTime = planBaseTime;
     }
 }

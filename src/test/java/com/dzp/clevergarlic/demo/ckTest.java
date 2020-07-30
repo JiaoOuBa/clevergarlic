@@ -1,10 +1,10 @@
 package com.dzp.clevergarlic.demo;
 
+import com.dzp.clevergarlic.service.admin.impl.*;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.interfaces.Claim;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminToken;
@@ -12,24 +12,24 @@ import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.properties.AdminLoginProperties;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
-import com.dzp.clevergarlic.service.DemoService;
-import com.dzp.clevergarlic.service.impl.AdminTokenService;
+import com.dzp.clevergarlic.service.admin.DemoService;
+import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.AESUtil;
 import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.CommonUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
-import com.dzp.clevergarlic.util.RSAUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Auther ck
@@ -51,6 +51,9 @@ public class ckTest {
 
     @Autowired
     AESUtil aesUtil;
+
+    @Autowired
+    ShiroService shiroService;
 
     @Value("${fc.aes.key}")
     private String AES_KEY;
@@ -75,7 +78,8 @@ public class ckTest {
 
     @Test
     public void test3() {
-        Method method = ReflectUtil.getMethod(DemoService.class, "getUrlById");
+        ResponseEntity lisi = shiroService.login("lisi", "12345");
+        HttpStatus statusCode = lisi.getStatusCode();
     }
 
     @Test

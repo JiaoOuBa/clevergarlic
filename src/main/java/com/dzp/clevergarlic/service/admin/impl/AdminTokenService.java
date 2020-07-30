@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.service.impl;
+package com.dzp.clevergarlic.service.admin.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

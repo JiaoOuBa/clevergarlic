@@ -1,9 +1,9 @@
-package com.dzp.clevergarlic.service.impl;
+package com.dzp.clevergarlic.service.admin.impl;
 
 import com.dzp.clevergarlic.dto.admin.demoDTO.DemoListResponse;
 import com.dzp.clevergarlic.dto.admin.demoDTO.ListToPageRequest;
 import com.dzp.clevergarlic.mapper.admin.DemoMapper;
-import com.dzp.clevergarlic.service.DemoService;
+import com.dzp.clevergarlic.service.admin.DemoService;
 import com.dzp.clevergarlic.util.PageUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

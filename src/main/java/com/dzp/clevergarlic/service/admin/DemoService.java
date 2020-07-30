@@ -1,4 +1,4 @@
-package com.dzp.clevergarlic.service;
+package com.dzp.clevergarlic.service.admin;
 
 import com.dzp.clevergarlic.dto.admin.demoDTO.DemoListResponse;
 import com.dzp.clevergarlic.dto.admin.demoDTO.ListToPageRequest;

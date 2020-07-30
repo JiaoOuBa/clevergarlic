@@ -1,6 +1,6 @@
 package com.dzp.clevergarlic.mapper.admin;
 
-import com.dzp.clevergarlic.dto.common.userDTO.User;
+import com.dzp.clevergarlic.dto.common.userDTO.TestUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
 public interface AdminUserMapper {
 
     @Select("select user_id,user_name,password,status from tb_test_user where user_name = #{name} and deleted = 0")
-    User getUserByName(@Param("name") String name);
+    TestUser getUserByName(@Param("name") String name);
 }

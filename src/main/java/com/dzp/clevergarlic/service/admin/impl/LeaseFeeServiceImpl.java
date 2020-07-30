@@ -1,11 +1,11 @@
-package com.dzp.clevergarlic.service.impl;
+package com.dzp.clevergarlic.service.admin.impl;
 
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.mapper.admin.LeaseFeeMapper;
-import com.dzp.clevergarlic.service.LeaseFeeService;
+import com.dzp.clevergarlic.service.admin.LeaseFeeService;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;

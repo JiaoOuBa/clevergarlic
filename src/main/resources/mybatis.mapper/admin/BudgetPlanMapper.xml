@@ -51,7 +51,7 @@
     </update>
 
     <select id="getPlanList" resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse">
-        select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time
+        select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time,t9.plan_start_time,t9.plan_end_time
         from fc_plan as t9
         left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
         where t9.deleted = 0

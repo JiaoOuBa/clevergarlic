@@ -5,7 +5,7 @@ import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
-import com.dzp.clevergarlic.service.BusinessService;
+import com.dzp.clevergarlic.service.admin.BusinessService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
