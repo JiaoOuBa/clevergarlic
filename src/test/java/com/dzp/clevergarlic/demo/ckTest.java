@@ -5,7 +5,6 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminToken;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
@@ -18,6 +17,7 @@ import com.dzp.clevergarlic.util.AESUtil;
 import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.CommonUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
+import com.dzp.clevergarlic.util.LongIdUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Auther ck
@@ -82,13 +81,13 @@ public class ckTest {
         HttpStatus statusCode = lisi.getStatusCode();
     }
 
-    @Test
+    /*@Test
     public void test4() {
         DelLeaseFeeRequest delLeaseFeeRequest = new DelLeaseFeeRequest();
         List<String> list = Arrays.asList("12","13","14");
         delLeaseFeeRequest.setIds(list);
         System.out.println(delLeaseFeeRequest.getIds());
-    }
+    }*/
 
     @Test
     public void test5() {
@@ -115,6 +114,19 @@ public class ckTest {
         JSONObject jsonObject = JSON.parseObject(res);
         JSONObject obj = (JSONObject) jsonObject.get("adminLoginResponse");
         AdminLoginResponse login = JSONObject.toJavaObject(obj, AdminLoginResponse.class);
+
+    }
+
+    @Test
+    public void test7() {
+        /*long uuid1 = LongIdUtil.uuId();
+        System.out.println(uuid1);
+        System.out.println("--------------------");
+        long uuid2 = LongIdUtil.uuId();
+        System.out.println(uuid2);
+
+        ArrayList<Integer> objects = new ArrayList<>();
+        objects.sort();*/
 
     }
 }

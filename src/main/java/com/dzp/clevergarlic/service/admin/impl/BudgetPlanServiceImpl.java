@@ -193,7 +193,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
             map.put("adminId",adminId);
             budgetPlanMapper.reviewPlan(map);
 
-            publisher.publishEvent(new ReadyCommitEvent("计划确认，生成代办信息",request.getPlanId(),request.getOperation(),adminId));
+            // publisher.publishEvent(new ReadyCommitEvent("计划确认，生成代办信息",request.getPlanId(),request.getOperation(),adminId));
         }
         return ExceptionMsg.SUCCESS.getMsg();
     }
