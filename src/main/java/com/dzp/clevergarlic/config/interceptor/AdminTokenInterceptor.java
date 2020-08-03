@@ -14,6 +14,7 @@ import com.dzp.clevergarlic.properties.FcCoreProperties;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.service.admin.impl.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -31,6 +32,7 @@ import java.util.Map;
  * @Date 2020/7/27 14:01
  * @Desc
  */
+@Slf4j
 public class AdminTokenInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -46,7 +48,7 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
         String traceIdStr = request.getHeader(CommonConstant.HEADER_TRACE_ID);
 
         String httpUrl = request.getRequestURI();
-        // TODO: 2020/7/27 logger日志记录
+        log.info("请求路径："+httpUrl);
         UserContext.setUserTraceId(traceIdStr);
 
         // 如果不是映射到方法直接通过
@@ -142,6 +144,7 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
         AdminLoginResponse login = JSONObject.toJavaObject(obj, AdminLoginResponse.class);
 
         TokenInfoResponse info = TokenInfoResponse.of(login.getId(), login.getUserName(), jsonObject.get("adminToken").toString());
+        log.info("token返回值："+info.toString());
         return info;
     }
 

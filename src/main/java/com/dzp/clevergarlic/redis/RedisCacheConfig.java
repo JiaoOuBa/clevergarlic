@@ -38,9 +38,12 @@ public class RedisCacheConfig {
 
         redisTemplate.setEnableTransactionSupport(true);
 
+        //默认使用JdkSerializationRedisSerializer序列化方式;会出现乱码，可使用StringRedisSerializer
+        //StringRedisSerializer stringSerializer = new StringRedisSerializer();
+
         // value序列化
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        // key序列化方式
+        // key序列化方式,不能为Long类型,会报类型转换错误
         redisTemplate.setKeySerializer(redisSerializer);
         // value hashmap序列化
         redisTemplate.setHashValueSerializer(redisSerializer);
