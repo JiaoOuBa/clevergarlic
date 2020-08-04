@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NAME='pavilion-base'
+NAME='clevergarlic'
 VERSION='0.0.1'
 APPLICATION_NAME="${NAME}-${VERSION}-SNAPSHOT"
 CURRENT_PATH=`pwd`
