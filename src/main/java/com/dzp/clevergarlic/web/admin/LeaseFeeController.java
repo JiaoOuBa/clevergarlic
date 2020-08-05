@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.web.admin;
 
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.ConfirmRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
@@ -31,7 +32,7 @@ public class LeaseFeeController {
 
 
     @ApiOperation(value = "提交/保存为草稿")
-    @PostMapping(value = "/editLeaseFee")
+    @PostMapping(value = "/v1/editLeaseFee")
     public ResultVo editLeaseFee(@RequestBody EditLeaseFeeRequest request) {
         try {
             leaseFeeService.editLeaseFee(request);
@@ -42,7 +43,7 @@ public class LeaseFeeController {
     }
 
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/getLeaseFeeInfo")
+    @GetMapping(value = "/v1/getLeaseFeeInfo")
     public ResultVo<LeaseFeeInfoResponse> getLeaseFeeInfo(@ApiParam("租金预测参数id") @RequestParam(value = "leaseFeeId") String id) {
         try {
             return Result.success(leaseFeeService.getLeaseFeeInfo(id));
@@ -52,11 +53,21 @@ public class LeaseFeeController {
     }
 
     @ApiOperation(value = "删除")
-    @PostMapping(value = "/deleteLeaseFee")
+    @PostMapping(value = "/v1/deleteLeaseFee")
     public ResultVo deleteLeaseFee(@Valid @RequestBody DelLeaseFeeRequest request) {
         try {
             leaseFeeService.deleteLeaseFee(request);
             return Result.success();
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED,e);
+        }
+    }
+
+    @ApiOperation(value = "确认/反确认")
+    @PostMapping(value = "/v1/leaseFeeConfirm")
+    public ResultVo leaseFeeConfirm(@Valid @RequestBody ConfirmRequest request) {
+        try {
+            return leaseFeeService.confirm(request);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED,e);
         }

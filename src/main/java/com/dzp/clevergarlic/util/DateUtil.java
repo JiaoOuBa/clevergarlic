@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.util;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -154,5 +155,14 @@ public class DateUtil {
         } else {
             return null;
         }
+    }
+
+    /**
+     * 获取指定格式的当前日期
+     * @return
+     */
+    public static String getDateTime(){
+        DateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        return sdf.format(new Date());
     }
 }

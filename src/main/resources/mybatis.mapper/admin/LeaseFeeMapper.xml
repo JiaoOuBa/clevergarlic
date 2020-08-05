@@ -6,10 +6,19 @@
     <insert id="insertLeaseFee">
         insert into fc_lease_fee_param
         (lease_id,project_company_id,project_organeze_id,building_id,building_name,floor_code,unit,floor_property,
-         date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,data_source)
+         date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,
+         install_type,install_value)
         values
         (#{leaseId},#{projectCompanyId},#{projectOrganezeId},#{buildingId},#{buildingName},#{floorCode},#{unit},#{floorProperty},
-         #{dateMonth},#{leaseWay},#{leaseUnitPrice},#{status},#{adminId},#{version},#{linkedDataVersion},#{dataSource})
+         #{dateMonth},#{leaseWay},#{leaseUnitPrice},#{status},#{adminId},#{version},#{linkedDataVersion},
+         #{installType},#{installValue})
+    </insert>
+
+    <insert id="insertLeasePrice">
+        insert into fc_lease_price_year
+        (lpy_id,lease_id,date_year,lease_price)
+        values
+        (#{lpyId},#{leaseId},#{dateYear},#{leasePrice})
     </insert>
 
     <update id="updateLeaseFee">
@@ -33,10 +42,18 @@
         </foreach>
     </update>
 
+    <update id="deleteLeasePrice">
+        update fc_lease_price_year set deleted = 1 where lease_id = #{leaseId}
+    </update>
+
     <select id="getLeaseFeeInfo" resultType="com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse">
         select lease_id,project_company_id,project_organeze_id,building_id,building_name,floor_code,unit,floor_property,
                date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,data_source
         from fc_lease_fee_param
         where lease_id = #{id} and deleted = 0
+    </select>
+
+    <select id="countLeaseByPlan" resultType="java.lang.String">
+        select lease_id from fc_lease_fee_param where plan_id = #{planId} and deleted = #{deleted}
     </select>
 </mapper>

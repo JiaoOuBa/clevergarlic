@@ -4,8 +4,8 @@
 
 
     <insert id="insertToPlan">
-        insert into fc_plan (plan_id,plan_name,status,admin_id,plan_start_time,plan_end_time,plan_code)
-        values (#{planId},#{planName},#{status},#{adminId},#{planStartTime},#{planEndTime},#{planCode})
+        insert into fc_plan (plan_id,plan_name,status,admin_id,plan_start_time,plan_end_time,plan_code,plan_version)
+        values (#{planId},#{planName},#{status},#{adminId},#{planStartTime},#{planEndTime},#{planCode},#{planVersion})
     </insert>
 
     <insert id="insertToBuilding">
@@ -25,6 +25,13 @@
                 #{item.planBuildingId}
                 )
             </foreach>
+    </insert>
+
+    <insert id="insertVersion">
+        insert into fc_calculate_version_notes
+        (cv_id,plan_version,lease_version,business_version)
+        values
+        (#{columnId},#{planVersion},#{leaseVersion},#{businessVersion})
     </insert>
 
     <update id="updatePlan">
@@ -113,6 +120,31 @@
             <if test="paramType != null">and t11.param_type = #{paramType}</if>
             <if test="buildingName != null">and t10.building_name = #{buildingName}</if>
         order by t9.create_time desc
+    </select>
+
+    <resultMap id="getCalculate" type="com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate">
+        <result column="plan_code" property="planCode"></result>
+
+        <collection property="buildingParamData" ofType="com.dzp.clevergarlic.dto.admin.calculateDTO.BuildingInfo">
+            <result column="building_id" property="buildingId"></result>
+            <result column="building_name" property="buildingName"></result>
+        </collection>
+    </resultMap>
+
+    <select id="getBeforeCalculate" resultMap="getCalculate">
+        select t9.plan_code,t10.building_id,t10.building_name
+        from fc_plan t9
+        left join fc_plan_building t10 on t9.plan_id = t10.plan_id
+        where t9.plan_id = #{planId} and t9.deleted = 0
+    </select>
+
+    <select id="getVersionInfo" resultType="com.dzp.clevergarlic.dto.admin.calculateDTO.VersionInfo">
+        select t9.plan_version,t7.version as lease_version,t8.version as business_version
+        from fc_plan t9
+        join fc_lease_fee_param t7 on t7.plan_id = t9.plan_id and t7.deleted = 0
+        join fc_business_param t8 on t8.plan_id = t9.plan_id and t8.deleted = 0
+        where t9.plan_id = #{planId} and t9.deleted = 0
+        limit 1
     </select>
 
 </mapper>

@@ -4,6 +4,9 @@ import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
+import com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate;
+import com.dzp.clevergarlic.dto.admin.calculateDTO.BuildingInfo;
+import com.dzp.clevergarlic.dto.admin.calculateDTO.VersionInfo;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
@@ -107,8 +110,8 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
 
             // TODO: 2020/7/23 公司编号获取
             String companyCode = "";
-
             request.setPlanCode(CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),companyCode));
+            request.setPlanVersion("v" + DateUtil.getDateTime());
             budgetPlanMapper.insertToPlan(request);
 
         } else {// 编辑
@@ -231,5 +234,32 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         // 分页查询
         PageInfo<ReadyCommitResponse> infoList = PageHelper.startPage(request.getPage(), request.getPageSize()).doSelectPageInfo(() -> budgetPlanMapper.readyCommitList(map));
         return new PageUtil<>(infoList);
+    }
+
+    /**
+     * 计算
+     * @describe 计算接口：将计划/参数的版本号统一成唯一的版本号作为键传给BI，最终会通过此版本号和计划id拿到结果
+     * @param request
+     */
+    @Override
+    public void calculate(CalculateRequest request) {
+
+        BeforeCalculate beforeCalculate = budgetPlanMapper.getBeforeCalculate(request.getPlanId());
+        for (BuildingInfo building : beforeCalculate.getBuildingParamData()) {
+
+            // TODO: 2020/8/5 写入租金/招商参数
+
+        }
+
+        // 版本号记录
+        VersionInfo versionInfo = budgetPlanMapper.getVersionInfo(request.getPlanId());
+        versionInfo.setColumnId(sid.nextShort());
+        Integer res = budgetPlanMapper.insertVersion(versionInfo);
+        if (res <= 0) {
+            throw new RuntimeException("版本记录失败！");
+        }
+        beforeCalculate.setVersion(versionInfo.getColumnId());
+
+        // 调外部接口参与计算
     }
 }

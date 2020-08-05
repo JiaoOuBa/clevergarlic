@@ -1,8 +1,10 @@
 package com.dzp.clevergarlic.service.admin;
 
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.ConfirmRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
+import com.dzp.clevergarlic.result.ResultVo;
 
 /**
  * 租金预测参数
@@ -30,4 +32,11 @@ public interface LeaseFeeService {
      * @param request
      */
     void deleteLeaseFee(DelLeaseFeeRequest request);
+
+    /**
+     * 确认/反确认
+     * @param request
+     * @return
+     */
+    ResultVo confirm(ConfirmRequest request);
 }

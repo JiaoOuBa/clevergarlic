@@ -14,6 +14,12 @@ import java.math.BigDecimal;
 @Data
 public class LeasePrice {
 
+    @ApiModelProperty("主键id")
+    private String lpyId;
+
+    @ApiModelProperty("租金参数id")
+    private String leaseId;
+
     @ApiModelProperty("租金单价")
     private BigDecimal leaseUnitPrice;
 

@@ -33,6 +33,8 @@ public class SavePlanRequest {
     private Long adminId;
     @JsonIgnore
     private String planCode;// FP+年月日+公司编码+5位流水
+    @JsonIgnore
+    private String planVersion;// 版本号
     @ApiModelProperty("计划楼宇集合")
     @NotEmpty(message = "请选择楼宇！")
     private List<PlanBuildingResponse> planBuildingList;
@@ -110,5 +112,13 @@ public class SavePlanRequest {
 
     public void setPlanCode(String planCode) {
         this.planCode = planCode;
+    }
+
+    public String getPlanVersion() {
+        return planVersion;
+    }
+
+    public void setPlanVersion(String planVersion) {
+        this.planVersion = planVersion;
     }
 }

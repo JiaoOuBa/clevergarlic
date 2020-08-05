@@ -29,7 +29,7 @@ public class BusinessController {
 
 
     @ApiOperation(value = "提交/保存为草稿")
-    @PostMapping(value = "/editBusiness")
+    @PostMapping(value = "/v1/editBusiness")
     public ResultVo editBusiness(@RequestBody EditBusinessRequest request) {
         try {
             businessService.editBusiness(request);
@@ -40,10 +40,10 @@ public class BusinessController {
     }
 
     @ApiOperation(value = "详情")
-    @GetMapping(value = "/getBusinessInfo")
-    public ResultVo<BusinessInfoResponse> getBusinessInfo(@ApiParam("招商预测参数id") @RequestParam(value = "businessId") String id) {
+    @GetMapping(value = "/v1/getBusinessInfo")
+    public ResultVo<BusinessInfoResponse> getBusinessInfo(@ApiParam("计划id") @RequestParam(value = "planId") String planId) {
         try {
-            return Result.success(businessService.getBusinessInfo(id));
+            return Result.success(businessService.getBusinessInfo(planId));
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED,e);
         }

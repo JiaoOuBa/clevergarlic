@@ -55,4 +55,10 @@ public interface BudgetPlanService {
      * @return
      */
     PageUtil<ReadyCommitResponse> readyCommitList(ReviewPlanListRequest request);
+
+    /**
+     * 计算
+     * @param request
+     */
+    void calculate(CalculateRequest request);
 }

@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.web.admin;
 
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.BuildingListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 预算计划
@@ -32,7 +34,7 @@ public class BudgetPlanController {
     BudgetPlanService budgetPlanService;
 
     @ApiOperation(value = "计划列表")
-    @PostMapping(value = "/getPlanList")
+    @PostMapping(value = "/v1/getPlanList")
     public ResultVo<PageUtil<PlanListResponse>> getPlanList(@RequestBody GetPlanListRequest request) {
         try {
             return Result.success(budgetPlanService.getPlanList(request));
@@ -42,7 +44,7 @@ public class BudgetPlanController {
     }
 
     @ApiOperation(value = "计划保存")
-    @PostMapping(value = "/savePlan")
+    @PostMapping(value = "/v1/savePlan")
     public ResultVo savePlan(@Valid @RequestBody SavePlanRequest request) {
         try {
             return Result.success(budgetPlanService.savePlan(request));
@@ -52,7 +54,7 @@ public class BudgetPlanController {
     }
 
     @ApiOperation(value = "计划详情")
-    @GetMapping(value = "/getPlanInfo")
+    @GetMapping(value = "/v1/getPlanInfo")
     public ResultVo<PlanInfoResponse> getPlanInfo(@ApiParam("计划id") @RequestParam(value = "planId") String planId) {
         try {
             return Result.success(budgetPlanService.getPlanInfo(planId));
@@ -62,7 +64,7 @@ public class BudgetPlanController {
     }
 
     @ApiOperation(value = "计划删除")
-    @PostMapping(value = "deletePlan")
+    @PostMapping(value = "/v1/deletePlan")
     public ResultVo deletePlan(@Valid @RequestBody DeletePlanRequest request) {
         try {
             return Result.success(budgetPlanService.deletePlan(request));
@@ -72,7 +74,7 @@ public class BudgetPlanController {
     }
 
     @ApiOperation(value = "计划确认")
-    @PostMapping(value = "/reviewPlan")
+    @PostMapping(value = "/v1/reviewPlan")
     public ResultVo reviewPlan(@Valid @RequestBody ReviewPlanRequest request) {
         try {
             String msg = budgetPlanService.reviewPlan(request);
@@ -83,12 +85,34 @@ public class BudgetPlanController {
     }
 
     @ApiOperation(value = "预测参数列表")
-    @PostMapping(value = "/readyCommitList")
+    @PostMapping(value = "/v1/readyCommitList")
     public ResultVo<PageUtil<ReadyCommitResponse>> readyCommitList(@RequestBody ReviewPlanListRequest request) {
         try {
             return Result.success(budgetPlanService.readyCommitList(request));
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED,e);
+        }
+    }
+
+    @ApiOperation(value = "初始化页-楼宇列表")
+    @GetMapping(value = "/v1/getBuildingList")
+    public ResultVo<List<BuildingListResponse>> getBuildingList() {
+        try {
+            List<BuildingListResponse> responses = null;
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED,e);
+        }
+    }
+
+    @ApiOperation(value = "计算")
+    @PostMapping(value = "/v1/calculate")
+    public ResultVo calculate(@RequestBody CalculateRequest request) {
+        try {
+            budgetPlanService.calculate(request);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.FAILED, e);
         }
     }
 

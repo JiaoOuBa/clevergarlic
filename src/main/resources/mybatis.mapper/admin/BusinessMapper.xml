@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dzp.clevergarlic.mapper.admin.BusinessMapper">
+
+
+    <insert id="insertBusiness">
+        insert into fc_business_param
+        (business_id,project_company_id,project_organize_id,building_id,building_name,floor_code,unit,floor_property,
+         empty_date,before_decorate_date,free_date,after_decorate_date,contract_date,renew_percent,new_contract_fee,
+         renew_contract_fee,admin_id,plan_id,status,version,
+         install_type,install_value)
+        values
+        (#{businessId},#{projectCompanyId},#{projectOrganizeId},#{buildingId},#{buildingName},#{floorCode},#{unit},#{floorProperty},
+         #{emptyDate},#{beforeDecorateDate},#{freeDate},#{afterDecorateDate},#{contractDate},#{renewPercent},#{newContractFee},
+         #{renewContractFee},#{adminId},#{planId},#{status},#{version},
+         #{installType},#{installValue})
+    </insert>
+
+    <update id="deleteBusinessByPlan">
+        update fc_business_param set deleted = #{deleted} where plan_id = #{planId}
+    </update>
+
+    <select id="countBusinessByPlan" resultType="java.lang.Integer">
+        select count(business_id) from fc_business_param where plan_id = #{planId} and deleted = #{deleted}
+    </select>
+
+    <select id="getBusinessByPlan"
+            resultType="com.dzp.clevergarlic.dto.admin.businessDTO.response.BusinessForm">
+        select
+        install_type,install_value,plan_id,
+        business_id,project_company_id,project_organize_id,building_id,building_name,floor_code,unit,floor_property,
+        empty_date,before_decorate_date,free_date,after_decorate_date,contract_date,renew_percent,new_contract_fee,
+        renew_contract_fee,admin_id
+        from fc_business_param
+        where plan_id = #{planId} and deleted = 0
+    </select>
+
 </mapper>

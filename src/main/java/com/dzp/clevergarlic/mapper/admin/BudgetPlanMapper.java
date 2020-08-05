@@ -5,6 +5,8 @@ import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.SavePlanRequest;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
+import com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate;
+import com.dzp.clevergarlic.dto.admin.calculateDTO.VersionInfo;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -87,4 +89,24 @@ public interface BudgetPlanMapper {
      * @param map
      */
     void reviewPlan(Map<String, Object> map);
+
+    /**
+     * 获取计算前计划信息
+     * @param planId
+     * @return
+     */
+    BeforeCalculate getBeforeCalculate(@Param("planId") String planId);
+
+    /**
+     * 获取计算前版本信息
+     * @param planId
+     * @return
+     */
+    VersionInfo getVersionInfo(@Param("planId") String planId);
+
+    /**
+     * 插入 计算版本记录
+     * @param versionInfo
+     */
+    Integer insertVersion(VersionInfo versionInfo);
 }

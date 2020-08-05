@@ -19,8 +19,8 @@ public interface BusinessService {
 
     /**
      * 详情
-     * @param id
+     * @param planId
      * @return
      */
-    BusinessInfoResponse getBusinessInfo(String id);
+    BusinessInfoResponse getBusinessInfo(String planId);
 }

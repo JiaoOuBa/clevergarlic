@@ -46,10 +46,10 @@ public class BusinessEntity {
     private String renewPercent;
     //commission_way  结佣方式
     private String commissionWay;
-    //month_commission  佣金（月）
-    private BigDecimal monthCommission;
-    //commission  佣金（金额）
-    private BigDecimal commission;
+    //month_commission  新合同租金(月)
+    private String newContractFee;
+    //commission  续约合同租金(月)
+    private String renewContractFee;
     //status  状态
     private Integer status;
     //deleted  是否删除标识（1，0）
@@ -92,8 +92,8 @@ public class BusinessEntity {
                 ", contractDate='" + contractDate + '\'' +
                 ", renewPercent='" + renewPercent + '\'' +
                 ", commissionWay='" + commissionWay + '\'' +
-                ", monthCommission=" + monthCommission +
-                ", commission=" + commission +
+                ", newContractFee='" + newContractFee + '\'' +
+                ", renewContractFee='" + renewContractFee + '\'' +
                 ", status=" + status +
                 ", deleted=" + deleted +
                 ", adminId=" + adminId +
@@ -243,20 +243,20 @@ public class BusinessEntity {
         this.commissionWay = commissionWay;
     }
 
-    public BigDecimal getMonthCommission() {
-        return monthCommission;
+    public String getNewContractFee() {
+        return newContractFee;
     }
 
-    public void setMonthCommission(BigDecimal monthCommission) {
-        this.monthCommission = monthCommission;
+    public void setNewContractFee(String newContractFee) {
+        this.newContractFee = newContractFee;
     }
 
-    public BigDecimal getCommission() {
-        return commission;
+    public String getRenewContractFee() {
+        return renewContractFee;
     }
 
-    public void setCommission(BigDecimal commission) {
-        this.commission = commission;
+    public void setRenewContractFee(String renewContractFee) {
+        this.renewContractFee = renewContractFee;
     }
 
     public Integer getStatus() {
