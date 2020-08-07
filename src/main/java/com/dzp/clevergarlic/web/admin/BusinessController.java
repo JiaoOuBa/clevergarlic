@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "business", description = "招商预测参数信息相关接口（ck）")
 @RestController
 @RequestMapping(value = "business", produces = "application/json;charset=utf-8")
-public class BusinessController {
+public class BusinessController extends BaseController{
 
     @Autowired
     BusinessService businessService;
@@ -31,21 +31,23 @@ public class BusinessController {
     @ApiOperation(value = "提交/保存为草稿")
     @PostMapping(value = "/v1/editBusiness")
     public ResultVo editBusiness(@RequestBody EditBusinessRequest request) {
+        String type = getLanguageType();
         try {
-            businessService.editBusiness(request);
-            return Result.success("操作成功");
+
+            return businessService.editBusiness(request, type);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED, type, e);
         }
     }
 
     @ApiOperation(value = "详情")
     @GetMapping(value = "/v1/getBusinessInfo")
     public ResultVo<BusinessInfoResponse> getBusinessInfo(@ApiParam("计划id") @RequestParam(value = "planId") String planId) {
+        String type = getLanguageType();
         try {
-            return Result.success(businessService.getBusinessInfo(planId));
+            return businessService.getBusinessInfo(planId, type);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED, type, e);
         }
     }
 }

@@ -87,6 +87,8 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
 
         UserContext.setAdminId(adminId);
 
+        UserContext.getLanguageType().set(request.getHeader("languageType"));
+
         UserContext.getAdminUserToken().set(adminInfo.getTokenStr());
 
         UserContext.getAdminUserInfo().set(createUserInfo(adminInfo));

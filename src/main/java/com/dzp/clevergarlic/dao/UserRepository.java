@@ -1,6 +1,5 @@
 package com.dzp.clevergarlic.dao;
 
-import com.dzp.clevergarlic.dto.common.userDTO.TestUser;
 import com.dzp.clevergarlic.entity.shiro.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

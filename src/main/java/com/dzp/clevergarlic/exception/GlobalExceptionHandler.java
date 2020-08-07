@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.exception;
 
+import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.util.LogUtil;
@@ -45,8 +46,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResultVo handlerException(Exception e) {
 
+        String type = UserContext.getLanguageType().get();
         e.printStackTrace();
-        ResultVo restResult = new ResultVo();
+        ResultVo restResult = new ResultVo(type);
 
         if (e instanceof MaxUploadSizeExceededException) {
             restResult.setCode(ExceptionMsg.FAILED.getCode());

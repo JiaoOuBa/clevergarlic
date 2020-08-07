@@ -1,8 +1,17 @@
 package com.dzp.clevergarlic.service.shiro;
 
+import com.dzp.clevergarlic.dao.UserRepository;
+import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
+import com.dzp.clevergarlic.entity.shiro.User;
+import com.dzp.clevergarlic.result.Result;
+import com.dzp.clevergarlic.result.ResultVo;
+import com.dzp.clevergarlic.util.IdUtil.Sid;
+import com.dzp.clevergarlic.util.LongIdUtil;
+import com.dzp.clevergarlic.util.ShiroUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +23,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ShiroServiceImpl implements ShiroService{
+
+    @Autowired
+    Sid sid;
+
+    @Autowired
+    UserRepository userRepository;
 
 
     @Override
@@ -29,5 +44,26 @@ public class ShiroServiceImpl implements ShiroService{
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return ResponseEntity.ok("{\"message\":\"登出成功\"}");
+    }
+
+    @Override
+    public ResultVo addUser(AddUser addUser) {
+
+        User byUserName = userRepository.findByUserName(addUser.getUserName());
+        if (byUserName != null && byUserName.getStatus() == 1) {
+            throw new RuntimeException("用户已存在！");
+        }
+
+        User user = new User();
+        user.setUserId(sid.nextShort());
+        user.setNewUserId(LongIdUtil.uuId());
+        user.setUserName(addUser.getUserName());
+
+        // 加密后的密码
+        String encrypt = String.valueOf(ShiroUtil.encrypt(addUser.getUserName(), addUser.getPassword()));
+        user.setPassword(encrypt);
+
+        User save = userRepository.save(user);
+        return null;
     }
 }

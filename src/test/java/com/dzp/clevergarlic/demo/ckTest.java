@@ -1,5 +1,7 @@
 package com.dzp.clevergarlic.demo;
 
+import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
+import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.impl.*;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
@@ -23,10 +25,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -118,15 +123,14 @@ public class ckTest {
     }
 
     @Test
-    public void test7() {
-        /*long uuid1 = LongIdUtil.uuId();
-        System.out.println(uuid1);
-        System.out.println("--------------------");
-        long uuid2 = LongIdUtil.uuId();
-        System.out.println(uuid2);
+    public void test7() throws IOException{
 
-        ArrayList<Integer> objects = new ArrayList<>();
-        objects.sort();*/
+        /*AddUser user = AddUser.of("测试用户1", "12345678");
+        ResultVo resultVo = shiroService.addUser(user);*/
+
+        ClassPathResource pathResource = new ClassPathResource("EN.properties");
+        Properties properties = PropertiesLoaderUtils.loadProperties(pathResource);
+        System.out.println(properties);
 
     }
 }

@@ -1,10 +1,11 @@
 package com.dzp.clevergarlic.result;
 
+import com.dzp.clevergarlic.enums.CommonEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
+import com.dzp.clevergarlic.util.LanguageUtil;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 返回信息封装
@@ -25,46 +26,54 @@ public class ResultVo<T> {
     @ApiModelProperty(value = "返回结果")
     private T data;
 
-    public ResultVo() {
+    public ResultVo(String msgType) {
         this.setCode(ExceptionMsg.SUCCESS.getCode());
         List<String> msgList = new ArrayList<>();
-        msgList.add(ExceptionMsg.SUCCESS.getMsg());
+        msgList.add(typeGetMsg(ExceptionMsg.SUCCESS, msgType));
         this.setMsg(msgList);
     }
 
-    public ResultVo(T data) {
+    public ResultVo(T data, String msgType) {
         this.setCode(ExceptionMsg.SUCCESS.getCode());
         List<String> msgList = new ArrayList<>();
-        msgList.add(ExceptionMsg.SUCCESS.getMsg());
+        msgList.add(typeGetMsg(ExceptionMsg.SUCCESS, msgType));
         this.setData(data);
     }
 
-    public ResultVo(ExceptionMsg msg, String rspMsg, T data) {
+    public ResultVo(ExceptionMsg msg, String rspMsg, String msgType, T data) {
         this.setCode(msg.getCode());
-        List<String> msgList = new ArrayList<>();
-        msgList.add(rspMsg);
+        List<String> msgList = new ArrayList<>(Objects.requireNonNull(LanguageUtil.getMsg(msgType, Collections.singletonList(rspMsg))));
         this.setMsg(msgList);
         this.setData(data);
     }
 
-    public ResultVo(ExceptionMsg msg, List<String> rspMsg, T data) {
+    public ResultVo(ExceptionMsg msg, List<String> rspMsg, String msgType, T data) {
         this.setCode(msg.getCode());
-        this.setMsg(rspMsg);
+        this.setMsg(LanguageUtil.getMsg(msgType, rspMsg));
         this.setData(data);
     }
 
-    public ResultVo(int code, List<String> rspMsg, T data) {
+    public ResultVo(int code, List<String> rspMsg, String msgType, T data)  {
         this.setCode(code);
-        this.setMsg(rspMsg);
+        this.setMsg(LanguageUtil.getMsg(msgType, rspMsg));
         this.setData(data);
     }
 
-    public ResultVo(ExceptionMsg msg, T data) {
+    public ResultVo(ExceptionMsg msg, String msgType, T data) {
         this.setCode(msg.getCode());
         List<String> msgList = new ArrayList<>();
-        msgList.add(msg.getMsg());
+        msgList.add(typeGetMsg(msg, msgType));
         this.setMsg(msgList);
         this.setData(data);
+    }
+
+    public String typeGetMsg(ExceptionMsg exc, String msgType) {
+        if (CommonEnum.LANGUAGE_CN.getMessage().equals(msgType)) {
+            return exc.getMsg();
+        } else if (CommonEnum.LANGUAGE_EN.getMessage().equals(msgType)) {
+            return exc.getEnMsg();
+        }
+        return null;
     }
 
     public Integer getCode() {

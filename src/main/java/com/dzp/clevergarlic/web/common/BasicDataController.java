@@ -2,6 +2,7 @@ package com.dzp.clevergarlic.web.common;
 
 import com.dzp.clevergarlic.config.annotation.PassToken;
 import com.dzp.clevergarlic.dto.common.ExecuteSqlRequest;
+import com.dzp.clevergarlic.enums.CommonEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.service.admin.CommonService;
@@ -34,12 +35,13 @@ public class BasicDataController {
     @PostMapping(value = "executeSql")
     @PassToken
     public Object executeSql(@RequestBody ExecuteSqlRequest request) {
+        String langType = CommonEnum.LANGUAGE_CN.getMessage();
         try {
             List<String> msg = new ArrayList<>();
             msg.add("execute sql success !");
-            return Result.success(commonService.executeSql(request), msg);
+            return Result.success(commonService.executeSql(request), msg, langType);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED, e.getMessage());
+            return Result.error(ExceptionMsg.FAILED, langType, e);
         }
     }
 }

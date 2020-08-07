@@ -4,6 +4,7 @@ import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
+import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.util.PageUtil;
 
 /**
@@ -26,7 +27,7 @@ public interface BudgetPlanService {
      * 保存
      * @param request
      */
-    String savePlan(SavePlanRequest request);
+    ResultVo savePlan(SavePlanRequest request, String type);
 
     /**
      * 详情
@@ -40,14 +41,14 @@ public interface BudgetPlanService {
      * @param request
      * @return
      */
-    String deletePlan(DeletePlanRequest request);
+    ResultVo deletePlan(DeletePlanRequest request, String type);
 
     /**
      * 确认
      * @param request
      * @return
      */
-    String reviewPlan(ReviewPlanRequest request);
+    ResultVo reviewPlan(ReviewPlanRequest request, String type);
 
     /**
      * 预测参数列表
@@ -60,5 +61,19 @@ public interface BudgetPlanService {
      * 计算
      * @param request
      */
-    void calculate(CalculateRequest request);
+    ResultVo calculate(CalculateRequest request, String type);
+
+    /**
+     * 取消计算
+     * @param request
+     * @return
+     */
+    ResultVo cancelCalculate(CalculateRequest request, String type);
+
+    /**
+     * 计划预览
+     * @param planId
+     * @return
+     */
+    ResultVo planPreview(String planId, String type);
 }

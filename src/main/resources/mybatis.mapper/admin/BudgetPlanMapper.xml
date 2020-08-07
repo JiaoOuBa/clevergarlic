@@ -123,7 +123,9 @@
     </select>
 
     <resultMap id="getCalculate" type="com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate">
-        <result column="plan_code" property="planCode"></result>
+        <result column="plan_id" property="planId"></result>
+        <result column="plan_start_time" property="planStartTime"></result>
+        <result column="plan_end_time" property="planEndTime"></result>
 
         <collection property="buildingParamData" ofType="com.dzp.clevergarlic.dto.admin.calculateDTO.BuildingInfo">
             <result column="building_id" property="buildingId"></result>
@@ -132,7 +134,7 @@
     </resultMap>
 
     <select id="getBeforeCalculate" resultMap="getCalculate">
-        select t9.plan_code,t10.building_id,t10.building_name
+        select t9.plan_id,t9.plan_start_time,t9.plan_end_time,t10.building_id,t10.building_name
         from fc_plan t9
         left join fc_plan_building t10 on t9.plan_id = t10.plan_id
         where t9.plan_id = #{planId} and t9.deleted = 0

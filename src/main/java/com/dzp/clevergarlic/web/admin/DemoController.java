@@ -45,7 +45,7 @@ import java.util.List;
 @Api(value = "demo", description = "this is demo's description")
 @RestController
 @RequestMapping(value = "/demo", produces = "application/json;charset=utf-8")
-public class DemoController {
+public class DemoController extends BaseController{
 
     @Autowired
     DemoService demoService;
@@ -56,8 +56,9 @@ public class DemoController {
     @ApiOperation(value = "test")
     @PostMapping(value = "/test")
     public ResultVo<String> getDemo(String id) {
+        String type = getLanguageType();
         if (ObjectUtils.isEmpty(id)) {
-            return Result.error(ExceptionMsg.ParamError,"id必传");
+            return Result.error(ExceptionMsg.ParamError,"id必传", type);
         }
         return Result.success(demoService.getUrlById(id));
     }
@@ -66,17 +67,18 @@ public class DemoController {
     @Log("demo")
     @PostMapping("/list")
     public ResultVo<PageUtil<DemoListResponse>> getList(ListToPageRequest request) {
+        String type = getLanguageType();
         int TIMEOUT = 30*1000;
         long time = System.currentTimeMillis() + TIMEOUT;
         try {
 
             // 加锁
             if (!redisLock.getLock("demoList",String.valueOf(time))) {
-                return Result.error(ExceptionMsg.FAILED,"redis锁被别人抢了~~");
+                return Result.error(ExceptionMsg.FAILED,"redis锁被别人抢了~~", type);
             }
-            return Result.success(demoService.getList(request));
+            return Result.success(demoService.getList(request), type);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e.getMessage());
+            return Result.error(ExceptionMsg.FAILED,type, e);
         }
         finally {
 
@@ -88,12 +90,13 @@ public class DemoController {
     @ApiOperation(value = "hutool导入")
     @PostMapping(value = "/htImport")
     public ResultVo htImport(@ApiParam(value = "导入Excel文件") @RequestParam("file") MultipartFile file) {
+        String type = getLanguageType();
 
         try {
             File file1 = FileUtil.multipartFileToFile(file);
             ExcelReader reader = ExcelUtil.getReader(file1);
             List<List<Object>> list = reader.read();
-            return Result.success(list.toArray());
+            return Result.success(list.toArray(), type);
         } catch (Exception e) {
             e.printStackTrace();
         }

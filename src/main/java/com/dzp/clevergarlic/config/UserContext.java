@@ -14,6 +14,7 @@ public class UserContext {
     private static ThreadLocal<String> userToken = new ThreadLocal<>();
     private static ThreadLocal<String> adminUserToken = new ThreadLocal<>();
     private static ThreadLocal<String> usertraceId = new ThreadLocal<>();
+    private static ThreadLocal<String> languageType = new ThreadLocal<>();
     private static ThreadLocal<AdminUserInfo> adminUserInfo = new ThreadLocal<>();
 
     public static void setAdminId(String adminId) {
@@ -54,6 +55,14 @@ public class UserContext {
 
     public static void setAdminUserInfo(ThreadLocal<AdminUserInfo> adminUserInfo) {
         UserContext.adminUserInfo = adminUserInfo;
+    }
+
+    public static ThreadLocal<String> getLanguageType() {
+        return languageType;
+    }
+
+    public static void setLanguageType(ThreadLocal<String> languageType) {
+        UserContext.languageType = languageType;
     }
 
     public static void removeUserTraceId() {

@@ -10,10 +10,11 @@ public enum CommonStatusEnum implements CodeEnum {
 
     /* 计划，参数 */
     REVIEW_XJ(1,"新建"),
-    REVIEW_WQR(2,"填写完成"),
+    REVIEW_YTW(2,"参数填写完成"),
     REVIEW_YQR(3,"已确认"),
-    REVIEW_YQX(4,"已取消"),
-    REVIEW_YJS(5,"已计算"),
+    REVIEW_YJS(4,"已参与计算"),
+    REVIEW_YJG(5,"已生成结果"),
+    REVIEW_YQX(6,"已取消计算"),
 
     /* 参数列表 */
     CSLB_WSZ(1,"未设置"),

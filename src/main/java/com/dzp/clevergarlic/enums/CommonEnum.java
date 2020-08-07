@@ -8,8 +8,13 @@ package com.dzp.clevergarlic.enums;
  */
 public enum CommonEnum implements CodeEnum {
 
+    /*  删除标识*/
     IS_DELETED_YES(1, "已删除"),
     IS_DELETED_NOT(0, "未删除"),
+
+    /* 语言类型 */
+    LANGUAGE_CN(1,"ch-CN"),// 中文
+    LANGUAGE_EN(2,"en-US"),// 英文
 
     ;
 

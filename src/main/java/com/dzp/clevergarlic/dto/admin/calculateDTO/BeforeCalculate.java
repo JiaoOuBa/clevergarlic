@@ -2,6 +2,7 @@ package com.dzp.clevergarlic.dto.admin.calculateDTO;
 
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,9 +15,19 @@ import java.util.List;
 public class BeforeCalculate {
 
     /**
-     * 计划信息
+     * 计划id
      */
-    private String planCode;
+    private String planId;
+
+    /**
+     * 计划起始时间
+     */
+    private Date planStartTime;
+
+    /**
+     * 计划结束时间
+     */
+    private Date planEndTime;
 
     /**
      * 楼宇参数集合

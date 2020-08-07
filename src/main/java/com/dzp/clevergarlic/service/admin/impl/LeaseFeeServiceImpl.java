@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
+import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.ConfirmRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
@@ -76,7 +77,7 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
         String leaseId = sid.nextShort();
         form.setLeaseId(leaseId);
         form.setPlanId(request.getPlanId());
-        form.setStatus(CommonStatusEnum.REVIEW_WQR.getCode());
+        form.setStatus(CommonStatusEnum.REVIEW_XJ.getCode());
         form.setVersion(request.getVersion());
         leaseFeeMapper.insertLeaseFee(form);
     }
@@ -130,7 +131,7 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
 
             // TODO: 2020/8/3 此时确认单栋楼参数还是所有楼（该计划内）参数 ?
         }
-        return Result.success(ExceptionMsg.SUCCESS);
+        return Result.success(ExceptionMsg.SUCCESS, UserContext.getLanguageType().get());
     }
 
     private void checkParameters(LeaseFeeForm form) {

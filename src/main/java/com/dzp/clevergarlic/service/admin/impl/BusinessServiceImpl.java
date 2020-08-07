@@ -6,6 +6,8 @@ import com.dzp.clevergarlic.dto.admin.businessDTO.response.BusinessForm;
 import com.dzp.clevergarlic.enums.CommonEnum;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.mapper.admin.BusinessMapper;
+import com.dzp.clevergarlic.result.Result;
+import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.BusinessService;
 import com.dzp.clevergarlic.util.DateUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
@@ -37,7 +39,7 @@ public class BusinessServiceImpl implements BusinessService {
      * @param request
      */
     @Override
-    public void editBusiness(EditBusinessRequest request) {
+    public ResultVo editBusiness(EditBusinessRequest request, String type) {
 
         request.setVersion("v" + DateUtil.getDateTime());
 
@@ -57,10 +59,11 @@ public class BusinessServiceImpl implements BusinessService {
             form.setBusinessId(businessId);
             form.setPlanId(request.getPlanId());
             form.setVersion(request.getVersion());
-            form.setStatus(CommonStatusEnum.REVIEW_WQR.getCode());
+            form.setStatus(CommonStatusEnum.REVIEW_XJ.getCode());
             // 插入招商参数
             businessMapper.insertBusiness(form);
         }
+        return Result.success(type);
 
     }
 
@@ -70,7 +73,7 @@ public class BusinessServiceImpl implements BusinessService {
      * @return
      */
     @Override
-    public BusinessInfoResponse getBusinessInfo(String planId) {
+    public ResultVo getBusinessInfo(String planId, String type) {
 
         BusinessInfoResponse info = new BusinessInfoResponse();
         List<BusinessForm> businessForms = businessMapper.getBusinessByPlan(planId);
@@ -78,7 +81,7 @@ public class BusinessServiceImpl implements BusinessService {
 
         info.setPlanId(planId);
         info.setAdminId(businessForms.get(0).getAdminId());
-        return info;
+        return Result.success(info, type);
     }
 
 

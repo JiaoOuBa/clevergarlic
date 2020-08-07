@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
+import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dao.UserRepository;
 import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AdminUserInfo;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginRequest;
@@ -7,6 +8,7 @@ import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminToken;
 import com.dzp.clevergarlic.entity.shiro.Permission;
 import com.dzp.clevergarlic.entity.shiro.User;
+import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.result.Result;
@@ -80,7 +82,7 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
         result.put("auth", authCodeList);
 
         getToken(response,token);
-        return Result.success(result);
+        return Result.success(result, UserContext.getLanguageType().get());
     }
 
     private List<String> getAuthList(User user) {

@@ -1,5 +1,7 @@
 package com.dzp.clevergarlic.service.shiro;
 
+import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
+import com.dzp.clevergarlic.result.ResultVo;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -21,4 +23,10 @@ public interface ShiroService {
     ResponseEntity login(String userName, String password);
 
     ResponseEntity logout();
+
+    /**
+     * 添加用户
+     * @return
+     */
+    ResultVo addUser(AddUser addUser);
 }

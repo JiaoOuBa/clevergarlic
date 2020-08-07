@@ -9,6 +9,7 @@ import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.AdminPermissionService;
 import com.dzp.clevergarlic.util.AESUtil;
 import com.dzp.clevergarlic.util.IdUtil.RandomValidateCodeUtil;
+import com.dzp.clevergarlic.web.admin.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping(value = "admin/login", produces = "application/json;charset=utf-8")
-public class AdminLoginController {
+public class AdminLoginController extends BaseController {
 
     @Value("${fc.aes.key}")
     private String AES_KEY;
@@ -53,6 +54,7 @@ public class AdminLoginController {
     @ApiImplicitParam(name = "Authorization", access = "hidden")
     @PassToken
     public ResultVo<Map<String, Object>> login(@Valid @RequestBody AdminLoginRequest request) {
+        String type = getLanguageType();
 
         // 好像不用做解密，直接与数据库对比
         String password = aesUtil.Decrypt(request.getPassword(), AES_KEY);
@@ -60,7 +62,7 @@ public class AdminLoginController {
         try {
             return adminPermissionService.login(request.getUserName(), request.getPassword());
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.ADMIN_NOT_EXIST,e.getMessage());
+            return Result.error(ExceptionMsg.ADMIN_NOT_EXIST, type, e);
         }
     }
 

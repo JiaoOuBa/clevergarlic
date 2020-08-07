@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Api(value = "leaseFee", description = "租金预测参数信息相关接口（ck）")
 @RestController
 @RequestMapping(value = "LeaseFee", produces = "application/json;charset=utf-8")
-public class LeaseFeeController {
+public class LeaseFeeController extends BaseController{
 
     @Autowired
     LeaseFeeService leaseFeeService;
@@ -34,42 +34,50 @@ public class LeaseFeeController {
     @ApiOperation(value = "提交/保存为草稿")
     @PostMapping(value = "/v1/editLeaseFee")
     public ResultVo editLeaseFee(@RequestBody EditLeaseFeeRequest request) {
+        String type = getLanguageType();
+
         try {
             leaseFeeService.editLeaseFee(request);
             return Result.success("操作成功");
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED,type, e);
         }
     }
 
     @ApiOperation(value = "详情")
     @GetMapping(value = "/v1/getLeaseFeeInfo")
     public ResultVo<LeaseFeeInfoResponse> getLeaseFeeInfo(@ApiParam("租金预测参数id") @RequestParam(value = "leaseFeeId") String id) {
+        String type = getLanguageType();
+
         try {
-            return Result.success(leaseFeeService.getLeaseFeeInfo(id));
+            return Result.success(leaseFeeService.getLeaseFeeInfo(id), type);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED, type, e);
         }
     }
 
     @ApiOperation(value = "删除")
     @PostMapping(value = "/v1/deleteLeaseFee")
     public ResultVo deleteLeaseFee(@Valid @RequestBody DelLeaseFeeRequest request) {
+        String type = getLanguageType();
+
         try {
             leaseFeeService.deleteLeaseFee(request);
-            return Result.success();
+            return Result.success(type);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED, type, e);
         }
     }
 
     @ApiOperation(value = "确认/反确认")
     @PostMapping(value = "/v1/leaseFeeConfirm")
     public ResultVo leaseFeeConfirm(@Valid @RequestBody ConfirmRequest request) {
+        String type = getLanguageType();
+
         try {
             return leaseFeeService.confirm(request);
         } catch (Exception e) {
-            return Result.error(ExceptionMsg.FAILED,e);
+            return Result.error(ExceptionMsg.FAILED,type, e);
         }
     }
 }

@@ -74,6 +74,17 @@ public class SwaggerConfig {
                 .build();
         pars.add(commonTicketPar5.build());
 
+        // languageType
+        ParameterBuilder commonTicketPar6 = new ParameterBuilder();
+        commonTicketPar6.parameterType("header")
+                .order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER - 0)
+                .name("Internationalization")
+                .description("language type")
+                .modelRef(new ModelRef("string"))
+                .required(false)
+                .build();
+        pars.add(commonTicketPar6.build());
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("公共api接口文档")
                 .enable(openSwagger)
@@ -108,6 +119,17 @@ public class SwaggerConfig {
                 .required(false)
                 .build();
         pars.add(commonTicketPar5.build());
+
+        // languageType
+        ParameterBuilder commonTicketPar6 = new ParameterBuilder();
+        commonTicketPar6.parameterType("header")
+                .order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER - 0)
+                .name("Internationalization")
+                .description("language type")
+                .modelRef(new ModelRef("string"))
+                .required(false)
+                .build();
+        pars.add(commonTicketPar6.build());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("后台管理api接口文档")
