@@ -15,4 +15,6 @@ public interface CommonService {
      * @param request
      */
     Object executeSql(ExecuteSqlRequest request);
+
+    String generateCode();
 }

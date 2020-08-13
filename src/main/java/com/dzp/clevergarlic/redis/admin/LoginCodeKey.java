@@ -21,6 +21,6 @@ public class LoginCodeKey extends BasePrefix {
     public static LoginCodeKey getByCode = new LoginCodeKey( 60,"");
 
     public static LoginCodeKey withExpire(int expireSeconds) {
-        return new LoginCodeKey(expireSeconds, "loginCode");
+        return new LoginCodeKey(expireSeconds, "");
     }
 }

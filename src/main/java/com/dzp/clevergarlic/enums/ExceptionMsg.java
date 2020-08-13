@@ -16,6 +16,7 @@ public enum ExceptionMsg implements CodeEnum{
     SERVER_ERROR(500, "服务器错误","Server Error"),
 
     /*权限登录相关*/
+    LOGININ(1000, "登陆成功！","Login Success"),
     LOGINOUT(1001, "token失效，请重新登陆！","Token Invalid"),
     ACCESS_LIMIT_REACHED(1002, "访问太频繁了！","Visits Too Frequent"),
     CAPTCHA_ERROR(1003, "验证码错误","Verification Code Error"),

@@ -28,6 +28,11 @@ public class Result {
         ResultVo resultVo = new ResultVo(object, msgType);
         return resultVo;
     }
+    
+    public static ResultVo success(ExceptionMsg msg, Object object, String msgType) {
+        ResultVo resultVo = new ResultVo(msg, msgType, object);
+        return resultVo;
+    }
 
     public static ResultVo success(String msgType) {
         ResultVo resultVo = new ResultVo(msgType);

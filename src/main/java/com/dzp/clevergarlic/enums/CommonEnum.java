@@ -13,7 +13,7 @@ public enum CommonEnum implements CodeEnum {
     IS_DELETED_NOT(0, "未删除"),
 
     /* 语言类型 */
-    LANGUAGE_CN(1,"ch-CN"),// 中文
+    LANGUAGE_CN(1,"zh-CN"),// 中文
     LANGUAGE_EN(2,"en-US"),// 英文
 
     ;

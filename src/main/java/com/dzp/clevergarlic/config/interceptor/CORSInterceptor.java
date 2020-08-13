@@ -23,7 +23,7 @@ public class CORSInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "6000"); //设置过期时间
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With," +
-                "token, Content-Type, Authorization, device, version, platform");
+                "token, Content-Type, Authorization, device, version, platform, languageType");
         response.setHeader("Access-Control-Expose-Headers","Authorization");
         return true;
     }

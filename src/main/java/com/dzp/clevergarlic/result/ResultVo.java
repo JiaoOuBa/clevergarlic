@@ -56,8 +56,11 @@ public class ResultVo<T> {
     }
 
     public ResultVo(ExceptionMsg msg, List<String> rspMsg, String msgType, T data) {
+        List<String> msgList = new ArrayList<>();
+        msgList.add(typeGetMsg(msg, msgType));
+        msgList.addAll(Objects.requireNonNull(LanguageUtil.getMsg(msgType, rspMsg)));
+        this.setMsg(msgList);
         this.setCode(msg.getCode());
-        this.setMsg(LanguageUtil.getMsg(msgType, rspMsg));
         this.setData(data);
     }
 

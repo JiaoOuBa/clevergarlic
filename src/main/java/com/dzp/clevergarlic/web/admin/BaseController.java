@@ -21,6 +21,6 @@ public class BaseController {
      */
     public String getLanguageType() {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        return request.getHeader("type");
+        return request.getHeader("languageType");
     }
 }

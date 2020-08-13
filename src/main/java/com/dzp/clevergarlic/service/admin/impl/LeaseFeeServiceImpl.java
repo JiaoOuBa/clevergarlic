@@ -79,6 +79,8 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
         form.setPlanId(request.getPlanId());
         form.setStatus(CommonStatusEnum.REVIEW_XJ.getCode());
         form.setVersion(request.getVersion());
+
+
         leaseFeeMapper.insertLeaseFee(form);
     }
 

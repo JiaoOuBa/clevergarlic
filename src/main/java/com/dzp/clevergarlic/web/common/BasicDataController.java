@@ -32,7 +32,7 @@ public class BasicDataController {
     CommonService commonService;
 
     @ApiOperation(value = "execute SQL script")
-    @PostMapping(value = "executeSql")
+    @PostMapping(value = "/executeSql")
     @PassToken
     public Object executeSql(@RequestBody ExecuteSqlRequest request) {
         String langType = CommonEnum.LANGUAGE_CN.getMessage();
@@ -42,6 +42,17 @@ public class BasicDataController {
             return Result.success(commonService.executeSql(request), msg, langType);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED, langType, e);
+        }
+    }
+
+    @ApiOperation(value = "generate code")
+    @PostMapping(value = "/generateCode")
+    @PassToken
+    public Object generateCode() {
+        try {
+            return commonService.generateCode();
+        } catch (Exception e) {
+            return null;
         }
     }
 }

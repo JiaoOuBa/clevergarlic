@@ -17,6 +17,7 @@ import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.AdminPermissionService;
 import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.CommonUtil;
+import com.dzp.clevergarlic.util.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +49,6 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Autowired
     UserRepository userRepository;
 
-    // 当前session验证码的key
-    public static final String RANDOMCODEKEY = "RANDOMVALIDATECODEKEY";
-
 
     /**
      * 后台登录
@@ -62,14 +60,17 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Override
     public ResultVo login(String userName, String password, String code) throws Exception {
 
+        // 验证码验证
         Boolean exist = redisService.exist(LoginCodeKey.getByCode, code);
         if (!exist) {
             return Result.error(ExceptionMsg.ADMIN_CAPTCHA_ERROR, UserContext.getLanguageType().get());
         }
-        ResponseEntity userShiro = shiroService.login(userName, password);
-        HttpStatus statusCode = userShiro.getStatusCode();
-        if (statusCode != HttpStatus.OK) {
-            throw new RuntimeException("待定");
+
+        //Object encrypt = ShiroUtil.encrypt(userName, password);
+        try {
+            shiroService.login(userName, password);
+        } catch (Exception e) {
+            return Result.error(ExceptionMsg.LOGINPASS_ERROR, UserContext.getLanguageType().get());
         }
 
         User user = userRepository.findByUserName(userName);
@@ -97,7 +98,7 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
         result.put("auth", authCodeList);
 
         getToken(response, token);
-        return Result.success(result, UserContext.getLanguageType().get());
+        return Result.success(ExceptionMsg.LOGININ, result, UserContext.getLanguageType().get());
     }
 
     private List<String> getAuthList(User user) {
