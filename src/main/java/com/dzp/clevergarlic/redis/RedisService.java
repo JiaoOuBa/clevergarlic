@@ -56,10 +56,17 @@ public class RedisService {
 
             //生成真正的key
             String realKey  = prefix.getPrefix() + key;
-
             String str = beanToString(value);
 
-            redisTemplate.opsForValue().set(realKey, str);
+            int i = prefix.expireSeconds();
+            if (i > 0) {
+                // 设置了缓存时间的set
+                redisTemplate.opsForValue().set(realKey, str, i, TimeUnit.SECONDS);
+            } else {
+                // 普通set(默认永久)
+                redisTemplate.opsForValue().set(realKey, str);
+            }
+
             res = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,6 +164,25 @@ public class RedisService {
         }
         return res;
     }
+
+    /**
+     * 存入值并设置过期时间
+     */
+    /*public Boolean expireSet(KeyPrefix prefix, String key, String value, long time, TimeUnit unit) {
+        Boolean res = false;
+        try {
+            if (time > 0) {
+
+                //生成真正的key
+                String realKey  = prefix.getPrefix() + key;
+                redisTemplate.opsForValue().set(realKey, value, time, unit);
+                res = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }*/
 
     /**
      * 断开连接

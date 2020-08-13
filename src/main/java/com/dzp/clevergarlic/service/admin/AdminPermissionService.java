@@ -18,5 +18,5 @@ public interface AdminPermissionService {
      * @param password 密码
      * @return ResultVo
      */
-    ResultVo login(String userName, String password, String code, HttpServletRequest httpServletRequest) throws Exception;
+    ResultVo login(String userName, String password, String code) throws Exception;
 }

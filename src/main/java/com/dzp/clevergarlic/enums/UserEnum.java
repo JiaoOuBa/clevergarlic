@@ -10,6 +10,9 @@ public enum UserEnum implements CodeEnum {
     // 用户状态
     USER_JH(1,"激活"),
     USER_DJ(0,"冻结"),
+
+    // 登陆
+    LOGIN_CODE(1,"loginCode"),
     ;
 
     private UserEnum(Integer code, String msg) {
@@ -26,7 +29,7 @@ public enum UserEnum implements CodeEnum {
     }
 
     public String getMsg() {
-        return null;
+        return msg;
     }
 
     public String getMsgByCode(Integer code) {

@@ -11,6 +11,7 @@ import com.dzp.clevergarlic.entity.shiro.User;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
+import com.dzp.clevergarlic.redis.admin.LoginCodeKey;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.AdminPermissionService;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 /**
  * 后台权限控制
+ *
  * @Auther ck
  * @Date 2020/7/28 15:47
  * @Desc
@@ -47,32 +49,34 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     UserRepository userRepository;
 
     // 当前session验证码的key
-    public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";
+    public static final String RANDOMCODEKEY = "RANDOMVALIDATECODEKEY";
 
 
     /**
      * 后台登录
+     *
      * @param userName 用户名
      * @param password 密码
      * @return
      */
     @Override
-    public ResultVo login(String userName, String password,
-                          String code, HttpServletRequest httpServletRequest) throws Exception{
+    public ResultVo login(String userName, String password, String code) throws Exception {
 
-        HttpSession session = httpServletRequest.getSession();
-        Object attribute = session.getAttribute(RANDOMCODEKEY);
-        if (!code.equals((String) attribute)) {
+        Boolean exist = redisService.exist(LoginCodeKey.getByCode, code);
+        if (!exist) {
             return Result.error(ExceptionMsg.ADMIN_CAPTCHA_ERROR, UserContext.getLanguageType().get());
         }
-        // AdminLoginRequest request = AdminLoginRequest.of(userName, password, null);
+        ResponseEntity userShiro = shiroService.login(userName, password);
+        HttpStatus statusCode = userShiro.getStatusCode();
+        if (statusCode != HttpStatus.OK) {
+            throw new RuntimeException("待定");
+        }
+
         User user = userRepository.findByUserName(userName);
         AdminUserInfo userInfo = new AdminUserInfo();
         userInfo.setAdminId(user.getNewUserId());
         userInfo.setAdminName(user.getUserName());
 
-        ResponseEntity lisi = shiroService.login("lisi", "12345");
-        HttpStatus statusCode = lisi.getStatusCode();
 
         // Map<String, List<String>> roleAuth = null;
         List<String> authCodeList = getAuthList(user);
@@ -92,7 +96,7 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
 
         result.put("auth", authCodeList);
 
-        getToken(response,token);
+        getToken(response, token);
         return Result.success(result, UserContext.getLanguageType().get());
     }
 
@@ -113,6 +117,7 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
 
     /**
      * 获取token并存redis
+     *
      * @param response
      * @param token
      * @return

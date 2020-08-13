@@ -3,6 +3,7 @@ package com.dzp.clevergarlic.redis.admin;
 import com.dzp.clevergarlic.redis.BasePrefix;
 
 /**
+ * newUserId prefix
  * @Auther ck
  * @Date 2020/7/30 10:24
  * @Desc

@@ -1,13 +1,22 @@
 package com.dzp.clevergarlic.util.IdUtil;
 
+import com.dzp.clevergarlic.enums.UserEnum;
+import com.dzp.clevergarlic.redis.RedisLockCommon;
+import com.dzp.clevergarlic.redis.RedisService;
+import com.dzp.clevergarlic.redis.admin.LoginCodeKey;
+import com.dzp.clevergarlic.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -17,7 +26,18 @@ import java.util.Random;
  * @Desc
  */
 @Slf4j
+@Component
 public class RandomValidateCodeUtil {
+
+    @Autowired
+    RedisService redisService;
+
+    private static RedisService redis;
+
+    @PostConstruct
+    public void getRedis() {
+        redis = redisService;
+    }
 
     public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";//放到session中的key
 
@@ -75,6 +95,9 @@ public class RandomValidateCodeUtil {
             randomString = drowString(g, randomString, i);
         }
         log.info(randomString);
+        // 存到redis
+        LoginCodeKey codeKey = LoginCodeKey.getByCode;
+        redis.set(codeKey, randomString, DateUtil.getDateTime());
         //将生成的随机字符串保存到session中
         session.removeAttribute(RANDOMCODEKEY);
         session.setAttribute(RANDOMCODEKEY, randomString);
