@@ -18,5 +18,6 @@ public class CommonConstant {
     public static final String HEADER_DEVICE = "device";
     public static final String HEADER_VERSION = "version";
     public static final String HEADER_PLATFORM = "platform";
+    public static final String HEADER_LANGUAGE_TYPE = "languageType";
 
 }

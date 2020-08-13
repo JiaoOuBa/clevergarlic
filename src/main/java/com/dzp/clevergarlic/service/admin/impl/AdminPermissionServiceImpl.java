@@ -21,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +46,9 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
     @Autowired
     UserRepository userRepository;
 
+    // 当前session验证码的key
+    public static final String RANDOMCODEKEY= "RANDOMVALIDATECODEKEY";
+
 
     /**
      * 后台登录
@@ -52,9 +57,15 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
      * @return
      */
     @Override
-    public ResultVo login(String userName, String password) throws Exception{
+    public ResultVo login(String userName, String password,
+                          String code, HttpServletRequest httpServletRequest) throws Exception{
 
-        AdminLoginRequest request = AdminLoginRequest.of(userName, password, null);
+        HttpSession session = httpServletRequest.getSession();
+        Object attribute = session.getAttribute(RANDOMCODEKEY);
+        if (!code.equals((String) attribute)) {
+            return Result.error(ExceptionMsg.ADMIN_CAPTCHA_ERROR, UserContext.getLanguageType().get());
+        }
+        // AdminLoginRequest request = AdminLoginRequest.of(userName, password, null);
         User user = userRepository.findByUserName(userName);
         AdminUserInfo userInfo = new AdminUserInfo();
         userInfo.setAdminId(user.getNewUserId());

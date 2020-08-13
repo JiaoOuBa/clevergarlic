@@ -53,14 +53,15 @@ public class AdminLoginController extends BaseController {
     @PostMapping("v1")
     @ApiImplicitParam(name = "Authorization", access = "hidden")
     @PassToken
-    public ResultVo<Map<String, Object>> login(@Valid @RequestBody AdminLoginRequest request) {
+    public ResultVo<Map<String, Object>> login(@Valid @RequestBody AdminLoginRequest request, HttpServletRequest httpServletRequest) {
         String type = getLanguageType();
 
         // 好像不用做解密，直接与数据库对比
         String password = aesUtil.Decrypt(request.getPassword(), AES_KEY);
 
         try {
-            return adminPermissionService.login(request.getUserName(), request.getPassword());
+            return adminPermissionService.login(request.getUserName(), request.getPassword(),
+                                                request.getCode(), httpServletRequest);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.ADMIN_NOT_EXIST, type, e);
         }

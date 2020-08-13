@@ -33,10 +33,17 @@ public class ResultVo<T> {
         this.setMsg(msgList);
     }
 
+    public ResultVo(ExceptionMsg msg,String msgType) {
+        this.setCode(msg.getCode());
+        List<String> msgList = new ArrayList<>();
+        msgList.add(typeGetMsg(msg, msgType));
+    }
+
     public ResultVo(T data, String msgType) {
         this.setCode(ExceptionMsg.SUCCESS.getCode());
         List<String> msgList = new ArrayList<>();
         msgList.add(typeGetMsg(ExceptionMsg.SUCCESS, msgType));
+        this.setMsg(msgList);
         this.setData(data);
     }
 
@@ -51,6 +58,11 @@ public class ResultVo<T> {
         this.setCode(msg.getCode());
         this.setMsg(LanguageUtil.getMsg(msgType, rspMsg));
         this.setData(data);
+    }
+
+    public ResultVo(ExceptionMsg msg, List<String> excMsg) {
+        this.setCode(msg.getCode());
+        this.setMsg(excMsg);
     }
 
     public ResultVo(int code, List<String> rspMsg, String msgType, T data)  {

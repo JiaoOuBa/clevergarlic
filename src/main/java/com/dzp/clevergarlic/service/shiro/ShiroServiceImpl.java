@@ -66,4 +66,39 @@ public class ShiroServiceImpl implements ShiroService{
         User save = userRepository.save(user);
         return null;
     }
+
+    /**
+     * 根据userId获取用户信息
+     * @param newUserId
+     * @return
+     */
+    @Override
+    public String getUserName(Long newUserId) {
+
+        if (newUserId == null) {
+            return null;
+        }
+        User userInfo = userRepository.findByNewUserId(newUserId);
+        if (userInfo == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        return userInfo.getUserName();
+    }
+
+    /**
+     * 根据用户名获取userId
+     * @param userName
+     * @return
+     */
+    @Override
+    public Long getNewUserId(String userName) {
+        if (userName == null) {
+            return null;
+        }
+        User userInfo = userRepository.findByUserName(userName);
+        if (userInfo == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        return userInfo.getNewUserId();
+    }
 }

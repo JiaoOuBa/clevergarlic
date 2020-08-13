@@ -2,6 +2,8 @@ package com.dzp.clevergarlic.service.admin;
 
 import com.dzp.clevergarlic.result.ResultVo;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 后台权限控制
  * @Auther ck
@@ -16,5 +18,5 @@ public interface AdminPermissionService {
      * @param password 密码
      * @return ResultVo
      */
-    ResultVo login(String userName, String password) throws Exception;
+    ResultVo login(String userName, String password, String code, HttpServletRequest httpServletRequest) throws Exception;
 }

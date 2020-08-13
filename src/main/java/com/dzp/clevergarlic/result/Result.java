@@ -1,4 +1,5 @@
 package com.dzp.clevergarlic.result;
+import com.dzp.clevergarlic.enums.CommonEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
 import com.dzp.clevergarlic.util.LogUtil;
 
@@ -39,6 +40,12 @@ public class Result {
         LogUtil.info("流程错误", msg.toString());
         return resultVo;
     }
+    
+    public static ResultVo error(ExceptionMsg code, List<String> excMsg) {
+        ResultVo resultVo = new ResultVo(code,excMsg);
+        LogUtil.info("流程错误", excMsg.toString());
+        return resultVo;
+    }
 
     public static ResultVo error(int code, List<String> msg, String msgType) {
         ResultVo resultVo = new ResultVo(code, msg, msgType, null);
@@ -52,8 +59,8 @@ public class Result {
         return resultVo;
     }
 
-    public static ResultVo error(ExceptionMsg code) {
-        ResultVo resultVo = new ResultVo(code, null);
+    public static ResultVo error(ExceptionMsg code, String msgType) {
+        ResultVo resultVo = new ResultVo(code, msgType);
         LogUtil.info("流程错误", code.getMsg());
         return resultVo;
     }

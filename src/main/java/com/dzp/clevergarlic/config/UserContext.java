@@ -72,4 +72,8 @@ public class UserContext {
     public static void removeAdminId() {
         userHolder.remove();
     }
+
+    public static void removeLanguageType() {
+        languageType.remove();
+    }
 }

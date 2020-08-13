@@ -16,7 +16,7 @@ import java.util.Objects;
 public class BaseController {
 
     /**
-     * 获取http请求头里的语言type
+     * 获取请求头语言类型-type
      * @return
      */
     public String getLanguageType() {

@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.service.shiro;
 
 import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
+import com.dzp.clevergarlic.entity.shiro.User;
 import com.dzp.clevergarlic.result.ResultVo;
 import org.springframework.http.ResponseEntity;
 
@@ -29,4 +30,18 @@ public interface ShiroService {
      * @return
      */
     ResultVo addUser(AddUser addUser);
+
+    /**
+     * 根据userId获取用户名
+     * @param newUserId
+     * @return
+     */
+    String getUserName(Long newUserId);
+
+    /**
+     * 根据用户名获取userId
+     * @param userName
+     * @return
+     */
+    Long getNewUserId(String userName);
 }

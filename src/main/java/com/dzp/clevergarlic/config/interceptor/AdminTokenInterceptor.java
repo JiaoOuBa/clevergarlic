@@ -14,6 +14,7 @@ import com.dzp.clevergarlic.properties.FcCoreProperties;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.service.admin.impl.*;
+import com.dzp.clevergarlic.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
 
         UserContext.setAdminId(adminId);
 
-        UserContext.getLanguageType().set(request.getHeader("languageType"));
+        UserContext.getLanguageType().set(request.getHeader(CommonConstant.HEADER_LANGUAGE_TYPE));
 
         UserContext.getAdminUserToken().set(adminInfo.getTokenStr());
 
@@ -105,6 +106,11 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object object, Exception ex) throws Exception {
 
+        UserContext.getAdminUserToken().remove();
+        UserContext.removeAdminId();
+        UserContext.removeUserTraceId();
+        UserContext.removeLanguageType();
+        UserContext.getAdminUserInfo().remove();
     }
 
     private AdminUserInfo createUserInfo(TokenInfoResponse adminInfo) {
@@ -128,6 +134,7 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
     private TokenInfoResponse checkToken(String token) {
 
         // 日志+1
+        LogUtil.info("校验token返回值：", token);
 
         if (token == null) {
             throw new GlobalException(ExceptionMsg.LOGINOUT);

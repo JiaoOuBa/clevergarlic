@@ -10,7 +10,7 @@ public enum ExceptionMsg implements CodeEnum{
 
     /*通用*/
     SUCCESS(200, "操作成功","Operate Success"),
-    FAILED(400, "操作失败","Operate Default"),
+    FAILED(400, "操作失败","Operate Defeat"),
     ParamError(401, "参数错误！","Params Error"),
     FriendTrip(4001,"友情提示","Friendly Tips"),
     SERVER_ERROR(500, "服务器错误","Server Error"),

@@ -1,10 +1,7 @@
 package com.dzp.clevergarlic.demo;
 
-import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
-import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.impl.*;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dzp.clevergarlic.dto.admin.loginDTO.AdminLoginResponse;
@@ -13,26 +10,21 @@ import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.properties.AdminLoginProperties;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
-import com.dzp.clevergarlic.service.admin.DemoService;
 import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.AESUtil;
 import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.CommonUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
-import com.dzp.clevergarlic.util.LongIdUtil;
+import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -122,15 +114,114 @@ public class ckTest {
 
     }
 
+    private static final int spLength = 6;
+
+    /**
+     * 输入一段字符串，对其进行处理，将其按照6位进行分割，对于切割后不足6位的字符串，在后面补充0，
+     * 然后将切分后的字符串按照字典顺序输出。
+     */
     @Test
-    public void test7() throws IOException{
+    public void test7(String str) {
 
-        /*AddUser user = AddUser.of("测试用户1", "12345678");
-        ResultVo resultVo = shiroService.addUser(user);*/
+        int size = str.length()/spLength;
+        if (str.length() > 0 && str.length() % spLength != 0) {
+            size += 1;
+        }
+        List<String> list = new ArrayList<>(12);
+        for (int index = 0; index < size; index++) {
+            String childStr = substring(str, index * spLength, (index + 1) * spLength);
+            list.add(childStr);
+        }
 
-        ClassPathResource pathResource = new ClassPathResource("EN.properties");
-        Properties properties = PropertiesLoaderUtils.loadProperties(pathResource);
-        System.out.println(properties);
-
+        String[] strings = list.toArray(new String[0]);
+        SortedMap<String, String> treeMap = new TreeMap<String, String>();
+        for (String string : strings) {
+            treeMap.put(string,string);
+        }
+        Iterator<Map.Entry<String, String>> iterator = treeMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().getKey());
+        }
     }
+
+    public static String substring(String str, int f, int t) {
+        if (f > str.length()) {
+            return null;
+        }
+        if (t > str.length()) {
+            String lastStr =  str.substring(f, str.length());
+            int zeroSize = spLength - lastStr.length();// 加0位数
+            for (int zeroNum = 0; zeroNum < zeroSize; zeroNum++) {
+                lastStr = lastStr.concat("0");
+            }
+            return lastStr;
+        } else {
+            return str.substring(f, t);
+        }
+    }
+
+    /**
+     * 有一个数组a[N]顺序存放0~N-1，要求每隔三个数删掉一个数，到末尾时循环至开头继续进行，求最后一个被删掉的数的原始下标位置。
+     * 以8个数(N=7)为例:｛0，1，2，3，4，5，6，7｝，0->1->2(删除)->3->4->5(删除)->6->7->0(删除),如此循环直到最后一个数被删除。
+
+     */
+    @Test
+    public void test8(int[] intArray) {
+
+        final int subSize = 3;
+        List<Integer> list = new ArrayList<>();
+        Object[] objects = splitAry(intArray, subSize);// 按三位分割后的数组集合
+        for (int i = 0;i<objects.length;i++) {
+            int[] item = (int[]) objects[i];
+            if (objects.length > subSize) {
+                if (item.length == subSize) {
+                    int[] ints = ArrayUtils.removeElement(item, 3);
+                    list.add(ints[0]);
+                    list.add(ints[1]);
+                } else if (item.length == 2) {
+                    list.add(item[0]);
+                    list.add(item[1]);
+                } else if (item.length == 1) {
+                    list.add(item[0]);
+                }
+                objects[i] = list.toArray();
+            } else {
+                int last = (int) objects[objects.length -1];
+                for (int j = 0; j < intArray.length; j++) {
+                    if (intArray[j] == last) {
+                        System.out.println("最后一个被删的输的原始下标位置为："+j);
+                    }
+                }
+            }
+        }
+    }
+
+    private static Object[] splitAry(int[] ary, int subSize) {
+        int count = ary.length % subSize == 0 ? ary.length / subSize: ary.length / subSize + 1;
+        List<List<Integer>> subAryList = new ArrayList<List<Integer>>();
+
+        for (int i = 0; i < count; i++) {
+            int index = i * subSize;
+            List<Integer> list = new ArrayList<Integer>();
+            int j = 0;
+            while (j < subSize && index < ary.length) {
+                list.add(ary[index++]);
+                j++;
+            }
+            subAryList.add(list);
+        }
+        Object[] subAry = new Object[subAryList.size()];
+
+        for(int i = 0; i < subAryList.size(); i++){
+            List<Integer> subList = subAryList.get(i);
+            int[] subAryItem = new int[subList.size()];
+            for(int j = 0; j < subList.size(); j++){
+                subAryItem[j] = subList.get(j).intValue();
+            }
+            subAry[i] = subAryItem;
+        }
+
+        return subAry;
+    }
+
 }

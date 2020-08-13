@@ -15,9 +15,11 @@ import com.dzp.clevergarlic.mapper.admin.BudgetPlanMapper;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.BudgetPlanService;
+import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.DateUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
+import com.dzp.clevergarlic.util.LanguageUtil;
 import com.dzp.clevergarlic.util.PageUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,6 +30,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -51,6 +54,9 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
+    @Autowired
+    ShiroService shiroService;
+
     /**
      * 计划列表
      * @param request
@@ -73,9 +79,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
             map.put("endDate", DateUtil.getDateToString("yyyy-MM-dd",request.getEndDate()));
         }
         if (ObjectUtils.isNotEmpty(request.getAdminName())) {
-
-            // TODO: 2020/7/24 根据adminName获取adminId
-            Long adminId = 10000001L;
+            Long adminId = shiroService.getNewUserId(request.getAdminName());
             map.put("adminId",adminId);
         }
         if (ObjectUtils.isNotEmpty(request.getPlanCode())) {
@@ -89,7 +93,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
                 res.setStatusName(CommonStatusEnum.getMsgByCode(res.getStatus()));
             }
             if (res.getAdminId() != null) {
-                res.setAdminName("name");
+                res.setAdminName(shiroService.getUserName(res.getAdminId()));
             }
         });
         return new PageUtil<>(infoList);
@@ -110,7 +114,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
 
             request.setPlanId(sid.nextShort());
 
-            // TODO: 2020/7/23 公司编号获取
+            // TODO: 2020/7/23 公司编号(外部接口获取)
             String companyCode = "";
             request.setPlanCode(CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),companyCode));
             request.setPlanVersion("v" + DateUtil.getDateTime());
@@ -136,7 +140,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
             return Result.success(type);
         } else {
             budgetPlanMapper.deleteBuildingByPlanId(request.getPlanId());
-            return Result.error(ExceptionMsg.FAILED,"保存楼宇信息失败", type);
+            return Result.error(ExceptionMsg.FAILED, LanguageUtil.getMsg(type, Collections.singletonList("msg003")));
         }
     }
 
@@ -166,7 +170,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         for (String id : request.getIds()) {
             PlanInfoResponse info = budgetPlanMapper.getPlanInfo(id);
             if (info == null) {
-                return Result.error(ExceptionMsg.FAILED,"选中的计划不存在", type);
+                return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg004")));
             }
 
             budgetPlanMapper.deleteBuildingByPlanId(id);
@@ -187,7 +191,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
 
             PlanInfoResponse info = budgetPlanMapper.getPlanInfo(request.getPlanId());
             if (!CommonStatusEnum.REVIEW_XJ.getCode().equals(info.getStatus())) {
-                return Result.error(ExceptionMsg.FAILED,"状态错误，不可确认！", type);
+                return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg005")));
             }
 
             Long adminId = 10000001L;
@@ -257,7 +261,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         versionInfo.setColumnId(sid.nextShort());
         Integer res = budgetPlanMapper.insertVersion(versionInfo);
         if (res <= 0) {
-            return Result.error(ExceptionMsg.FAILED,"版本记录失败！", type);
+            return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg006")));
         }
         beforeCalculate.setVersion(versionInfo.getColumnId());
 
@@ -265,7 +269,8 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         budgetPlanMapper.updateStatusById(request.getPlanId(), CommonStatusEnum.REVIEW_YJS.getCode());
 
         // 调外部接口参与计算
-
+        Map<String, String> map = new HashMap<>(16);
+        map.put("ss", "12");
 
         return Result.success(type);
     }
@@ -281,7 +286,7 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         PlanInfoResponse info = budgetPlanMapper.getPlanInfo(request.getPlanId());
         Assert.notNull(info);
         if (!CommonStatusEnum.REVIEW_YJG.getCode().equals(info.getStatus())) {
-            return Result.error(ExceptionMsg.FAILED,"该计划上次计算未生成计算结果，不能取消计算！", type);
+            return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg007")));
         }
         budgetPlanMapper.updateStatusById(request.getPlanId(), CommonStatusEnum.REVIEW_YQX.getCode());
         return Result.success(type);
@@ -298,8 +303,11 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         PlanInfoResponse info = budgetPlanMapper.getPlanInfo(planId);
         Assert.notNull(info);
         if (!CommonStatusEnum.REVIEW_YTW.getCode().equals(info.getStatus())) {
-            return Result.error(ExceptionMsg.FAILED,"该计划有参数未填写完成！", type);
+            return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg008")));
         }
+
+        // 将租金和招商参数结合按楼层展示
+
         return Result.success(type);
     }
 }

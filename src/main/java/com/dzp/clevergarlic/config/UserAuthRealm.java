@@ -56,7 +56,7 @@ public class UserAuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String userName = (String) token.getPrincipal();
         User user = userRepository.findByUserName(userName);
-        if (user == null) return null;
+        if (user == null) { return null; }
         String credentials = user.getPasswordSalt() + user.getUserName() + user.getPasswordSalt();//自定义加盐 salt + username + salt
         return new SimpleAuthenticationInfo(
                 user, //用户
