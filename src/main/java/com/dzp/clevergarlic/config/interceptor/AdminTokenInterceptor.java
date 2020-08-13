@@ -47,6 +47,7 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
 
         String tokenStr = request.getHeader(CommonConstant.HEADER_AUTHORIZATION);
         String traceIdStr = request.getHeader(CommonConstant.HEADER_TRACE_ID);
+        UserContext.getLanguageType().set(request.getHeader(CommonConstant.HEADER_LANGUAGE_TYPE));
 
         String httpUrl = request.getRequestURI();
         log.info("请求路径："+httpUrl);
@@ -87,8 +88,6 @@ public class AdminTokenInterceptor implements HandlerInterceptor {
         String adminId = adminInfo.getAdminId()+"";
 
         UserContext.setAdminId(adminId);
-
-        UserContext.getLanguageType().set(request.getHeader(CommonConstant.HEADER_LANGUAGE_TYPE));
 
         UserContext.getAdminUserToken().set(adminInfo.getTokenStr());
 

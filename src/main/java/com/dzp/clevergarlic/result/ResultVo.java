@@ -37,6 +37,7 @@ public class ResultVo<T> {
         this.setCode(msg.getCode());
         List<String> msgList = new ArrayList<>();
         msgList.add(typeGetMsg(msg, msgType));
+        this.setMsg(msgList);
     }
 
     public ResultVo(T data, String msgType) {

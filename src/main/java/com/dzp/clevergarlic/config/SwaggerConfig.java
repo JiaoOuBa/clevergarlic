@@ -78,8 +78,8 @@ public class SwaggerConfig {
         ParameterBuilder commonTicketPar6 = new ParameterBuilder();
         commonTicketPar6.parameterType("header")
                 .order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER - 0)
-                .name("Internationalization")
-                .description("language type")
+                .name("languageType")
+                .description("Internationalization")
                 .modelRef(new ModelRef("string"))
                 .required(false)
                 .build();
@@ -124,8 +124,8 @@ public class SwaggerConfig {
         ParameterBuilder commonTicketPar6 = new ParameterBuilder();
         commonTicketPar6.parameterType("header")
                 .order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER - 0)
-                .name("Internationalization")
-                .description("language type")
+                .name("languageType")
+                .description("Internationalization")
                 .modelRef(new ModelRef("string"))
                 .required(false)
                 .build();
