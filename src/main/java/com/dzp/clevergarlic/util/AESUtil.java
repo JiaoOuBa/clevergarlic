@@ -8,7 +8,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * AES工具类
- * Copyright © 2018 Shanghai Yejia Digital Technology Co., Ltd. All rights reserved.
  *
  * @author ck
  * @date 2020/07/09

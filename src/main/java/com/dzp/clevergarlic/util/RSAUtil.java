@@ -17,7 +17,7 @@ public class RSAUtil {
     /**
      * 字符集
      */
-    public static String CHARSET = "utf-8";
+    public static String CHARSET = "UTF-8";
 
     /**
      * 签名算法
@@ -56,7 +56,7 @@ public class RSAUtil {
      * @throws Exception
      */
     public static PrivateKey getPrivateKey(String privateKey) throws Exception {
-        byte[] privateKeyBytes = Base64.getDecoder().decode(privateKey.getBytes());
+        byte[] privateKeyBytes = org.apache.commons.codec.binary.Base64.decodeBase64(privateKey.getBytes());
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return keyFactory.generatePrivate(keySpec);
@@ -76,7 +76,7 @@ public class RSAUtil {
     }
 
     public static String encryptByPublicKey(String content, String publicKey) throws Exception {
-        return new String(Base64.getEncoder().encode(encryptByPublicKey(content.getBytes(CHARSET), getPublicKey(publicKey))));
+        return new String(org.apache.commons.codec.binary.Base64.decodeBase64(encryptByPublicKey(content.getBytes(CHARSET), getPublicKey(publicKey))));
 
     }
 

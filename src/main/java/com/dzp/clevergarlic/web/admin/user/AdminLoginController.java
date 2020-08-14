@@ -60,7 +60,7 @@ public class AdminLoginController extends BaseController {
         String password = aesUtil.Decrypt(request.getPassword(), AES_KEY);
 
         try {
-            return adminPermissionService.login(request.getUserName(), request.getPassword(), request.getCode());
+            return adminPermissionService.login(request.getUserName(), password, request.getCode());
         } catch (Exception e) {
             return Result.error(ExceptionMsg.ADMIN_NOT_EXIST, type, e);
         }
