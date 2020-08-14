@@ -1,10 +1,12 @@
 package com.dzp.clevergarlic.util;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Arrays;
 
 /**
  * AES工具类
@@ -14,6 +16,9 @@ import javax.crypto.spec.SecretKeySpec;
  */
 @Component
 public class AESUtil {
+
+    // 偏移量
+    private final String AES_PYL = "0102030405060708";
 
     // 加密
     public String Encrypt(String sSrc, String sKey) throws Exception {
@@ -26,12 +31,14 @@ public class AESUtil {
         //"算法/模式/补码方式"
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         //使用CBC模式，需要一个向量iv，可增加加密算法的强度
-        IvParameterSpec iv = new IvParameterSpec("0102030405060708".getBytes());
+        IvParameterSpec iv = new IvParameterSpec(AES_PYL.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
         byte[] encrypted = cipher.doFinal(sSrc.getBytes());
 
+        return Base64.encodeBase64String(encrypted);
+
         //转换成16进制。
-        return parseByte2HexStr(encrypted);
+        //return parseByte2HexStr(encrypted);
     }
 
     // 解密
@@ -45,14 +52,16 @@ public class AESUtil {
             byte[] raw = sKey.getBytes("UTF-8");
             SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec("0102030405060708"
-                    .getBytes());
+            IvParameterSpec iv = new IvParameterSpec(AES_PYL.getBytes());
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
             //先转换成2进制
-            byte[] encrypted1 = parseHexStr2Byte(sSrc);
+            //byte[] encrypted1 = parseHexStr2Byte(sSrc);
+
+            byte[] bytes = Base64.decodeBase64(sSrc);
+
             try {
-                assert encrypted1 != null;
-                byte[] original = cipher.doFinal(encrypted1);
+                assert bytes != null;
+                byte[] original = cipher.doFinal(bytes);
                 return new String(original);
             } catch (Exception e) {
                 System.out.println(e.toString());

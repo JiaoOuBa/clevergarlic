@@ -56,7 +56,7 @@ public class AdminLoginController extends BaseController {
     public ResultVo<Map<String, Object>> login(@Valid @RequestBody AdminLoginRequest request) {
         String type = getLanguageType();
 
-        // 好像不用做解密，直接与数据库对比
+        // 密码解密
         String password = aesUtil.Decrypt(request.getPassword(), AES_KEY);
 
         try {
