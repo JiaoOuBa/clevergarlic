@@ -98,7 +98,7 @@ public class AdminPermissionServiceImpl implements AdminPermissionService {
         result.put("auth", authCodeList);
 
         getToken(response, token);
-        return Result.success(ExceptionMsg.LOGININ, result, UserContext.getLanguageType().get());
+        return Result.success(ExceptionMsg.SUCCESS, result, UserContext.getLanguageType().get());
     }
 
     private List<String> getAuthList(User user) {
