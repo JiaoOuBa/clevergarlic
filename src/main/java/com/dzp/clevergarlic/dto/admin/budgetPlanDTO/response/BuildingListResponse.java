@@ -20,6 +20,9 @@ public class BuildingListResponse {
     @ApiModelProperty("楼宇名称")
     private String buildingName;
 
+    @ApiModelProperty("类型id")
+    private Integer typeId;
+
     @ApiModelProperty("房屋类型")
     private String buildingType;
 
