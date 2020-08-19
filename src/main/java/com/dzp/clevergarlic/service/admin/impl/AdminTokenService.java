@@ -27,7 +27,7 @@ public class AdminTokenService {
     //私钥
     public static final String SECRET = "sdjhakdhajdklsl;o653632";
     //过期时间:秒
-    public static final int EXPIRE = 600;
+    public static final int EXPIRE = 6000;
 
     /**
      * 生成Token
