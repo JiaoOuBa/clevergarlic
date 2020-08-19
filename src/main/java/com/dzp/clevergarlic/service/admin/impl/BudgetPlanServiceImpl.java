@@ -9,6 +9,7 @@ import com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate;
 import com.dzp.clevergarlic.dto.admin.calculateDTO.BuildingInfo;
 import com.dzp.clevergarlic.dto.admin.calculateDTO.VersionInfo;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
+import com.dzp.clevergarlic.enums.BudgetParamEnum;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
@@ -318,16 +319,16 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     public List<BuildingListResponse> getBuildingList() {
 
         List<BuildingListResponse> list = new ArrayList<>();
-        list.add(BuildingListResponse.builder().buildingId(1).buildingName("测试楼宇1").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(2).buildingName("测试楼宇2").buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(3).buildingName("测试楼宇3").buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(4).buildingName("测试楼宇4").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(5).buildingName("测试楼宇5").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(6).buildingName("测试楼宇6").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(7).buildingName("测试楼宇7").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(8).buildingName("测试楼宇8").buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(9).buildingName("测试楼宇9").buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(10).buildingName("测试楼宇10").buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(1).buildingName("测试楼宇1").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(2).buildingName("测试楼宇2").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(3).buildingName("测试楼宇3").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(4).buildingName("测试楼宇4").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(5).buildingName("测试楼宇5").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(6).buildingName("测试楼宇6").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(7).buildingName("测试楼宇7").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(8).buildingName("测试楼宇8").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(9).buildingName("测试楼宇9").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(10).buildingName("测试楼宇10").typeId(2).buildingType("商场").build());
         return list;
     }
 }
