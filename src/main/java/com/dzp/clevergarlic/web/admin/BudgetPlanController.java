@@ -116,8 +116,8 @@ public class BudgetPlanController extends BaseController{
     public ResultVo<List<BuildingListResponse>> getBuildingList() {
         String type = getLanguageType();
         try {
-            List<BuildingListResponse> responses = null;
-            return Result.success(type);
+            List<BuildingListResponse> responses = budgetPlanService.getBuildingList();
+            return Result.success(responses, type);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED, type, e);
         }

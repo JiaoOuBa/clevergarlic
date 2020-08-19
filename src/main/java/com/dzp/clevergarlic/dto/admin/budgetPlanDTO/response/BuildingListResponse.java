@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 
 @Data
+@Builder
 public class BuildingListResponse {
 
     @ApiModelProperty("楼宇id")
@@ -17,4 +19,9 @@ public class BuildingListResponse {
 
     @ApiModelProperty("楼宇名称")
     private String buildingName;
+
+    @ApiModelProperty("房屋类型")
+    private String buildingType;
+
+
 }

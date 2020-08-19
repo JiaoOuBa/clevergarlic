@@ -1,11 +1,14 @@
 package com.dzp.clevergarlic.service.admin;
 
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.BuildingListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.util.PageUtil;
+
+import java.util.List;
 
 /**
  * 预算计划
@@ -76,4 +79,11 @@ public interface BudgetPlanService {
      * @return
      */
     ResultVo planPreview(String planId, String type);
+
+    /**
+     * 新增初始页-楼宇列表
+     * @return
+     */
+    List<BuildingListResponse> getBuildingList();
+
 }

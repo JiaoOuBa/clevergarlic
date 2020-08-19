@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.BuildingListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
@@ -30,9 +31,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -309,5 +308,26 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
         // 将租金和招商参数结合按楼层展示
 
         return Result.success(type);
+    }
+
+    /**
+     * 新增初始页-楼宇列表
+     * @return
+     */
+    @Override
+    public List<BuildingListResponse> getBuildingList() {
+
+        List<BuildingListResponse> list = new ArrayList<>();
+        list.add(BuildingListResponse.builder().buildingId(1).buildingName("测试楼宇1").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(2).buildingName("测试楼宇2").buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(3).buildingName("测试楼宇3").buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(4).buildingName("测试楼宇4").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(5).buildingName("测试楼宇5").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(6).buildingName("测试楼宇6").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(7).buildingName("测试楼宇7").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(8).buildingName("测试楼宇8").buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId(9).buildingName("测试楼宇9").buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId(10).buildingName("测试楼宇10").buildingType("商场").build());
+        return list;
     }
 }
