@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Desc
  */
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUserName(String userName);
 

@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.service.shiro;
 
+import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dao.UserRepository;
 import com.dzp.clevergarlic.dto.admin.shiroDTO.AddUser;
 import com.dzp.clevergarlic.entity.shiro.User;
@@ -64,7 +65,7 @@ public class ShiroServiceImpl implements ShiroService{
         user.setPassword(encrypt);
 
         User save = userRepository.save(user);
-        return null;
+        return Result.success(UserContext.getLanguageType().get());
     }
 
     /**
