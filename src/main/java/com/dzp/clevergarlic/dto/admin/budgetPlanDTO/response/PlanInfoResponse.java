@@ -25,6 +25,8 @@ public class PlanInfoResponse {
     private Date planStartTime;
     @ApiModelProperty("计划结束时间")
     private Date planEndTime;
+    @ApiModelProperty("baseTime")
+    private Date baseTime;
     @ApiModelProperty("状态")
     private Integer status;
     @ApiModelProperty("楼宇信息集合")
@@ -146,5 +148,13 @@ public class PlanInfoResponse {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Date getBaseTime() {
+        return baseTime;
+    }
+
+    public void setBaseTime(Date baseTime) {
+        this.baseTime = baseTime;
     }
 }

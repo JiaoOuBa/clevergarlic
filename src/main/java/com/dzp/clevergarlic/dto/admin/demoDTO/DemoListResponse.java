@@ -10,7 +10,7 @@ import java.sql.Date;
 public class DemoListResponse {
 
     private Integer buildingCollectionId;
-    private Integer buildingId;
+    private String buildingId;
     private Integer staffId;
     /*@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")*/
     private Date createTime;
@@ -23,11 +23,11 @@ public class DemoListResponse {
         this.buildingCollectionId = buildingCollectionId;
     }
 
-    public Integer getBuildingId() {
+    public String getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(String buildingId) {
         this.buildingId = buildingId;
     }
 

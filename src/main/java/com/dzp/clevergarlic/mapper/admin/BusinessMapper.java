@@ -39,8 +39,8 @@ public interface BusinessMapper {
 
     /**
      * 详情
-     * @param planId
+     * @param buildingId
      * @return
      */
-    List<BusinessForm> getBusinessByPlan(@Param("planId") String planId);
+    List<BusinessForm> getBusinessByPlan(@Param("buildingId") String buildingId);
 }

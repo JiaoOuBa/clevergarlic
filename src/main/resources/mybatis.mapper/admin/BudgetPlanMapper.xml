@@ -4,8 +4,10 @@
 
 
     <insert id="insertToPlan">
-        insert into fc_plan (plan_id,plan_name,status,admin_id,plan_start_time,plan_end_time,plan_code,plan_version)
-        values (#{planId},#{planName},#{status},#{adminId},#{planStartTime},#{planEndTime},#{planCode},#{planVersion})
+        insert into fc_plan
+        (plan_id,plan_name,status,admin_id,plan_start_time,plan_end_time,plan_code,plan_version,base_time)
+        values
+        (#{planId},#{planName},#{status},#{adminId},#{planStartTime},#{planEndTime},#{planCode},#{planVersion},#{baseTime})
     </insert>
 
     <insert id="insertToBuilding">
@@ -58,7 +60,7 @@
     </update>
 
     <select id="getPlanList" resultType="com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse">
-        select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time,t9.plan_start_time,t9.plan_end_time
+        select t9.plan_id,t9.plan_name,t9.status,t9.admin_id,t9.create_time,t9.plan_start_time,t9.plan_end_time,t9.base_time
         from fc_plan as t9
         left join fc_plan_building as t10 on t9.plan_id = t10.plan_id
         where t9.deleted = 0
@@ -91,7 +93,7 @@
     </resultMap>
     
     <sql id="base_info">
-        t9.plan_id,t9.plan_name,t9.plan_code,t9.admin_id,t9.create_time,t9.review_admin_id,t9,review_time,t9.status,
+        t9.plan_id,t9.plan_name,t9.plan_code,t9.admin_id,t9.create_time,t9.review_admin_id,t9,review_time,t9.status,t9.base_time,
         t10.plan_building_id,t10.plan_id,t10.building_id,t10.building_name
     </sql>
 

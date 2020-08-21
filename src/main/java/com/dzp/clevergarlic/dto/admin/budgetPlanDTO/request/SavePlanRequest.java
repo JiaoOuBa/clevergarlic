@@ -27,6 +27,8 @@ public class SavePlanRequest {
     @ApiModelProperty("计划结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date planEndTime;
+    @ApiModelProperty("baseTime")
+    private Date baseTime;
     @JsonIgnore
     private Integer status;
     @JsonIgnore
@@ -38,17 +40,6 @@ public class SavePlanRequest {
     @ApiModelProperty("计划楼宇集合")
     @NotEmpty(message = "请选择楼宇！")
     private List<PlanBuildingResponse> planBuildingList;
-
-    public static SavePlanRequest of(String planId,String planName,Date planStartTime,Date planEndTime,Integer status,List<PlanBuildingResponse> planBuildingList) {
-        SavePlanRequest save = new SavePlanRequest();
-        save.setPlanId(planId);
-        save.setPlanName(planName);
-        save.setPlanStartTime(planStartTime);
-        save.setPlanEndTime(planEndTime);
-        save.setStatus(status);
-        save.setPlanBuildingList(planBuildingList);
-        return save;
-    }
 
     public String getPlanId() {
         return planId;
@@ -120,5 +111,13 @@ public class SavePlanRequest {
 
     public void setPlanVersion(String planVersion) {
         this.planVersion = planVersion;
+    }
+
+    public Date getBaseTime() {
+        return baseTime;
+    }
+
+    public void setBaseTime(Date baseTime) {
+        this.baseTime = baseTime;
     }
 }

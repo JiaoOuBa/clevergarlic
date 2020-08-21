@@ -16,7 +16,7 @@ public class BuildingInfo {
     /**
      * 楼宇id
      */
-    private Integer buildingId;
+    private String buildingId;
 
     /**
      * 楼宇名称

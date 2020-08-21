@@ -2,7 +2,10 @@ package com.dzp.clevergarlic.service.admin;
 
 import com.dzp.clevergarlic.dto.admin.businessDTO.BusinessInfoResponse;
 import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
+import com.dzp.clevergarlic.dto.admin.businessDTO.response.BusinessForm;
 import com.dzp.clevergarlic.result.ResultVo;
+
+import java.util.List;
 
 /**
  * 招商预测参数
@@ -20,8 +23,8 @@ public interface BusinessService {
 
     /**
      * 详情
-     * @param planId
+     * @param buildingId
      * @return
      */
-    ResultVo getBusinessInfo(String planId, String type);
+    ResultVo<BusinessInfoResponse> getBusinessInfo(String buildingId);
 }

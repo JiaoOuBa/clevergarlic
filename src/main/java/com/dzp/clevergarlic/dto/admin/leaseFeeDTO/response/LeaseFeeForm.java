@@ -41,13 +41,13 @@ public class LeaseFeeForm {
     @ApiModelProperty("租金ID（新增不传，修改传）")
     private String leaseId;
     @ApiModelProperty("楼宇ID")
-    private Integer buildingId;
+    private String buildingId;
     @ApiModelProperty("楼宇名称")
     private String buildingName;
     @ApiModelProperty("楼层")
     private Integer floorCode;
     @ApiModelProperty("单元")
-    private Integer unit;
+    private String unit;
     @ApiModelProperty("楼层属性")
     private String floorProperty;
     @ApiModelProperty("租金月份（yyyy-MM）")

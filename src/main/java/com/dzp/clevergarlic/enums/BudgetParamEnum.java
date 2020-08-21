@@ -9,6 +9,10 @@ package com.dzp.clevergarlic.enums;
 public enum BudgetParamEnum implements CodeEnum{
     PARAM_ZJ(1,"租金趋势预测"),
     PARAM_ZS(2,"招商参数设置"),
+
+    PARAMS_TYPE_DY(1,"按单元"),
+    PARAMS_TYPE_LC(2,"按楼层"),
+    PARAMS_TYPE_ZD(3,"按整栋"),
     ;
 
 

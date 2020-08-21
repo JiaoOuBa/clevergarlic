@@ -1,5 +1,6 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
+import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dto.admin.businessDTO.BusinessInfoResponse;
 import com.dzp.clevergarlic.dto.admin.businessDTO.EditBusinessRequest;
 import com.dzp.clevergarlic.dto.admin.businessDTO.response.BusinessForm;
@@ -69,18 +70,18 @@ public class BusinessServiceImpl implements BusinessService {
 
     /**
      * 详情
-     * @param planId  计划id
+     * @param buildingId  楼宇id
      * @return
      */
     @Override
-    public ResultVo getBusinessInfo(String planId, String type) {
+    public ResultVo<BusinessInfoResponse> getBusinessInfo(String buildingId) {
 
+        String type = UserContext.getLanguageType().get();
         BusinessInfoResponse info = new BusinessInfoResponse();
-        List<BusinessForm> businessForms = businessMapper.getBusinessByPlan(planId);
+        List<BusinessForm> businessForms = businessMapper.getBusinessByPlan(buildingId);
         Assert.notEmpty(businessForms);
+        info.setBusinessForms(businessForms);
 
-        info.setPlanId(planId);
-        info.setAdminId(businessForms.get(0).getAdminId());
         return Result.success(info, type);
     }
 

@@ -37,6 +37,9 @@ public class PlanListResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("创建时间")
     private Timestamp createTime;
+    @ApiModelProperty("baseTime")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date baseTime;
 
     @ApiModelProperty("已确认参数楼数量")
     private Integer rightNum;
@@ -137,5 +140,13 @@ public class PlanListResponse {
 
     public void setPlanBaseTime(Date planBaseTime) {
         this.planBaseTime = planBaseTime;
+    }
+
+    public Date getBaseTime() {
+        return baseTime;
+    }
+
+    public void setBaseTime(Date baseTime) {
+        this.baseTime = baseTime;
     }
 }

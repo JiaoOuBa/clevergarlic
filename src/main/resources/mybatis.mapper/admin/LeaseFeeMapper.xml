@@ -48,12 +48,23 @@
 
     <select id="getLeaseFeeInfo" resultType="com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse">
         select lease_id,project_company_id,project_organeze_id,building_id,building_name,floor_code,unit,floor_property,
-               date_month,lease_way,lease_unit_price,status,admin_id,version,linked_data_version,data_source
+               date_month,lease_way,status,admin_id,version,linked_data_version,data_source,install_type,install_value,plan_id
         from fc_lease_fee_param
-        where lease_id = #{id} and deleted = 0
+        where building_id = #{id} and deleted = 0
     </select>
 
     <select id="countLeaseByPlan" resultType="java.lang.String">
         select lease_id from fc_lease_fee_param where plan_id = #{planId} and deleted = #{deleted}
+    </select>
+
+    <select id="getLeasePriceByLeaseId" resultType="com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeasePrice">
+        select lpy_id,lease_unit_price,date_year from fc_lease_price_year where lease_id = #{leaseFeeId} and deleted = 0
+    </select>
+
+    <select id="getUnitByBuilding" resultType="com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.BuildingUnit">
+        select t1.building_id,t2.code as floor_code,t1.name as unit
+        from bigdata_unit as t1
+        left join bigdata_floor as t2 on t1.floor_id = t2.id
+        where t1.building_id = #{buildingId}
     </select>
 </mapper>

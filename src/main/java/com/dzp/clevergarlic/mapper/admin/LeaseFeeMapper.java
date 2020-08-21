@@ -1,6 +1,7 @@
 package com.dzp.clevergarlic.mapper.admin;
 
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.BuildingUnit;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeForm;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeasePrice;
@@ -35,7 +36,7 @@ public interface LeaseFeeMapper {
      * @param id
      * @return
      */
-    LeaseFeeInfoResponse getLeaseFeeInfo(@Param("id") String id);
+    List<LeaseFeeInfoResponse> getLeaseFeeInfo(@Param("id") String id);
 
     /**
      * 删除
@@ -62,4 +63,18 @@ public interface LeaseFeeMapper {
      * @return
      */
     List<String> countLeaseByPlan(@Param("planId") String planId, @Param("deleted") Integer deleted);
+
+    /**
+     * 根据租金参数id获取单价集合
+     * @param leaseFeeId
+     * @return
+     */
+    List<LeasePrice> getLeasePriceByLeaseId(@Param("leaseFeeId") String leaseFeeId);
+
+    /**
+     * 获取整楼单元集合
+     * @param buildingId
+     * @return
+     */
+    List<BuildingUnit> getUnitByBuilding(@Param("buildingId") String buildingId);
 }

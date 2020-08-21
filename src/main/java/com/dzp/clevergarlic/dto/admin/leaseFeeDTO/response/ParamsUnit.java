@@ -1,52 +1,44 @@
-package com.dzp.clevergarlic.dto.admin.businessDTO.response;
+package com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 /**
+ * 拆分为单元的参数信息
  * @Auther ck
- * @Date 2020/8/3 13:22
+ * @Date 2020/8/19 15:51
  * @Desc
  */
-
 @Data
-public class BusinessForm {
+public class ParamsUnit {
 
-    @ApiModelProperty("设定方式(1.按单元，2.按楼层，3.按整楼)")
-    private Integer installType;
-    @ApiModelProperty("设定值")
-    private String installValue;
-
-    @JsonIgnore
+    @ApiModelProperty("计划id")
     private String planId;
-    @JsonIgnore
-    private Integer status;
-    @JsonIgnore
-    private Long adminId;
-    @JsonIgnore
-    private String version;
-
-    @ApiModelProperty("招商ID（新增不传）")
-    private String businessId;
     @ApiModelProperty("所属集团ID")
     private Integer projectCompanyId;
     @ApiModelProperty("所属组织ID")
     private Integer projectOrganizeId;
     @ApiModelProperty("楼宇ID")
     private String buildingId;
-    @ApiModelProperty("楼宇名称")
-    private String buildingName;
     @ApiModelProperty("楼层")
     private Integer floorCode;
     @ApiModelProperty("单元")
     private String unit;
-    @ApiModelProperty("楼层属性")
-    private String floorProperty;
 
+    /*租金相关参数*/
+    @ApiModelProperty("租金月份（yyyy-MM）")
+    private Date dateMonth;
+    @ApiModelProperty("计租方式")
+    private String leaseWay;
+    @ApiModelProperty("租金单价集合")
+    private List<LeasePrice> priceList;
+
+
+    /*招商相关参数*/
     @ApiModelProperty("空置期")
     private String emptyDate;
     @ApiModelProperty("起租前装修期")
@@ -63,9 +55,9 @@ public class BusinessForm {
     private String contractDate;
     @ApiModelProperty("续约概率")
     private String renewPercent;
-
     @ApiModelProperty("新合同租金(月)")
     private String newContractFee;
     @ApiModelProperty("续约合同租金(月)")
     private String renewContractFee;
+
 }

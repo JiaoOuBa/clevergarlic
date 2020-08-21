@@ -40,7 +40,7 @@ public class ReadyCommitResponse {
     private String statusName;
 
     @ApiModelProperty("楼宇id")
-    private Integer buildingId;
+    private String buildingId;
 
     @ApiModelProperty("楼宇名称")
     private String buildingName;
@@ -113,11 +113,11 @@ public class ReadyCommitResponse {
         this.statusName = statusName;
     }
 
-    public Integer getBuildingId() {
+    public String getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(String buildingId) {
         this.buildingId = buildingId;
     }
 

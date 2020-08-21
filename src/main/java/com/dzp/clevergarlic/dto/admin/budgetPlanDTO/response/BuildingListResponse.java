@@ -15,7 +15,7 @@ import lombok.Data;
 public class BuildingListResponse {
 
     @ApiModelProperty("楼宇id")
-    private Integer buildingId;
+    private String buildingId;
 
     @ApiModelProperty("楼宇名称")
     private String buildingName;

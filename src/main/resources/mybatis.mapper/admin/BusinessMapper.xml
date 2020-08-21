@@ -30,9 +30,9 @@
         install_type,install_value,plan_id,
         business_id,project_company_id,project_organize_id,building_id,building_name,floor_code,unit,floor_property,
         empty_date,before_decorate_date,free_date,after_decorate_date,contract_date,renew_percent,new_contract_fee,
-        renew_contract_fee,admin_id
+        renew_contract_fee,admin_id,plan_id
         from fc_business_param
-        where plan_id = #{planId} and deleted = 0
+        where building_id = #{buildingId} and deleted = 0
     </select>
 
 </mapper>

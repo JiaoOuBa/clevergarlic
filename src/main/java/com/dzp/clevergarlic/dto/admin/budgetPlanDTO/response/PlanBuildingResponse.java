@@ -2,6 +2,7 @@ package com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * 计划-楼宇信息返回实体
@@ -18,17 +19,20 @@ public class PlanBuildingResponse {
     private String planId;
 
     @ApiModelProperty("楼宇id")
-    private Integer buildingId;
+    private String buildingId;
 
     @ApiModelProperty("楼宇名称")
     private String buildingName;
 
-    public Integer getBuildingId() {
-        return buildingId;
+    @ApiModelProperty("房屋类型")
+    private String buildingType;
+
+    public String getPlanBuildingId() {
+        return planBuildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
-        this.buildingId = buildingId;
+    public void setPlanBuildingId(String planBuildingId) {
+        this.planBuildingId = planBuildingId;
     }
 
     public String getPlanId() {
@@ -39,6 +43,14 @@ public class PlanBuildingResponse {
         this.planId = planId;
     }
 
+    public String getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+    }
+
     public String getBuildingName() {
         return buildingName;
     }
@@ -47,11 +59,11 @@ public class PlanBuildingResponse {
         this.buildingName = buildingName;
     }
 
-    public String getPlanBuildingId() {
-        return planBuildingId;
+    public String getBuildingType() {
+        return buildingType;
     }
 
-    public void setPlanBuildingId(String planBuildingId) {
-        this.planBuildingId = planBuildingId;
+    public void setBuildingType(String buildingType) {
+        this.buildingType = buildingType;
     }
 }

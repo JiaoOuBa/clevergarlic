@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @Auther ck
@@ -13,6 +15,9 @@ import java.util.Date;
  */
 public class LeaseFeeInfoResponse {
 
+    @ApiModelProperty("计划id")
+    private String planId;
+
     @ApiModelProperty("租金ID")
     private String leaseFeeId;
     @ApiModelProperty("所属集团ID")
@@ -20,21 +25,20 @@ public class LeaseFeeInfoResponse {
     @ApiModelProperty("所属组织ID")
     private Integer projectOrganizeId;
     @ApiModelProperty("楼宇ID")
-    private Integer buildingId;
+    private String buildingId;
     @ApiModelProperty("楼宇名称")
     private String buildingName;
     @ApiModelProperty("楼层")
     private Integer floorCode;
     @ApiModelProperty("单元")
-    private Integer unit;
+    private String unit;
     @ApiModelProperty("楼层属性")
     private String floorProperty;
     @ApiModelProperty("租金月份（yyyy-MM）")
     private Date dateMonth;
     @ApiModelProperty("计租方式")
     private String leaseWay;
-    @ApiModelProperty("租金单价")
-    private BigDecimal leaseUnitPrice;
+
     @ApiModelProperty("状态")
     private Integer status;
     @ApiModelProperty("状态名")
@@ -55,6 +59,14 @@ public class LeaseFeeInfoResponse {
     private String linkedDataVersion;
     @ApiModelProperty("数据来源（1.设置，2.api）")
     private Integer dataSource;
+
+    @ApiModelProperty("设定方式(1.按单元，2.按楼层，3.按整楼)")
+    private Integer installType;
+    @ApiModelProperty("设定值")
+    private String installValue;
+
+    @ApiModelProperty("租金单价集合")
+    private List<LeasePrice> priceList;
 
     public String getLeaseFeeId() {
         return leaseFeeId;
@@ -80,11 +92,11 @@ public class LeaseFeeInfoResponse {
         this.projectOrganizeId = projectOrganizeId;
     }
 
-    public Integer getBuildingId() {
+    public String getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(String buildingId) {
         this.buildingId = buildingId;
     }
 
@@ -104,11 +116,11 @@ public class LeaseFeeInfoResponse {
         this.floorCode = floorCode;
     }
 
-    public Integer getUnit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(Integer unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
@@ -134,14 +146,6 @@ public class LeaseFeeInfoResponse {
 
     public void setLeaseWay(String leaseWay) {
         this.leaseWay = leaseWay;
-    }
-
-    public BigDecimal getLeaseUnitPrice() {
-        return leaseUnitPrice;
-    }
-
-    public void setLeaseUnitPrice(BigDecimal leaseUnitPrice) {
-        this.leaseUnitPrice = leaseUnitPrice;
     }
 
     public Integer getStatus() {
@@ -223,4 +227,37 @@ public class LeaseFeeInfoResponse {
     public void setDataSource(Integer dataSource) {
         this.dataSource = dataSource;
     }
+
+    public List<LeasePrice> getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(List<LeasePrice> priceList) {
+        this.priceList = priceList;
+    }
+
+    public Integer getInstallType() {
+        return installType;
+    }
+
+    public void setInstallType(Integer installType) {
+        this.installType = installType;
+    }
+
+    public String getInstallValue() {
+        return installValue;
+    }
+
+    public void setInstallValue(String installValue) {
+        this.installValue = installValue;
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
+
 }

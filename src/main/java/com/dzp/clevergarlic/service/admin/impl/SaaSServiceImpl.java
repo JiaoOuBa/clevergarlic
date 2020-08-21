@@ -1,9 +1,7 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
-import cn.hutool.captcha.generator.RandomGenerator;
 import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dao.CompanyRepository;
-import com.dzp.clevergarlic.dao.SaaSRepository;
 import com.dzp.clevergarlic.dao.UserRepository;
 import com.dzp.clevergarlic.dto.RegionDTO.CheckRegionRequest;
 import com.dzp.clevergarlic.dto.RegionDTO.CheckRegionResponse;
@@ -19,13 +17,10 @@ import com.dzp.clevergarlic.service.admin.CommonService;
 import com.dzp.clevergarlic.service.admin.SaaSService;
 import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
-import org.apache.commons.math3.random.RandomGeneratorFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 
 /**
  * @Auther ck
@@ -104,7 +99,7 @@ public class SaaSServiceImpl implements SaaSService {
         if (getUser != null) {
             return getUser.getNewUserId();
         } else {
-            throw new RuntimeException("创建saas用户失败");
+            throw new RuntimeException("创建SaaS用户失败");
         }
     }
 }

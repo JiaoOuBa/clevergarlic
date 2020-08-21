@@ -42,10 +42,10 @@ public class BusinessController extends BaseController{
 
     @ApiOperation(value = "详情")
     @GetMapping(value = "/v1/getBusinessInfo")
-    public ResultVo<BusinessInfoResponse> getBusinessInfo(@ApiParam("计划id") @RequestParam(value = "planId") String planId) {
+    public ResultVo<BusinessInfoResponse> getBusinessInfo(@ApiParam("楼宇id") @RequestParam(value = "buildingId") String buildingId) {
         String type = getLanguageType();
         try {
-            return businessService.getBusinessInfo(planId, type);
+            return businessService.getBusinessInfo(buildingId);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED, type, e);
         }

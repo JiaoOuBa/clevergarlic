@@ -1,22 +1,28 @@
 package com.dzp.clevergarlic.service.admin.impl;
 
+import cn.hutool.core.collection.ArrayIter;
+import com.dzp.clevergarlic.config.UserContext;
+import com.dzp.clevergarlic.dto.admin.authDTO.response.permission.AdminUserInfo;
 import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.request.*;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.BuildingListResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanInfoResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.PlanListResponse;
-import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.ReadyCommitResponse;
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.*;
 import com.dzp.clevergarlic.dto.admin.calculateDTO.BeforeCalculate;
 import com.dzp.clevergarlic.dto.admin.calculateDTO.BuildingInfo;
 import com.dzp.clevergarlic.dto.admin.calculateDTO.VersionInfo;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.BuildingUnit;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.ParamsUnit;
 import com.dzp.clevergarlic.entity.PlanBuildingEntity;
 import com.dzp.clevergarlic.enums.BudgetParamEnum;
 import com.dzp.clevergarlic.enums.CodeNumberEnum;
 import com.dzp.clevergarlic.enums.CommonStatusEnum;
 import com.dzp.clevergarlic.enums.ExceptionMsg;
+import com.dzp.clevergarlic.listener.event.IntegratedParamEvent;
 import com.dzp.clevergarlic.mapper.admin.BudgetPlanMapper;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
 import com.dzp.clevergarlic.service.admin.BudgetPlanService;
+import com.dzp.clevergarlic.service.admin.LeaseFeeService;
+import com.dzp.clevergarlic.service.admin.ParamsSplitService;
 import com.dzp.clevergarlic.service.shiro.ShiroService;
 import com.dzp.clevergarlic.util.CodeUtil;
 import com.dzp.clevergarlic.util.DateUtil;
@@ -31,9 +37,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * 预算计划
@@ -52,10 +60,13 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     BudgetPlanMapper budgetPlanMapper;
 
     @Autowired
-    private ApplicationEventPublisher publisher;
+    ApplicationEventPublisher publisher;
 
     @Autowired
     ShiroService shiroService;
+
+    @Autowired
+    ParamsSplitService paramsSplitService;
 
     /**
      * 计划列表
@@ -295,20 +306,49 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     /**
      * 计划预览
      * @param planId
+     * @param buildingId
      * @return
      */
     @Override
-    public ResultVo planPreview(String planId, String type) {
+    public ResultVo planPreview(String planId, String buildingId) {
 
+        String type = UserContext.getLanguageType().get();
         PlanInfoResponse info = budgetPlanMapper.getPlanInfo(planId);
         Assert.notNull(info);
         if (!CommonStatusEnum.REVIEW_YTW.getCode().equals(info.getStatus())) {
             return Result.error(ExceptionMsg.FAILED,LanguageUtil.getMsg(type, Collections.singletonList("msg008")));
         }
 
-        // 将租金和招商参数结合按楼层展示
+        // 租金拆分
+        List<ParamsUnit> leaseSplit = paramsSplitService.leaseSplit(planId, buildingId);
+        // 招商拆分
+        List<ParamsUnit> businessSplit = paramsSplitService.businessSplit(planId, buildingId);
 
-        return Result.success(type);
+        List<ParamsUnit> integratedList = integratedParams(leaseSplit, businessSplit);
+
+        AdminUserInfo adminUserInfo = UserContext.getAdminUserInfo().get();
+        publisher.publishEvent(new IntegratedParamEvent("写入单元维度参数", buildingId, planId, integratedList, adminUserInfo.getAdminId()));
+
+        return Result.success(integratedList,type);
+    }
+
+    /**
+     * 参数整合（result = 租金+招商合并）
+     * @param leaseSplit
+     * @param businessSplit
+     * @return
+     */
+    private List<ParamsUnit> integratedParams(List<ParamsUnit> leaseSplit, List<ParamsUnit> businessSplit) {
+
+        List<ParamsUnit> result = new ArrayList<>();
+        HashMap<String, ParamsUnit> collect = businessSplit.stream().collect(HashMap::new, (n, v) -> n.put(v.getUnit(), v), HashMap::putAll);
+
+        for (ParamsUnit lease : leaseSplit) {
+            ParamsUnit business = collect.get(lease.getUnit());
+            BeanUtils.copyProperties(business, lease);
+            result.add(lease);
+        }
+        return result;
     }
 
     /**
@@ -319,16 +359,16 @@ public class BudgetPlanServiceImpl implements BudgetPlanService {
     public List<BuildingListResponse> getBuildingList() {
 
         List<BuildingListResponse> list = new ArrayList<>();
-        list.add(BuildingListResponse.builder().buildingId(1).buildingName("测试楼宇1").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(2).buildingName("测试楼宇2").typeId(2).buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(3).buildingName("测试楼宇3").typeId(2).buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(4).buildingName("测试楼宇4").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(5).buildingName("测试楼宇5").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(6).buildingName("测试楼宇6").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(7).buildingName("测试楼宇7").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(8).buildingName("测试楼宇8").typeId(1).buildingType("办公").build());
-        list.add(BuildingListResponse.builder().buildingId(9).buildingName("测试楼宇9").typeId(2).buildingType("商场").build());
-        list.add(BuildingListResponse.builder().buildingId(10).buildingName("测试楼宇10").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId("1").buildingName("测试楼宇1").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("2").buildingName("测试楼宇2").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId("3").buildingName("测试楼宇3").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId("4").buildingName("测试楼宇4").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("5").buildingName("测试楼宇5").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("6").buildingName("测试楼宇6").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("7").buildingName("测试楼宇7").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("8").buildingName("测试楼宇8").typeId(1).buildingType("办公").build());
+        list.add(BuildingListResponse.builder().buildingId("9").buildingName("测试楼宇9").typeId(2).buildingType("商场").build());
+        list.add(BuildingListResponse.builder().buildingId("10").buildingName("测试楼宇10").typeId(2).buildingType("商场").build());
         return list;
     }
 }

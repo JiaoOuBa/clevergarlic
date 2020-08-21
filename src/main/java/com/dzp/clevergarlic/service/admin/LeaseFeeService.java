@@ -3,8 +3,12 @@ package com.dzp.clevergarlic.service.admin;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.ConfirmRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.BuildingUnit;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.result.ResultVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 租金预测参数
@@ -25,7 +29,7 @@ public interface LeaseFeeService {
      * @param id
      * @return
      */
-    LeaseFeeInfoResponse getLeaseFeeInfo(String id);
+    List<LeaseFeeInfoResponse> getLeaseFeeInfo(String id);
 
     /**
      * 删除
@@ -39,4 +43,11 @@ public interface LeaseFeeService {
      * @return
      */
     ResultVo confirm(ConfirmRequest request);
+
+    /**
+     * 获取整楼单元集合
+     * @param buildingId
+     * @return
+     */
+    List<BuildingUnit> getUnitByBuilding(@Param("buildingId") String buildingId);
 }

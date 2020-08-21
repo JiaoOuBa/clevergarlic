@@ -4,13 +4,11 @@ import com.dzp.clevergarlic.config.UserContext;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.ConfirmRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.DelLeaseFeeRequest;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.request.EditLeaseFeeRequest;
+import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.BuildingUnit;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeForm;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeaseFeeInfoResponse;
 import com.dzp.clevergarlic.dto.admin.leaseFeeDTO.response.LeasePrice;
-import com.dzp.clevergarlic.enums.CommonEnum;
-import com.dzp.clevergarlic.enums.CommonStatusEnum;
-import com.dzp.clevergarlic.enums.ExceptionMsg;
-import com.dzp.clevergarlic.enums.LeaseEnum;
+import com.dzp.clevergarlic.enums.*;
 import com.dzp.clevergarlic.mapper.admin.LeaseFeeMapper;
 import com.dzp.clevergarlic.result.Result;
 import com.dzp.clevergarlic.result.ResultVo;
@@ -19,10 +17,14 @@ import com.dzp.clevergarlic.util.DateUtil;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -80,7 +82,6 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
         form.setStatus(CommonStatusEnum.REVIEW_XJ.getCode());
         form.setVersion(request.getVersion());
 
-
         leaseFeeMapper.insertLeaseFee(form);
     }
 
@@ -97,15 +98,18 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
 
     /**
      * 详情
-     * @param id
+     * @param id 楼宇id
      * @return
      */
     @Override
-    public LeaseFeeInfoResponse getLeaseFeeInfo(String id) {
+    public List<LeaseFeeInfoResponse> getLeaseFeeInfo(String id) {
 
-        LeaseFeeInfoResponse info = leaseFeeMapper.getLeaseFeeInfo(id);
-        info.setAdminName("todo");
-        info.setReviewAdminName("todo");
+        List<LeaseFeeInfoResponse> info = leaseFeeMapper.getLeaseFeeInfo(id);
+        for (LeaseFeeInfoResponse leaseInfo : info) {
+            List<LeasePrice> priceList = leaseFeeMapper.getLeasePriceByLeaseId(leaseInfo.getLeaseFeeId());
+            leaseInfo.setPriceList(priceList);
+        }
+
         return info;
     }
 
@@ -134,6 +138,16 @@ public class LeaseFeeServiceImpl implements LeaseFeeService {
             // TODO: 2020/8/3 此时确认单栋楼参数还是所有楼（该计划内）参数 ?
         }
         return Result.success(ExceptionMsg.SUCCESS, UserContext.getLanguageType().get());
+    }
+
+    /**
+     * 获取整楼单元集合
+     * @param buildingId
+     * @return
+     */
+    @Override
+    public List<BuildingUnit> getUnitByBuilding(String buildingId) {
+        return leaseFeeMapper.getUnitByBuilding(buildingId);
     }
 
     private void checkParameters(LeaseFeeForm form) {

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 租金预测参数信息controller
@@ -46,7 +47,7 @@ public class LeaseFeeController extends BaseController{
 
     @ApiOperation(value = "详情")
     @GetMapping(value = "/v1/getLeaseFeeInfo")
-    public ResultVo<LeaseFeeInfoResponse> getLeaseFeeInfo(@ApiParam("租金预测参数id") @RequestParam(value = "leaseFeeId") String id) {
+    public ResultVo<List<LeaseFeeInfoResponse>> getLeaseFeeInfo(@ApiParam("楼宇id") @RequestParam(value = "buildingId") String id) {
         String type = getLanguageType();
 
         try {

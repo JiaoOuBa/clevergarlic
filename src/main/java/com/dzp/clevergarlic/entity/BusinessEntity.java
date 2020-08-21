@@ -19,13 +19,13 @@ public class BusinessEntity {
     //project_organize_id  所属组织ID
     private Integer projectOrganizeId;
     //building_id  楼宇ID
-    private Integer buildingId;
+    private String buildingId;
     //building_name  楼宇名称
     private String buildingName;
     //floor_code  楼层
     private Integer floorCode;
     //unit  单元
-    private Integer unit;
+    private String unit;
     //floor_property  楼层属性
     private String floorProperty;
     //empty_date  空置期
@@ -131,11 +131,11 @@ public class BusinessEntity {
         this.projectOrganizeId = projectOrganizeId;
     }
 
-    public Integer getBuildingId() {
+    public String getBuildingId() {
         return buildingId;
     }
 
-    public void setBuildingId(Integer buildingId) {
+    public void setBuildingId(String buildingId) {
         this.buildingId = buildingId;
     }
 
@@ -155,11 +155,11 @@ public class BusinessEntity {
         this.floorCode = floorCode;
     }
 
-    public Integer getUnit() {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(Integer unit) {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 

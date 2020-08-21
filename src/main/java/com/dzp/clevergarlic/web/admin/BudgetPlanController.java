@@ -78,7 +78,7 @@ public class BudgetPlanController extends BaseController{
         }
     }
 
-    @ApiOperation(value = "计划确认")
+    @ApiOperation(value = "单楼-参数确认")
     @PostMapping(value = "/v1/reviewPlan")
     public ResultVo reviewPlan(@Valid @RequestBody ReviewPlanRequest request) {
         String type = getLanguageType();
@@ -89,12 +89,13 @@ public class BudgetPlanController extends BaseController{
         }
     }
 
-    @ApiOperation(value = "计划预览（确认页面）")
+    @ApiOperation(value = "单楼-参数预览（确认页面）")
     @GetMapping(value = "v1/planPreview")
-    public ResultVo planPreview(@ApiParam("计划id") @RequestParam(value = "planId") String planId) {
+    public ResultVo planPreview(@ApiParam("计划id") @RequestParam(value = "planId") String planId,
+                                @ApiParam("楼宇id") @RequestParam(value = "buildingId") String buildingId) {
         String type = getLanguageType();
         try {
-            return budgetPlanService.planPreview(planId, type);
+            return budgetPlanService.planPreview(planId,buildingId);
         } catch (Exception e) {
             return Result.error(ExceptionMsg.FAILED, type, e);
         }
