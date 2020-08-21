@@ -1,5 +1,9 @@
 package com.dzp.clevergarlic.demo;
 
+import com.dzp.clevergarlic.dto.admin.budgetPlanDTO.response.BuildingListResponse;
+import com.dzp.clevergarlic.dto.common.CommonResponse;
+import com.dzp.clevergarlic.redis.admin.LoginCodeKey;
+import com.dzp.clevergarlic.service.admin.BudgetPlanService;
 import com.dzp.clevergarlic.service.admin.impl.*;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
@@ -11,10 +15,9 @@ import com.dzp.clevergarlic.properties.AdminLoginProperties;
 import com.dzp.clevergarlic.redis.RedisService;
 import com.dzp.clevergarlic.redis.admin.AdminTokenKey;
 import com.dzp.clevergarlic.service.shiro.ShiroService;
-import com.dzp.clevergarlic.util.AESUtil;
-import com.dzp.clevergarlic.util.CodeUtil;
-import com.dzp.clevergarlic.util.CommonUtil;
+import com.dzp.clevergarlic.util.*;
 import com.dzp.clevergarlic.util.IdUtil.Sid;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +53,9 @@ public class ckTest {
 
     @Autowired
     ShiroService shiroService;
+
+    @Autowired
+    BudgetPlanService budgetPlanService;
 
     @Value("${fc.aes.key}")
     private String AES_KEY;
@@ -87,9 +93,24 @@ public class ckTest {
     }*/
 
     @Test
-    public void test5() {
-        String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),"SC");
-        System.out.println(codeNumber);
+    public void test5() throws Exception {
+
+        /*String codeNumber = CodeUtil.getCodeNumber(CodeNumberEnum.CODE_YCJH.getPrefix(), CodeNumberEnum.CODE_YCJH.getLength(),"SC");
+        System.out.println(codeNumber);*/
+
+//        AESUtil aesUtil = new AESUtil();
+//        String psd = "GzTCQjhTZmSimz9FYizwMQ==";
+//        String pubKey = "hoYdxx*6A7HWrs4Mb}r9wPTm";
+//        String encrypt = aesUtil.Decrypt(psd, pubKey);
+//        System.out.println(encrypt);
+
+
+        List<BuildingListResponse> buildingList = budgetPlanService.getBuildingList();
+        buildingList.add(BuildingListResponse.builder().buildingId("1").buildingName("测试楼宇1").typeId(1).buildingType("办公").build());
+        HashMap<String, BuildingListResponse> collect = buildingList.stream().collect(HashMap::new, (n, v) -> n.put(v.getBuildingId(), v), HashMap::putAll);
+        BuildingListResponse buildingListResponse = collect.get("1");
+        System.out.println(1111);
+
     }
 
     @Test
@@ -120,7 +141,7 @@ public class ckTest {
      * 输入一段字符串，对其进行处理，将其按照6位进行分割，对于切割后不足6位的字符串，在后面补充0，
      * 然后将切分后的字符串按照字典顺序输出。
      */
-    @Test
+    /*@Test
     public void test7(String str) {
 
         int size = str.length()/spLength;
@@ -160,11 +181,11 @@ public class ckTest {
         }
     }
 
-    /**
+    *//**
      * 有一个数组a[N]顺序存放0~N-1，要求每隔三个数删掉一个数，到末尾时循环至开头继续进行，求最后一个被删掉的数的原始下标位置。
      * 以8个数(N=7)为例:｛0，1，2，3，4，5，6，7｝，0->1->2(删除)->3->4->5(删除)->6->7->0(删除),如此循环直到最后一个数被删除。
 
-     */
+     *//*
     @Test
     public void test8(int[] intArray) {
 
@@ -222,6 +243,6 @@ public class ckTest {
         }
 
         return subAry;
-    }
+    }*/
 
 }
