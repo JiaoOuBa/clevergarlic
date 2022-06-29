@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <swagger.version>2.9.2</swagger.version>
-        <poi.version>4.1.0</poi.version>
+        <poi.version>4.1.1</poi.version>
     </properties>
 
     <dependencies>
